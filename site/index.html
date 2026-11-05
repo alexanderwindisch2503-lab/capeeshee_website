@@ -353,6 +353,22 @@ input,textarea{border:0}
 .facts-band .count{display:inline;margin:0;font-size:inherit;color:inherit;letter-spacing:inherit;text-transform:none}
 @media (max-width:860px){.facts-band strong{font-size:clamp(24px,7.6vw,64px);letter-spacing:-.04em}.facts-band span:not(.count){margin-top:6px;font-size:10px;letter-spacing:.08em;line-height:1.35}}
 
+
+/* Marketing im Wandel: Treppe */
+.stairs{margin-top:clamp(40px,6vw,72px)}
+.stair{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px;align-items:center}
+.stair + .stair{margin-top:-70px}
+.stair.s3{margin-top:40px}
+.stair .pic{min-width:0;aspect-ratio:3/2;overflow:hidden;position:relative}
+.stair .pic img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.stair .t{min-width:0}
+.stair .t .n{display:block;font-family:var(--display);font-weight:700;font-size:13px;color:var(--red);letter-spacing:.1em;margin-bottom:10px}
+.stair .t h3{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,28px);line-height:1.12;letter-spacing:-.03em;margin:0 0 12px}
+.stair .t p{margin:0;max-width:44ch}
+.s1 .pic{grid-column:1/8}.s1 .t{grid-column:9/13}
+.s2 .pic{grid-column:6/12;z-index:2;box-shadow:0 0 0 14px var(--bg)}.s2 .t{grid-column:1/5;grid-row:1;padding-top:70px}
+.s3 .pic{grid-column:2/7;z-index:3;box-shadow:0 0 0 14px var(--bg)}.s3 .t{grid-column:8/13;padding-top:60px}
+@media (max-width:860px){.stair{display:block}.stair + .stair,.stair.s3{margin-top:0}.stair .pic{margin-bottom:20px;box-shadow:none}.stair .t{margin-bottom:40px;padding-top:0!important}.s2 .pic,.s3 .pic{width:86%}.s2 .pic{margin-left:auto}}
 </style>
 </head>
 <body>
@@ -480,17 +496,10 @@ input,textarea{border:0}
       <p class="eyebrow">New Marketing</p>
       <h2>Marketing im Wandel.</h2>
       <p class="lead" style="margin-top:22px">Kunden informieren sich heute selbst – im Netz, in sozialen Medien, bei der KI. Wer gehört werden will, muss dort sein, wo sie gerade sind, und ihnen etwas bieten, das ihnen nützt.</p>
-      <div class="today-grid">
-        <figure>
-          <img src="img/einbahnstrasse.jpg" alt="Einbahnstraßenschild, Schwarz-Weiß" width="1032" height="687" loading="lazy">
-          <h3>Schluss mit Einbahnstraßen-Marketing.</h3>
-          <p>Botschaften senden und hoffen, dass jemand zuhört, funktioniert nicht mehr. Wir setzen auf Dialog, Nutzen und Inhalte, die Ihre Kunden wirklich brauchen.</p>
-        </figure>
-        <figure>
-          <img src="img/laptop-berg.jpg" alt="Frau mit Laptop auf einem Berggipfel, Schwarz-Weiß" width="1032" height="687" loading="lazy">
-          <h3>Dort, wo Ihre Kunden gerade sind.</h3>
-          <p>Google, KI-Suche, LinkedIn, Instagram, Messe oder Briefkasten: Wir bringen Ihre Botschaft in den Kanal, in dem Ihre Kunden gerade unterwegs sind – zur richtigen Zeit.</p>
-        </figure>
+      <div class="stairs">
+        <div class="stair s1"><div class="pic"><img src="img/kopfstand.jpg" alt="Mann im Kopfstand auf einer Wiese, Schwarz-Weiß" width="1032" height="687" loading="lazy"></div><div class="t"><span class="n">01</span><h3>Manchmal muss man die Dinge auf den Kopf stellen.</h3><p>Was vor wenigen Jahren noch funktioniert hat – Anzeige schalten, Prospekt drucken, abwarten –, erreicht Ihre Kunden heute kaum noch. Wir drehen die Perspektive um und schauen mit den Augen Ihrer Kunden auf Ihr Marketing.</p></div></div>
+        <div class="stair s2"><div class="pic"><img src="img/einbahnstrasse.jpg" alt="Einbahnstraßenschild, Schwarz-Weiß" width="1032" height="687" loading="lazy"></div><div class="t"><span class="n">02</span><h3>Schluss mit Einbahnstraßen-Marketing.</h3><p>Botschaften senden und hoffen, dass jemand zuhört, funktioniert nicht mehr. Wir setzen auf Dialog, Nutzen und Inhalte, die Ihre Kunden wirklich brauchen.</p></div></div>
+        <div class="stair s3"><div class="pic"><img src="img/laptop-berg.jpg" alt="Frau mit Laptop auf einem Berggipfel, Schwarz-Weiß" width="1032" height="687" loading="lazy"></div><div class="t"><span class="n">03</span><h3>Dort, wo Ihre Kunden gerade sind.</h3><p>Google, KI-Suche, LinkedIn, Instagram, Messe oder Briefkasten: Wir bringen Ihre Botschaft in den Kanal, in dem Ihre Kunden gerade unterwegs sind – zur richtigen Zeit.</p></div></div>
       </div>
     </div>
   </section>
