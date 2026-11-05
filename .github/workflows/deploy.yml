@@ -1,0 +1,58 @@
+name: Veröffentlichen auf capeeshee.com
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Schriften lokal einbinden (Fontsource)
+        run: |
+          mkdir -p /tmp/f && cd /tmp/f
+          npm init -y >/dev/null
+          npm i --no-audit --no-fund @fontsource/poppins@5 @fontsource/titillium-web@5 @fontsource/yantramanav@5
+          for f in poppins-latin-600-normal poppins-latin-700-normal poppins-latin-800-normal \
+                   titillium-web-latin-600-normal titillium-web-latin-700-normal \
+                   yantramanav-latin-300-normal yantramanav-latin-400-normal yantramanav-latin-500-normal; do
+            find node_modules/@fontsource -name "$f.woff2" -exec cp {} "$GITHUB_WORKSPACE/site/fonts/" \;
+          done
+          ls -la "$GITHUB_WORKSPACE/site/fonts"
+
+      - name: Zugangsdaten prüfen
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PATH: ${{ secrets.SFTP_PATH }}
+        run: |
+          for v in SFTP_HOST SFTP_USER SFTP_PASSWORD SFTP_PATH; do
+            if [ -z "${!v}" ]; then echo "::error::Secret $v fehlt"; exit 1; fi
+          done
+          # Schutz: niemals ins Wurzelverzeichnis des Webspace veröffentlichen
+          if [ "$SFTP_PATH" = "/" ] || [ "$SFTP_PATH" = "." ] || [ "$SFTP_PATH" = "~" ]; then
+            echo "::error::SFTP_PATH darf nicht das Hauptverzeichnis sein"; exit 1; fi
+
+      - name: Per SFTP hochladen
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PATH: ${{ secrets.SFTP_PATH }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" -e "
+            set sftp:auto-confirm yes;
+            set net:max-retries 2;
+            set net:timeout 30;
+            mkdir -p -f $SFTP_PATH;
+            mirror -R --verbose --only-newer site/ $SFTP_PATH;
+            bye"
