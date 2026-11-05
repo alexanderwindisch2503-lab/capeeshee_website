@@ -204,6 +204,7 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
 .slide .txt{min-width:0}
 .slide .big{font-family:var(--display);font-weight:800;font-size:clamp(40px,6.6vw,92px);line-height:.96;letter-spacing:-.05em;color:var(--ink);margin:0;max-width:none}
 .slide .big .red{color:var(--red)}
+.slide .big .beak{color:#d18a24}
 .slide.quiet .big{color:#c4c4c0}
 .slide .sub{margin-top:16px;font-weight:400;text-transform:uppercase;letter-spacing:.2em;font-size:13px;color:var(--muted)}
 .slide .pic{min-width:0;display:flex;justify-content:center}
@@ -269,20 +270,25 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
     <div class="wrap">
       <div class="slider" aria-roledescription="Karussell">
         <div class="track" id="track" tabindex="0">
-          <div class="slide quiet on" aria-roledescription="Folie" aria-label="1 von 4">
-            <div class="txt"><p class="big">Enten legen ihre Eier in aller Stille.</p><p class="sub">Ducks lay their eggs in silence</p></div>
-            <div class="pic"><img src="img/ei.jpg" alt="Ein einzelnes weißes Ei auf weißem Grund" width="1920" height="1280"></div>
+          <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
+            <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p><p class="sub">Ducks lay their eggs in silence</p></div>
+            <div class="pic"><img src="img/slide-1-ente.jpg" alt="Weiße Ente sitzt ruhig mit geschlossenen Augen neben ihrem Ei" width="1536" height="1024"></div>
           </div>
-          <div class="slide" aria-roledescription="Folie" aria-label="2 von 4">
+          <div class="slide" aria-roledescription="Folie" aria-label="2 von 5">
             <div class="txt"><p class="big">Hühner gackern dabei wie <span class="red">blöde.</span></p><p class="sub">Chicken cackle like crazy</p></div>
-            <div class="pic"><img src="img/huhn-gackert.jpg" alt="Weißes Huhn mit weit geöffnetem Schnabel" width="1920" height="1280"></div>
+            <div class="pic"><img src="img/slide-2-huhn.jpg" alt="Weißes Huhn legt ein Ei und gackert dabei lauthals mit ausgebreiteten Flügeln" width="1536" height="1024" loading="lazy"></div>
           </div>
-          <div class="slide" aria-roledescription="Folie" aria-label="3 von 4">
-            <div class="txt"><p class="big">Was ist die Folge? <span class="red">Alle Welt isst Hühnereier!</span></p><p class="sub">The whole world eats chicken eggs</p></div>
-            <div class="pic"><img src="img/eierfeld.jpg" alt="Viele weiße Eier, eines aufgeschlagen mit leuchtendem Dotter" width="1920" height="1280"></div>
+          <div class="slide" aria-roledescription="Folie" aria-label="3 von 5">
+            <div class="txt"><p class="big">Was ist die <span class="red">Folge?</span></p><p class="sub">What is the result?</p></div>
+            <div class="pic"><img src="img/slide-3-huhn-ente.jpg" alt="Lautes Huhn mit Ei im Vordergrund, klein im Hintergrund eine stille Ente mit ihrem Ei" width="1536" height="1024" loading="lazy"></div>
           </div>
-          <div class="slide cta" aria-roledescription="Folie" aria-label="4 von 4">
-            <div class="txt"><p class="big">So let's cackle!</p><p class="lead">Wir sorgen dafür, dass Ihr Unternehmen gehört wird.</p><a class="btn" href="#check">Capeeshee-Check starten</a></div>
+          <div class="slide" aria-roledescription="Folie" aria-label="4 von 5">
+            <div class="txt"><p class="big">Alle Welt kauft <span class="red">Hühnereier!</span></p><p class="sub">The whole world buys chicken eggs</p></div>
+            <div class="pic"><img src="img/slide-4-bestseller.jpg" alt="Weißes Ei mit rotem Etikett Bestseller" width="1536" height="1024" loading="lazy"></div>
+          </div>
+          <div class="slide" aria-roledescription="Folie" aria-label="5 von 5">
+            <div class="txt"><p class="big">So let's <span class="red">cackle!</span></p><p class="sub">Lassen Sie uns laut gackern – damit Ihre Eier verkauft werden</p><a class="btn" href="#check" style="margin-top:26px">Capeeshee-Check starten</a></div>
+            <div class="pic"><img src="img/slide-5-cackle.jpg" alt="Huhn steht auf gestapelten Eierkartons und gackert laut" width="1536" height="1024" loading="lazy"></div>
           </div>
         </div>
         <div class="dots" id="dots" role="group" aria-label="Folie wählen"></div>
@@ -315,7 +321,7 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
         <h2>Wir bringen Enten das Gackern bei.</h2>
         <p class="lead" style="margin-top:22px">Viele Unternehmen sind Enten: Sie legen hervorragende Eier – leise, zurückhaltend, unscheinbar. Das Ei ist Ihr Produkt, Ihre Leistung. Damit die Welt es kauft, muss man davon hören. Wir sorgen dafür, dass Sie gackern wie das Huhn: laut, selbstbewusst und an den richtigen Stellen.</p>
       </div>
-      <div class="ph" role="img" aria-label="Platzhalter für das Motiv Huhn und Ente"><span><b>Bild folgt · Schlüsselmotiv</b>Weißes Huhn beim Eierlegen, Schnabel weit offen, laut gackernd. Im Hintergrund klein und unscharf eine Ente, die still ihr Ei legt.</span></div>
+      <img src="img/slide-3-huhn-ente.jpg" alt="Lautes Huhn mit Ei im Vordergrund, im Hintergrund klein eine stille Ente mit ihrem Ei" width="1536" height="1024" loading="lazy">
     </div>
   </section>
 
