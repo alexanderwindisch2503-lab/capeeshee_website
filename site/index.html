@@ -325,6 +325,12 @@ input,textarea{border:0}
   writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);
   font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--red);pointer-events:none}
 @media (max-width:760px){.love{font-size:10px;right:4px;letter-spacing:.24em}}
+
+/* Zähler: größer, weniger fett, Beschriftung mittig */
+.facts-band .facts-row > div{text-align:center}
+.facts-band strong{font-weight:600;font-size:clamp(56px,7.5vw,104px);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.facts-band span:not(.count){margin-top:10px}
+.facts-band .count{display:inline;margin:0;font-size:inherit;color:inherit;letter-spacing:inherit;text-transform:none}
 </style>
 </head>
 <body>
@@ -380,10 +386,10 @@ input,textarea{border:0}
 
   <section class="facts-band" aria-label="Capeeshee in Zahlen">
     <div class="wrap facts-row">
-      <div><strong>25+</strong><span>Jahre Erfahrung</span></div>
-      <div><strong>500+</strong><span>Projekte</span></div>
-      <div><strong>150+</strong><span>zufriedene Kunden</span></div>
-      <div><strong>2</strong><span>eigene Marken</span></div>
+      <div><strong><span class="count" data-to="25">25</span>+</strong><span>Jahre Erfahrung</span></div>
+      <div><strong><span class="count" data-to="500">500</span>+</strong><span>Projekte</span></div>
+      <div><strong><span class="count" data-to="150">150</span>+</strong><span>zufriedene Kunden</span></div>
+      <div><strong><span class="count" data-to="2">2</span></strong><span>eigene Marken</span></div>
     </div>
   </section>
 
@@ -614,6 +620,18 @@ input,textarea{border:0}
   track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(i+1);stop();}if(e.key==='ArrowLeft'){go(i-1);stop();}});
   window.addEventListener('resize',function(){track.scrollLeft=slides[i].offsetLeft-track.offsetLeft;});
   mark(0);start();
+})();
+
+(function(){
+  var els=[].slice.call(document.querySelectorAll('.count'));
+  if(!els.length||!('IntersectionObserver' in window)) return;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  els.forEach(function(el){el.textContent='0';el.dataset.wait='1';});
+  function run(el){var to=+el.dataset.to,d=1600+Math.min(to,500),t0=null;
+    function f(t){if(!t0)t0=t;var p=Math.min((t-t0)/d,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f);}
+    requestAnimationFrame(f);}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){io.unobserve(x.target);if(x.target.dataset.wait){run(x.target);}}});},{threshold:.6});
+  els.forEach(function(el){io.observe(el);});
 })();
 document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet – bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
 </script>
