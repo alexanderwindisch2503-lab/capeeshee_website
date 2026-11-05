@@ -322,7 +322,7 @@ input,textarea{border:0}
 .facts-band .facts-row{margin-top:0;grid-template-columns:repeat(4,minmax(0,1fr))}
 .intro{background:var(--bg)}
 .intro .btn.ghost{background:var(--bg-alt)}
-@media (max-width:860px){.facts-band .facts-row{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}}
+@media (max-width:860px){.facts-band .facts-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:start}}
 
 /* We love Design! – senkrecht am rechten Seitenrand */
 .love{position:fixed;top:50%;right:max(10px, env(safe-area-inset-right, 0px));z-index:8;margin:0;max-width:none;
@@ -335,6 +335,7 @@ input,textarea{border:0}
 .facts-band strong{font-weight:600;font-size:clamp(56px,7.5vw,104px);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .facts-band span:not(.count){margin-top:10px}
 .facts-band .count{display:inline;margin:0;font-size:inherit;color:inherit;letter-spacing:inherit;text-transform:none}
+@media (max-width:860px){.facts-band strong{font-size:clamp(26px,8.6vw,64px);letter-spacing:-.04em}.facts-band span:not(.count){margin-top:6px;font-size:10px;letter-spacing:.08em;line-height:1.35}}
 
 </style>
 </head>
