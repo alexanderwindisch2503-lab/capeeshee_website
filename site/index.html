@@ -22,7 +22,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-weight:300;font-size:17px;line-height:1.7}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 .wrap{max-width:1200px;margin:0 auto;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
 section{padding-block:clamp(64px,10vw,128px)}
@@ -194,6 +194,57 @@ textarea{min-height:130px;resize:vertical}
 footer{padding-block:28px;font-size:14px;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
 footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-weight:400;font-size:14px;color:var(--muted)}
+
+/* Hero-Slider: Entenspruch */
+.hero{padding-block:clamp(16px,3vw,40px) clamp(48px,7vw,88px)}
+.slider{position:relative}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:clamp(20px,4vw,56px);min-height:clamp(420px,62vh,640px);padding-block:12px}
+.slide .txt{min-width:0}
+.slide .big{font-family:var(--display);font-weight:800;font-size:clamp(40px,6.6vw,92px);line-height:.96;letter-spacing:-.05em;color:var(--ink);margin:0;max-width:none}
+.slide .big .red{color:var(--red)}
+.slide.quiet .big{color:#c4c4c0}
+.slide .sub{margin-top:16px;font-weight:400;text-transform:uppercase;letter-spacing:.2em;font-size:13px;color:var(--muted)}
+.slide .pic{min-width:0;display:flex;justify-content:center}
+.slide .pic img{width:100%;max-height:60vh;object-fit:contain}
+.slide.cta{background:var(--red);grid-template-columns:1fr;text-align:center;justify-items:center;padding:clamp(32px,6vw,72px) 20px}
+.slide.cta .big{color:#fff;font-size:clamp(52px,9vw,128px)}
+.slide.cta .lead{color:#ffe6e8;margin-top:18px;max-width:52ch}
+.slide.cta .btn{background:#fff;color:var(--red);margin-top:26px}
+.slide .txt > *{transition:opacity .7s ease, transform .7s ease}
+.slide:not(.on) .txt > *{opacity:0;transform:translateY(24px)}
+.slide.on .txt > *:nth-child(2){transition-delay:.15s}
+.slide.on .txt > *:nth-child(3){transition-delay:.3s}
+.slide .pic img{transition:transform 1.2s ease, opacity .8s ease}
+.slide:not(.on) .pic img{transform:scale(.94);opacity:.4}
+.dots{display:flex;gap:10px;justify-content:center;margin-top:20px;align-items:center}
+.dots button{width:34px;height:4px;border:0;padding:0;background:#d6d6d2;cursor:pointer;border-radius:2px}
+.dots button[aria-current="true"]{background:var(--red)}
+.arrows{position:absolute;right:0;bottom:-6px;display:flex;gap:8px}
+.arrows button{width:40px;height:40px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-size:18px;cursor:pointer;border-radius:2px}
+.hero-intro{margin-top:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:end;border-top:1px solid var(--line);padding-top:28px}
+.hero-intro .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+@media (max-width:860px){.slide{grid-template-columns:1fr;min-height:0}.slide .pic{order:-1}.slide .pic img{max-height:42vh}.hero-intro{grid-template-columns:1fr}.hero-intro .ctas{justify-content:flex-start}.arrows{display:none}}
+@media (prefers-reduced-motion: reduce){.track{scroll-behavior:auto}.slide .txt > *,.slide .pic img{transition:none!important;opacity:1!important;transform:none!important}}
+
+/* Botschaft: Huhn und Ente */
+.message{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+.message .ph{aspect-ratio:3/2}
+@media (max-width:860px){.message{grid-template-columns:1fr}}
+
+/* Leistungen nach Kompetenz gruppiert */
+.group{margin-top:72px}
+.group:first-of-type{margin-top:48px}
+.group-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,4vw,56px);align-items:center}
+.group-head .img{aspect-ratio:3/2;overflow:hidden;background:var(--bg)}
+.group-head .img img{width:100%;height:100%;object-fit:cover}
+.group-head .img .ph{height:100%}
+.group-head .k{font-weight:400;text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--red)}
+.group-head h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,3vw,36px);letter-spacing:-.03em;margin-top:8px}
+.group-head p{margin-top:14px}
+.group .services{margin-top:28px}
+@media (max-width:860px){.group-head{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -214,38 +265,36 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
 
 <main id="top">
 
-  <!-- Story: der Entenspruch als Bildstrecke -->
-  <section class="story" aria-label="Enten, Hühner und Eier">
-    <div class="wrap panel quiet">
-      <div class="txt">
-        <h1>Enten legen ihre Eier in aller Stille.</h1>
-        <p class="sub">Ducks lay their eggs in silence</p>
-      </div>
-      <div class="pic"><img src="img/ei.jpg" alt="Ein einzelnes weißes Ei auf weißem Grund" width="1920" height="1280"></div>
-    </div>
-    <div class="wrap panel flip">
-      <div class="txt">
-        <p class="big">Hühner gackern dabei wie <span class="red">blöde.</span></p>
-        <p class="sub">Chicken cackle like crazy</p>
-      </div>
-      <div class="pic"><img src="img/huhn-gackert.jpg" alt="Weißes Huhn mit weit geöffnetem Schnabel" width="1920" height="1280" loading="lazy"></div>
-    </div>
-    <div class="wrap panel">
-      <div class="txt">
-        <p class="big">Was ist die Folge? <span class="red">Alle Welt isst Hühnereier!</span></p>
-        <p class="sub">The whole world eats chicken eggs</p>
-      </div>
-      <div class="pic"><img src="img/eierfeld.jpg" alt="Viele weiße Eier, eines davon aufgeschlagen mit leuchtendem Dotter" width="1920" height="1280" loading="lazy"></div>
-    </div>
-  </section>
-
-  <section class="cackle">
+  <section class="hero" aria-label="Enten, Hühner und Eier">
     <div class="wrap">
-      <p class="big">So let's cackle!</p>
-      <p class="lead">Gute Produkte allein verkaufen sich nicht – man muss sie hören. Wir sorgen dafür, dass Ihr Unternehmen gehört wird: mit über 25 Jahren Agenturerfahrung und den Werkzeugen von heute.</p>
-      <div class="ctas">
-        <a class="btn" href="#check">Capeeshee-Check starten</a>
-        <a class="btn ghost" href="#leistungen">Leistungen ansehen</a>
+      <div class="slider" aria-roledescription="Karussell">
+        <div class="track" id="track" tabindex="0">
+          <div class="slide quiet on" aria-roledescription="Folie" aria-label="1 von 4">
+            <div class="txt"><p class="big">Enten legen ihre Eier in aller Stille.</p><p class="sub">Ducks lay their eggs in silence</p></div>
+            <div class="pic"><img src="img/ei.jpg" alt="Ein einzelnes weißes Ei auf weißem Grund" width="1920" height="1280"></div>
+          </div>
+          <div class="slide" aria-roledescription="Folie" aria-label="2 von 4">
+            <div class="txt"><p class="big">Hühner gackern dabei wie <span class="red">blöde.</span></p><p class="sub">Chicken cackle like crazy</p></div>
+            <div class="pic"><img src="img/huhn-gackert.jpg" alt="Weißes Huhn mit weit geöffnetem Schnabel" width="1920" height="1280"></div>
+          </div>
+          <div class="slide" aria-roledescription="Folie" aria-label="3 von 4">
+            <div class="txt"><p class="big">Was ist die Folge? <span class="red">Alle Welt isst Hühnereier!</span></p><p class="sub">The whole world eats chicken eggs</p></div>
+            <div class="pic"><img src="img/eierfeld.jpg" alt="Viele weiße Eier, eines aufgeschlagen mit leuchtendem Dotter" width="1920" height="1280"></div>
+          </div>
+          <div class="slide cta" aria-roledescription="Folie" aria-label="4 von 4">
+            <div class="txt"><p class="big">So let's cackle!</p><p class="lead">Wir sorgen dafür, dass Ihr Unternehmen gehört wird.</p><a class="btn" href="#check">Capeeshee-Check starten</a></div>
+          </div>
+        </div>
+        <div class="dots" id="dots" role="group" aria-label="Folie wählen"></div>
+        <div class="arrows"><button type="button" id="prev" aria-label="Vorherige Folie">←</button><button type="button" id="next" aria-label="Nächste Folie">→</button></div>
+      </div>
+      <div class="hero-intro">
+        <div>
+          <p class="eyebrow">Agentur Capeeshee · Werbeagentur für Web &amp; Print · Augsburg</p>
+          <h1 style="font-family:var(--display);font-weight:800;font-size:clamp(26px,3vw,38px);letter-spacing:-.03em;line-height:1.1">Gute Produkte allein verkaufen sich nicht – man muss sie hören.</h1>
+          <p class="lead" style="margin-top:14px">Wir sorgen dafür, dass Ihr Unternehmen gehört wird: mit über 25 Jahren Agenturerfahrung und den Werkzeugen von heute.</p>
+        </div>
+        <div class="ctas"><a class="btn" href="#check">Check starten</a><a class="btn ghost" href="#leistungen">Leistungen</a></div>
       </div>
     </div>
   </section>
@@ -256,6 +305,17 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
       <div><strong>13</strong><span>Leistungsbereiche</span></div>
       <div><strong>2</strong><span>eigene Marken aufgebaut</span></div>
       <div class="stamp"><strong>We love Design!</strong><span>Werbeagentur für Web &amp; Print</span></div>
+    </div>
+  </section>
+
+  <section id="botschaft">
+    <div class="wrap message">
+      <div>
+        <p class="eyebrow">Unsere Botschaft</p>
+        <h2>Wir bringen Enten das Gackern bei.</h2>
+        <p class="lead" style="margin-top:22px">Viele Unternehmen sind Enten: Sie legen hervorragende Eier – leise, zurückhaltend, unscheinbar. Das Ei ist Ihr Produkt, Ihre Leistung. Damit die Welt es kauft, muss man davon hören. Wir sorgen dafür, dass Sie gackern wie das Huhn: laut, selbstbewusst und an den richtigen Stellen.</p>
+      </div>
+      <div class="ph" role="img" aria-label="Platzhalter für das Motiv Huhn und Ente"><span><b>Bild folgt · Schlüsselmotiv</b>Weißes Huhn beim Eierlegen, Schnabel weit offen, laut gackernd. Im Hintergrund klein und unscharf eine Ente, die still ihr Ei legt.</span></div>
     </div>
   </section>
 
@@ -297,36 +357,6 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
     </div>
   </section>
 
-  <section class="alt" id="kompetenzen">
-    <div class="wrap">
-      <p class="eyebrow">Kompetenzen</p>
-      <h2>Strategie. Design. Technik. Aus einer Hand.</h2>
-      <div class="pillars">
-        <article class="pillar">
-          <div class="img"><div class="ph" style="height:100%"><span><b>Bild folgt</b>Motiv Strategie, z. B. Skizzen und Markenentwicklung</span></div></div>
-          <span class="k">Visual Communication</span>
-          <h3>Was möchte ich kommunizieren?</h3>
-          <p>Wer bin ich, wie möchte ich wahrgenommen werden? Wir entwickeln die Kommunikationsstrategie, damit Ihre Produkte und Leistungen öfter und besser wahrgenommen werden als die Ihrer Mitbewerber – ganzheitlich gedacht, auf Basis Ihrer Corporate Identity.</p>
-          <ul><li>Corporate Identity: Erscheinungsbild, Image, Management, ganzheitlich</li><li>Marken- und Produktstrategie</li><li>Branding und Markenbildung</li><li>Cross-Over-Marketing</li><li>Public Relations</li><li>New Marketing</li></ul>
-        </article>
-        <article class="pillar">
-          <div class="img"><img src="img/auge.jpg" alt="Nahaufnahme eines Auges mit langen Wimpern" width="600" height="400" loading="lazy"></div>
-          <span class="k">Web &amp; Print Design</span>
-          <h3>Der erste Eindruck zählt.</h3>
-          <p>Innerhalb von rund 50 Millisekunden entscheidet ein Besucher, ob ihm Ihre Website gefällt – ein Wimpernschlag. Ein professionelles Corporate Design prägt, wie glaubwürdig und hochwertig Ihr Unternehmen wirkt, in der Broschüre genauso wie online.</p>
-          <ul><li>Corporate Design, Logo, Signet</li><li>Geschäftsausstattung und Präsentationen</li><li>Broschüren, Flyer, Plakate, Kataloge</li><li>Verpackung</li><li>Druck, Produktion, Veredelung</li><li>Außen- und Innengestaltung, Leitsysteme</li><li>Messe und Event</li></ul>
-        </article>
-        <article class="pillar">
-          <div class="img"><img src="img/website-mockup.jpg" alt="Website auf Monitor, Laptop, Tablet und Smartphone" width="1300" height="866" loading="lazy"></div>
-          <span class="k">Web Development</span>
-          <h3>Websites, die auf jedem Gerät überzeugen.</h3>
-          <p>Schnell, barrierefrei und für Smartphones zuerst gebaut – so, wie Google und Ihre Kunden es erwarten. Mit langjähriger Programmiererfahrung verbinden wir bewährte Systeme mit individuellen Funktionen.</p>
-          <ul><li>Responsive Websites, WordPress und moderne Frameworks</li><li>B2B- und B2C-Online-Shops</li><li>Plugin- und Individualprogrammierung</li><li>Datenbanken und Schnittstellen</li><li>Newsletter und Automatisierung</li><li>TV-Spots, Video, Animation</li><li>Suchmaschinenoptimierung und Auswertung</li></ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <section id="kette">
     <div class="wrap">
       <div class="chain-head">
@@ -351,20 +381,30 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
     <div class="wrap">
       <p class="eyebrow">Leistungen</p>
       <h2>Alles, was Sie für Ihre Werbung brauchen.</h2>
-      <div class="services">
-        <article class="svc"><span class="n">01</span><h3>Strategie &amp; Beratung</h3><p>Erst die Richtung klären, dann gestalten.</p><details><summary>Mehr</summary><ul><li>Positionierung und Zielgruppen</li><li>Marken- und Produktstrategie</li><li>Marketingplan fürs Jahr</li><li>Wettbewerbsbeobachtung</li><li>KI-Ergebnis-Check</li></ul></details></article>
-        <article class="svc"><span class="n">02</span><h3>Marke &amp; Design</h3><p>Ein Auftritt, an dem man Sie sofort erkennt.</p><details><summary>Mehr</summary><ul><li>Logo, Signet, Corporate Design</li><li>Geschäftsausstattung, Präsentationen</li><li>Markenhandbuch mit KI-Vorgaben</li><li>Arbeitgebermarke</li></ul></details></article>
-        <article class="svc"><span class="n">03</span><h3>Websites &amp; Shops</h3><p>Websites, die Fragen beantworten und Anfragen bringen.</p><details><summary>Mehr</summary><ul><li>Responsive Websites</li><li>B2B- und B2C-Online-Shops</li><li>Barrierefreiheit</li><li>Gefunden werden in Google und KI-Suchen</li></ul></details></article>
-        <article class="svc"><span class="n">04</span><h3>Apps &amp; digitale Helfer</h3><p>Nützliche Werkzeuge für die Kunden Ihrer Kunden.</p><details><summary>Mehr</summary><ul><li>Produktfinder, Konfiguratoren, Rechner</li><li>Kunden-, Gäste- und Patienten-Apps</li><li>KI-Assistenten mit Ihrem Wissen</li><li>Datenbanken und Schnittstellen</li></ul></details></article>
-        <article class="svc"><span class="n">05</span><h3>Werbung &amp; Kampagnen</h3><p>Klassische Werbung, auf heute übertragen.</p><details><summary>Mehr</summary><ul><li>Broschüren, Kataloge, Flyer, Plakate</li><li>Anzeigen, Citylights, Außenwerbung</li><li>Verpackungs- und Produktgestaltung</li><li>Druck, Produktion, Veredelung</li><li>Messe, Event, Leitsysteme</li></ul></details></article>
-        <article class="svc"><span class="n">06</span><h3>Content &amp; Text</h3><p>Inhalte, die Kunden dort abholen, wo sie gerade sind.</p><details><summary>Mehr</summary><ul><li>Themenplan</li><li>Texte, Fachbeiträge, Ratgeber</li><li>Foto, Video, TV-Spots und Animation mit Partnern</li></ul></details></article>
-        <article class="svc"><span class="n">07</span><h3>Social Media</h3><p>Sichtbar, wo Kunden und Fachkräfte täglich sind.</p><details><summary>Mehr</summary><ul><li>Strategie und Redaktionsplan</li><li>LinkedIn, Instagram, Facebook, TikTok</li><li>Recruiting über Social Media</li></ul></details></article>
-        <article class="svc"><span class="n">08</span><h3>Presse &amp; Öffentlichkeit</h3><p>Damit über Sie gesprochen wird.</p><details><summary>Mehr</summary><ul><li>Public Relations, Pressemitteilungen</li><li>Fachartikel</li><li>Kunden- und Mitarbeitermagazine</li></ul></details></article>
-        <article class="svc"><span class="n">09</span><h3>Online-Werbung</h3><p>Gezielt Reichweite schaffen, ohne große Mediabudgets.</p><details><summary>Mehr</summary><ul><li>Google- und Social-Anzeigen</li><li>Suchmaschinenoptimierung</li><li>Landingpages, Google-Unternehmensprofil</li></ul></details></article>
-        <article class="svc"><span class="n">10</span><h3>Kundenbindung &amp; Automatisierung</h3><p>Kontakt halten, ohne dass es Arbeit macht.</p><details><summary>Mehr</summary><ul><li>Newsletter, automatisch zur richtigen Zeit</li><li>Einfaches CRM</li><li>Bewertungen einholen</li></ul></details></article>
-        <article class="svc"><span class="n">11</span><h3>Zahlen &amp; Auswertung</h3><p>Wissen, was wirkt.</p><details><summary>Mehr</summary><ul><li>Website- und Kampagnenauswertung</li><li>Übersichtliches Monatsreporting</li></ul></details></article>
-        <article class="svc"><span class="n">12</span><h3>Workshops &amp; Begleitung</h3><p>Ihr Team arbeitet selbst mit, wir sichern die Qualität.</p><details><summary>Mehr</summary><ul><li>KI im Marketing richtig briefen</li><li>Kunden-Kompass-Workshop</li><li>Laufende Betreuung</li></ul></details></article>
-        <article class="svc"><span class="n">13</span><h3>Technik &amp; Betrieb</h3><p>Damit alles läuft.</p><details><summary>Mehr</summary><ul><li>Hosting in Deutschland</li><li>Wartung, Sicherheit, Backups</li><li>Datenschutz</li></ul></details></article>
+      <p class="lead" style="margin-top:22px">Strategie, Design und Technik aus einer Hand – in 13 Leistungsbereichen.</p>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="img"><div class="ph"><span><b>Bild folgt</b>Motiv Strategie, z. B. Skizzen und Markenentwicklung</span></div></div>
+          <div><span class="k">Visual Communication · Strategie</span><h3>Was möchte ich kommunizieren?</h3><p>Wer bin ich, wie möchte ich wahrgenommen werden? Wir entwickeln die Kommunikationsstrategie, damit Ihre Produkte und Leistungen öfter und besser wahrgenommen werden als die Ihrer Mitbewerber – ganzheitlich gedacht, auf Basis Ihrer Corporate Identity.</p></div>
+        </div>
+        <div class="services"><article class="svc"><span class="n">01</span><h3>Strategie &amp; Beratung</h3><p>Erst die Richtung klären, dann gestalten.</p><details><summary>Mehr</summary><ul><li>Positionierung und Zielgruppen</li><li>Corporate Identity: Erscheinungsbild-, Image-, Management- und ganzheitlicher Ansatz</li><li>Marken- und Produktstrategie</li><li>Branding und Markenbildung</li><li>Cross-Over-Marketing</li><li>Marketingplan fürs Jahr</li><li>Wettbewerbsbeobachtung</li><li>KI-Ergebnis-Check</li></ul></details></article><article class="svc"><span class="n">02</span><h3>Presse &amp; Öffentlichkeit</h3><p>Damit über Sie gesprochen wird.</p><details><summary>Mehr</summary><ul><li>Public Relations, Pressemitteilungen</li><li>Fachartikel in Branchenmedien</li><li>Kunden- und Mitarbeitermagazine</li></ul></details></article><article class="svc"><span class="n">03</span><h3>Workshops &amp; Begleitung</h3><p>Ihr Team arbeitet selbst mit, wir sichern die Qualität.</p><details><summary>Mehr</summary><ul><li>KI im Marketing richtig briefen</li><li>Kunden-Kompass-Workshop</li><li>Externer Sparringspartner</li><li>Laufende Betreuung als Pauschale</li></ul></details></article></div>
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="img"><img src="img/auge.jpg" alt="Nahaufnahme eines Auges mit langen Wimpern" width="600" height="400" loading="lazy"></div>
+          <div><span class="k">Web &amp; Print Design</span><h3>Der erste Eindruck zählt.</h3><p>Innerhalb von rund 50 Millisekunden entscheidet ein Besucher, ob ihm Ihre Website gefällt – ein Wimpernschlag. Ein professionelles Corporate Design prägt, wie glaubwürdig und hochwertig Ihr Unternehmen wirkt, in der Broschüre genauso wie online.</p></div>
+        </div>
+        <div class="services"><article class="svc"><span class="n">04</span><h3>Marke &amp; Design</h3><p>Ein Auftritt, an dem man Sie sofort erkennt.</p><details><summary>Mehr</summary><ul><li>Corporate Design</li><li>Logo, Signet</li><li>Geschäftsausstattung</li><li>Firmenpräsentationen</li><li>Markenhandbuch mit KI-Vorgaben</li><li>Arbeitgebermarke</li></ul></details></article><article class="svc"><span class="n">05</span><h3>Werbung &amp; Kampagnen</h3><p>Klassische Werbung, auf heute übertragen.</p><details><summary>Mehr</summary><ul><li>Broschüren, Kataloge, Flyer, Plakate</li><li>Anzeigen, Citylights, Außenwerbung</li><li>Verpackungs- und Produktgestaltung</li><li>Druck, Produktion, Veredelung</li><li>Außen- und Innengestaltung</li><li>Beschilderung, Leitsysteme</li><li>Messe und Event</li><li>Recruitingkampagnen</li></ul></details></article><article class="svc"><span class="n">06</span><h3>Content &amp; Text</h3><p>Inhalte, die Kunden dort abholen, wo sie gerade sind.</p><details><summary>Mehr</summary><ul><li>Themenplan</li><li>Texte, Fachbeiträge, Ratgeber</li><li>Foto und Video mit Partnern</li><li>TV-Spots, Video, Animationen</li></ul></details></article><article class="svc"><span class="n">07</span><h3>Social Media</h3><p>Sichtbar, wo Kunden und Fachkräfte täglich sind.</p><details><summary>Mehr</summary><ul><li>Strategie und Redaktionsplan</li><li>LinkedIn, Instagram, Facebook, TikTok</li><li>Recruiting über Social Media</li><li>Mitarbeitende als Botschafter</li></ul></details></article></div>
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="img"><img src="img/website-mockup.jpg" alt="Website auf Monitor, Laptop, Tablet und Smartphone" width="1300" height="866" loading="lazy"></div>
+          <div><span class="k">Web Development</span><h3>Websites, die auf jedem Gerät überzeugen.</h3><p>Schnell, barrierefrei und für Smartphones zuerst gebaut – so, wie Google und Ihre Kunden es erwarten. Mit langjähriger Programmiererfahrung verbinden wir bewährte Systeme mit individuellen Funktionen.</p></div>
+        </div>
+        <div class="services"><article class="svc"><span class="n">08</span><h3>Websites &amp; Shops</h3><p>Websites, die Fragen beantworten und Anfragen bringen.</p><details><summary>Mehr</summary><ul><li>Responsive Webdesign, Mobile First</li><li>Web-Programmierung, WordPress und moderne Frameworks</li><li>B2B- und B2C-Online-Shops</li><li>Barrierefreiheit</li><li>Gefunden werden in Google und KI-Suchen</li></ul></details></article><article class="svc"><span class="n">09</span><h3>Apps &amp; digitale Helfer</h3><p>Nützliche Werkzeuge für die Kunden Ihrer Kunden.</p><details><summary>Mehr</summary><ul><li>Produktfinder, Konfiguratoren, Rechner</li><li>Kunden-, Gäste- und Patienten-Apps</li><li>KI-Assistenten mit Ihrem Wissen</li><li>Plugin-Entwicklung, Individualprogrammierung</li><li>Datenbanken und Schnittstellen</li></ul></details></article><article class="svc"><span class="n">10</span><h3>Online-Werbung &amp; SEO</h3><p>Gezielt Reichweite schaffen, ohne große Mediabudgets.</p><details><summary>Mehr</summary><ul><li>Suchmaschinenoptimierung</li><li>Google- und Social-Anzeigen</li><li>Landingpages</li><li>Google-Unternehmensprofil und Bewertungen</li></ul></details></article><article class="svc"><span class="n">11</span><h3>Kundenbindung &amp; Automatisierung</h3><p>Kontakt halten, ohne dass es Arbeit macht.</p><details><summary>Mehr</summary><ul><li>Newsletter, automatisch zur richtigen Zeit</li><li>Einfaches CRM</li><li>Anfragen automatisch erfassen</li><li>Bewertungen einholen</li></ul></details></article><article class="svc"><span class="n">12</span><h3>Zahlen &amp; Auswertung</h3><p>Wissen, was wirkt.</p><details><summary>Mehr</summary><ul><li>Website- und Kampagnenauswertungen</li><li>Übersichtliches Monatsreporting</li><li>Klare Empfehlungen statt Datenberge</li></ul></details></article><article class="svc"><span class="n">13</span><h3>Technik &amp; Betrieb</h3><p>Damit alles läuft.</p><details><summary>Mehr</summary><ul><li>Hosting in Deutschland</li><li>Wartung, Sicherheit, Backups</li><li>Datenschutz und Cookie-Lösung</li></ul></details></article></div>
       </div>
     </div>
   </section>
@@ -471,6 +511,23 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
   </div>
 </footer>
 <script>
+(function(){
+  var track=document.getElementById('track'); if(!track) return;
+  var slides=[].slice.call(track.querySelectorAll('.slide')), dots=document.getElementById('dots'), i=0, timer=null;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  slides.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Folie '+(k+1));b.addEventListener('click',function(){go(k);stop();});dots.appendChild(b);});
+  function mark(k){i=k;slides.forEach(function(s,n){s.classList.toggle('on',n===k);s.setAttribute('aria-hidden',n===k?'false':'true');});[].forEach.call(dots.children,function(d,n){d.setAttribute('aria-current',n===k?'true':'false');});}
+  function go(k){k=(k+slides.length)%slides.length;track.scrollTo({left:slides[k].offsetLeft-track.offsetLeft,behavior:reduce?'auto':'smooth'});mark(k);}
+  var t; track.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){var k=Math.round(track.scrollLeft/track.clientWidth);if(k!==i)mark(k);},80);},{passive:true});
+  function start(){if(reduce||timer)return;timer=setInterval(function(){go(i+1);},5200);}
+  function stop(){clearInterval(timer);timer=null;}
+  document.getElementById('prev').addEventListener('click',function(){go(i-1);stop();});
+  document.getElementById('next').addEventListener('click',function(){go(i+1);stop();});
+  track.addEventListener('pointerdown',stop);track.addEventListener('focusin',stop);
+  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(i+1);stop();}if(e.key==='ArrowLeft'){go(i-1);stop();}});
+  window.addEventListener('resize',function(){track.scrollLeft=slides[i].offsetLeft-track.offsetLeft;});
+  mark(0);start();
+})();
 document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet – bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
 </script>
 </body>
