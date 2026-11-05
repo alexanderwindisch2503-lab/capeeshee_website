@@ -312,6 +312,19 @@ input,textarea{border:0}
 .msg-txt h2{font-size:clamp(40px,5.6vw,76px)}
 .msg-txt .lead{margin-top:20px}
 @media (max-width:860px){.message{grid-template-columns:1fr}}
+
+/* Zahlenband direkt nach dem Slider */
+.facts-band{background:var(--bg-alt);padding-block:clamp(40px,5vw,64px)}
+.facts-band .facts-row{margin-top:0;grid-template-columns:repeat(4,minmax(0,1fr))}
+.intro{background:var(--bg)}
+.intro .btn.ghost{background:var(--bg-alt)}
+@media (max-width:860px){.facts-band .facts-row{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}}
+
+/* We love Design! – senkrecht am rechten Seitenrand */
+.love{position:fixed;top:50%;right:max(10px, env(safe-area-inset-right, 0px));z-index:8;margin:0;max-width:none;
+  writing-mode:vertical-rl;transform:translateY(-50%) rotate(180deg);
+  font-family:var(--display);font-weight:800;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--red);pointer-events:none}
+@media (max-width:760px){.love{font-size:10px;right:4px;letter-spacing:.24em}}
 </style>
 </head>
 <body>
@@ -330,6 +343,7 @@ input,textarea{border:0}
   </div>
 </header>
 
+<p class="love" aria-hidden="true">We love Design!</p>
 <main id="top">
 
   <section class="hero" aria-label="Enten, Hühner und Eier">
@@ -364,6 +378,15 @@ input,textarea{border:0}
     </div>
   </section>
 
+  <section class="facts-band" aria-label="Capeeshee in Zahlen">
+    <div class="wrap facts-row">
+      <div><strong>25+</strong><span>Jahre Erfahrung</span></div>
+      <div><strong>500+</strong><span>Projekte</span></div>
+      <div><strong>150+</strong><span>zufriedene Kunden</span></div>
+      <div><strong>2</strong><span>eigene Marken</span></div>
+    </div>
+  </section>
+
   <section class="intro">
     <div class="wrap">
       <p class="eyebrow">Agentur Capeeshee · Werbeagentur für Web &amp; Print · Augsburg</p>
@@ -373,12 +396,6 @@ input,textarea{border:0}
           <p class="lead">Wir sorgen dafür, dass Ihr Unternehmen gehört wird: mit über 25 Jahren Agenturerfahrung und den Werkzeugen von heute.</p>
           <div class="ctas"><a class="btn" href="#check">Check starten</a><a class="btn ghost" href="#leistungen">Leistungen</a></div>
         </div>
-      </div>
-      <div class="facts-row" aria-label="Capeeshee in Zahlen">
-        <div><strong>25+</strong><span>Jahre Erfahrung</span></div>
-        <div><strong>13</strong><span>Leistungsbereiche</span></div>
-        <div><strong>2</strong><span>eigene Marken aufgebaut</span></div>
-        <div class="badge" aria-label="We love Design!"><span>We love<br>Design!</span></div>
       </div>
     </div>
   </section>
