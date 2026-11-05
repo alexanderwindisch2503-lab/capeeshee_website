@@ -14,7 +14,7 @@
 :root{
   color-scheme:light;
   --bg:#ffffff; --bg-alt:#f5f5f3; --ink:#303133; --text:#5f6164; --muted:#8a8c8f; --line:#e4e4e1;
-  --red:#b81e2b; --red-soft:#f7e3e5; --dark:#141618; --red-on-dark:#e14754; --dark-text:#b9bcc0;
+  --red:#b8202b; --red-soft:#f7e3e5; --dark:#141618; --dark-text:#b9bcc0;
   --display:"Poppins", "Segoe UI", system-ui, sans-serif;
   --head:"Titillium Web", "Segoe UI", system-ui, sans-serif;
   --body:"Yantramanav", "Segoe UI", system-ui, sans-serif;
@@ -79,7 +79,7 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 /* Haltung */
 .stance{background:var(--dark);color:var(--dark-text)}
 .stance h2{color:#f2f2f0}
-.stance .eyebrow{color:var(--red-on-dark)}
+.stance .eyebrow{color:var(--red)}
 .stance-top{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
 .stance-top img{filter:grayscale(1) contrast(1.05)}
 .stance .stance-ph{aspect-ratio:3/2;background:#202326}
@@ -89,13 +89,13 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 @media (max-width:860px){.stance-top,.stance-grid{grid-template-columns:1fr}}
 .ai-claim{margin-top:clamp(56px,7vw,88px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px clamp(28px,5vw,72px);align-items:end}
 .ai-claim-big{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,46px);line-height:1.05;letter-spacing:-.04em;color:#f2f2f0;text-wrap:balance}
-.ai-claim-big span{color:var(--red-on-dark)}
+.ai-claim-big span{color:var(--red)}
 .ai-claim .lead{margin:0;max-width:none}
 @media (max-width:860px){.ai-claim{grid-template-columns:1fr}}
 .ai-head{margin-top:clamp(56px,7vw,88px);color:#f2f2f0;font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em}
 .ai-grid{margin-top:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .ai-use{background:#1d2023;padding:26px 24px 28px;min-width:0}
-.ai-use .n{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--red-on-dark);margin-bottom:10px}
+.ai-use .n{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--red);margin-bottom:10px}
 .ai-use h4{margin:0 0 8px;font-family:var(--head);font-weight:700;font-size:18px;line-height:1.25;color:#f2f2f0}
 .ai-use p{margin:0;font-size:15.5px;line-height:1.55}
 @media (max-width:1024px){.ai-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -197,7 +197,7 @@ ol.flow{margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,mi
 /* Kontakt */
 .contact-sec{background:var(--dark);color:var(--dark-text)}
 .contact-sec h2{color:#f2f2f0}
-.contact-sec .eyebrow{color:var(--red-on-dark)}
+.contact-sec .eyebrow{color:var(--red)}
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .contact dl{margin:28px 0 0;display:grid;grid-template-columns:auto 1fr;gap:10px 20px}
 .contact dt{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:#8d9095}
