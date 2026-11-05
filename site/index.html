@@ -398,6 +398,8 @@ input,textarea{border:0}
 .s2 .pic{grid-column:6/12;z-index:2;box-shadow:0 0 0 14px var(--bg)}.s2 .t{grid-column:1/5;grid-row:1;padding-top:70px}
 .s3 .pic{grid-column:2/7;z-index:3;box-shadow:0 0 0 14px var(--bg)}.s3 .t{grid-column:8/13;padding-top:60px}
 @media (max-width:860px){.stair{display:block}.stair + .stair,.stair.s3{margin-top:0}.stair .pic{margin-bottom:20px;box-shadow:none}.stair .t{margin-bottom:40px;padding-top:0!important}.s2 .pic,.s3 .pic{width:86%}.s2 .pic{margin-left:auto}}
+
+@media (max-width:860px){.hero{min-height:calc(100vh - var(--hh,64px));min-height:calc(100svh - var(--hh,64px));display:flex;flex-direction:column;padding-block:8px 18px;box-sizing:border-box}.hero > .wrap{flex:1;display:flex;flex-direction:column;width:100%;box-sizing:border-box}.slider{flex:1;display:flex;flex-direction:column}.track{flex:1}.slide{align-items:center}}
 </style>
 </head>
 <body>
@@ -655,6 +657,7 @@ input,textarea{border:0}
   </div>
 </footer>
 <script>
+(function(){var h=document.querySelector('.hero');if(!h)return;function f(){document.documentElement.style.setProperty('--hh',Math.round(h.getBoundingClientRect().top+window.scrollY)+'px');}f();window.addEventListener('resize',f);})();
 (function(){
   var track=document.getElementById('track'); if(!track) return;
   [].forEach.call(track.querySelectorAll('.slide'),function(sl){
