@@ -14,7 +14,7 @@
 :root{
   color-scheme:light;
   --bg:#ffffff; --bg-alt:#f5f5f3; --ink:#303133; --text:#5f6164; --muted:#8a8c8f; --line:#e4e4e1;
-  --red:#b81e2b; --red-soft:#f7e3e5; --dark:#141618; --dark-text:#b9bcc0;
+  --red:#b81e2b; --red-soft:#f7e3e5; --dark:#141618; --red-on-dark:#e14754; --dark-text:#b9bcc0;
   --display:"Poppins", "Segoe UI", system-ui, sans-serif;
   --head:"Titillium Web", "Segoe UI", system-ui, sans-serif;
   --body:"Yantramanav", "Segoe UI", system-ui, sans-serif;
@@ -79,7 +79,7 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 /* Haltung */
 .stance{background:var(--dark);color:var(--dark-text)}
 .stance h2{color:#f2f2f0}
-.stance .eyebrow{color:#ff6b75}
+.stance .eyebrow{color:var(--red-on-dark)}
 .stance-top{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
 .stance-top img{filter:grayscale(1) contrast(1.05)}
 .stance-grid{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
@@ -181,7 +181,7 @@ ol.flow{margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,mi
 /* Kontakt */
 .contact-sec{background:var(--dark);color:var(--dark-text)}
 .contact-sec h2{color:#f2f2f0}
-.contact-sec .eyebrow{color:#ff6b75}
+.contact-sec .eyebrow{color:var(--red-on-dark)}
 .contact{display:grid;grid-template-columns:1fr 1fr;gap:48px}
 .contact dl{margin:28px 0 0;display:grid;grid-template-columns:auto 1fr;gap:10px 20px}
 .contact dt{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:#8d9095}
