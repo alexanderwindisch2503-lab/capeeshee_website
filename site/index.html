@@ -87,6 +87,15 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 .stance-grid{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
 .stance-grid h3{color:#f2f2f0;margin-bottom:10px}
 @media (max-width:860px){.stance-top,.stance-grid{grid-template-columns:1fr}}
+.ai-head{margin-top:clamp(56px,7vw,88px);color:#f2f2f0;font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em}
+.ai-grid{margin-top:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ai-use{background:#1d2023;padding:26px 24px 28px;min-width:0}
+.ai-use .n{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--red-on-dark);margin-bottom:10px}
+.ai-use h4{margin:0 0 8px;font-family:var(--head);font-weight:700;font-size:18px;line-height:1.25;color:#f2f2f0}
+.ai-use p{margin:0;font-size:15.5px;line-height:1.55}
+@media (max-width:1024px){.ai-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.ai-grid{grid-template-columns:1fr;gap:10px}.ai-use{padding:20px 18px 22px}}
+
 
 /* Marketing heute */
 .today-grid{margin-top:48px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,48px)}
@@ -478,16 +487,13 @@ input,textarea{border:0}
         <div>
           <p class="eyebrow">Unsere Haltung</p>
           <h2>KI ist das Werkzeug. Erfahrung macht daraus Wirkung.</h2>
-          <p class="lead" style="margin-top:22px">Seit über 25 Jahren begleiten wir Unternehmen als Full-Service-Agentur – von der Marke über Print bis zur Website.</p>
-          <p class="lead" style="margin-top:14px">Mit dieser Erfahrung betrachten wir Ihre Ideen und Wünsche aus der Perspektive, auf die es ankommt: der Ihrer Kunden. Mit modernen Marketing-Werkzeugen entwickeln wir daraus die passende Werbestrategie – und einen Auftritt, der wirkt.</p>
+          <p class="lead" style="margin-top:22px">Ein Logo aus der KI? Ein Flyer in fünf Minuten? Das geht – und viele haben es schon ausprobiert. Aber gute Werbung entsteht nicht per Knopfdruck. Sie entsteht, wenn jemand weiß, was die KI wissen muss, was sie gut kann und wo sie Fehler macht.</p>
+          <p class="lead" style="margin-top:14px">Wir verbinden 25 Jahre Agenturerfahrung mit den Werkzeugen von heute: Wir füttern KI mit den richtigen Informationen, prüfen jedes Ergebnis mit geschultem Blick und verknüpfen verschiedene Systeme technisch miteinander – bis aus Ideen fertige Websites, Shops und Apps werden.</p>
         </div>
         <div class="ph stance-ph"><span><b>Bild folgt</b>Motiv zum Thema KI</span></div>
       </div>
-      <div class="stance-grid">
-        <div><h3>Navigator statt Ausführer</h3><p>Sie kennen Ihr Unternehmen, wir kennen Werbung. Wir hören zu, stellen die richtigen Fragen und entwickeln aus Ihren Zielen eine klare Strategie. Dann führen wir Sie sicher von der Idee bis zum Ergebnis.</p></div>
-        <div><h3>Ein Ansprechpartner, das passende Team</h3><p>Strategie und Projektleitung aus einer Hand, Spezialisten aus unserem Netzwerk genau dann, wenn Ihr Projekt sie braucht.</p></div>
-        <div><h3>Die richtigen Vorgaben</h3><p>Eine KI ist nur so gut wie ihr Briefing. 25 Jahre Erfahrung sorgen dafür, dass am Ende das richtige Ergebnis steht.</p></div>
-      </div>
+      <h3 class="ai-head">Wo wir KI für Sie einsetzen</h3>
+      <div class="ai-grid"><div class="ai-use"><span class="n">01</span><h4>Texte &amp; Inhalte</h4><p>Entwürfe für Werbetexte, Social-Media-Beiträge, Blogartikel und Newsletter – schnell erstellt und von uns auf den Punkt gebracht.</p></div><div class="ai-use"><span class="n">02</span><h4>Bilder &amp; Videos</h4><p>Motive, Grafiken, Storyboards und kurze Clips für Kampagnen – so wie die Motive auf dieser Website.</p></div><div class="ai-use"><span class="n">03</span><h4>Bei Google gefunden werden</h4><p>Suchbegriffe recherchieren, Mitbewerber analysieren und Texte so aufbauen, dass Google und KI-Suchen sie verstehen.</p></div><div class="ai-use"><span class="n">04</span><h4>Websites, Shops &amp; Apps</h4><p>KI unterstützt uns beim Programmieren und bei der Fehlersuche. So entstehen individuelle Lösungen schneller und günstiger.</p></div><div class="ai-use"><span class="n">05</span><h4>Online-Werbung steuern</h4><p>Budgets und Zielgruppen bei Google- und Social-Media-Anzeigen laufend optimieren.</p></div><div class="ai-use"><span class="n">06</span><h4>Zahlen &amp; Auswertungen</h4><p>Große Datenmengen auswerten, Trends erkennen und verständliche Berichte erstellen.</p></div></div>
     </div>
   </section>
 
