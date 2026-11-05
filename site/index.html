@@ -232,7 +232,7 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
 .arrows button{width:40px;height:40px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);font-size:18px;cursor:pointer;border-radius:2px}
 .hero-intro{margin-top:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:end;border-top:1px solid var(--line);padding-top:28px}
 .hero-intro .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
-@media (max-width:860px){.slide{grid-template-columns:1fr;min-height:0}.slide .pic{order:-1}.slide .pic img{max-height:42vh}.hero-intro{grid-template-columns:1fr}.hero-intro .ctas{justify-content:flex-start}.arrows{display:none}}
+@media (max-width:860px){.slide{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px;min-height:0;padding-block:28px}.slide .big{font-size:clamp(22px,7.4vw,56px);letter-spacing:-.045em;hyphens:manual}.slide .sub{font-size:clamp(9px,2.6vw,13px);letter-spacing:.12em;margin-top:10px}.slide .pic img{max-height:min(50vh,62vw)}.hero-intro{grid-template-columns:1fr}.hero-intro .ctas{justify-content:flex-start}.arrows{display:none}}
 @media (prefers-reduced-motion: reduce){.track{scroll-behavior:auto}.slide .big .w,.slide .sub > span{animation:none!important;transform:none!important}}
 
 /* Botschaft: Huhn und Ente */
