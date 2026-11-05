@@ -613,7 +613,7 @@ input,textarea{border:0}
   function go(k){k=(k+slides.length)%slides.length;track.scrollTo({left:slides[k].offsetLeft-track.offsetLeft,behavior:reduce?'auto':'smooth'});mark(k);}
   var t; track.addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(function(){var k=Math.round(track.scrollLeft/track.clientWidth);if(k!==i)mark(k);},80);},{passive:true});
   function start(){if(reduce||timer)return;timer=setInterval(function(){go(i+1);},5200);}
-  function stop(){clearInterval(timer);timer=null;}
+  var idle; function stop(){clearInterval(timer);timer=null;clearTimeout(idle);idle=setTimeout(start,7000);}
   document.getElementById('prev').addEventListener('click',function(){go(i-1);stop();});
   document.getElementById('next').addEventListener('click',function(){go(i+1);stop();});
   track.addEventListener('pointerdown',stop);track.addEventListener('focusin',stop);
