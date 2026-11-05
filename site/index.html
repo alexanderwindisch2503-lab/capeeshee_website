@@ -309,7 +309,7 @@ input,textarea{border:0}
 .message{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
 .msg-pic img{width:100%}
 .msg-pic .ai-cap{display:flex;justify-content:flex-end}
-.msg-txt h2{font-size:clamp(40px,5.6vw,76px)}
+.msg-txt h2,.msg-title{font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.04em;font-size:clamp(40px,5.6vw,76px)}
 .msg-txt .lead{margin-top:20px}
 @media (max-width:860px){.message{grid-template-columns:1fr}}
 
@@ -393,19 +393,6 @@ input,textarea{border:0}
     </div>
   </section>
 
-  <section class="intro">
-    <div class="wrap">
-      <p class="eyebrow">Agentur Capeeshee · Werbeagentur für Web &amp; Print · Augsburg</p>
-      <div class="intro-grid">
-        <h1 class="intro-title">Gute Produkte allein verkaufen sich nicht – <span class="red">man muss sie hören.</span></h1>
-        <div class="intro-side">
-          <p class="lead">Wir sorgen dafür, dass Ihr Unternehmen gehört wird: mit über 25 Jahren Agenturerfahrung und den Werkzeugen von heute.</p>
-          <div class="ctas"><a class="btn ghost" href="#leistungen">Leistungen</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="botschaft" class="botschaft">
     <div class="wrap message">
       <figure class="ai-fig msg-pic">
@@ -414,7 +401,7 @@ input,textarea{border:0}
       </figure>
       <div class="msg-txt">
         <p class="eyebrow beak">Unsere Botschaft</p>
-        <h2>Wir bringen Ihnen das <span class="beak">Gackern bei.</span></h2>
+        <h1 class="msg-title">Wir bringen Ihnen das <span class="beak">Gackern bei.</span></h1>
         <p class="lead">Viele Unternehmen leisten Hervorragendes – nur weiß es kaum jemand. Gute Produkte und starke Leistungen verkaufen sich nicht von allein.</p>
         <p class="lead">Wir sorgen dafür, dass Ihre Kunden davon hören, es sehen und verstehen: selbstbewusst, verständlich und genau dort, wo sie suchen.</p>
       </div>
