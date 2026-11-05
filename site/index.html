@@ -250,8 +250,9 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
 @media (max-width:860px){.group-head{grid-template-columns:1fr}}
 
 /* Kennzeichnung KI-Bilder */
-.slide .pic{flex-direction:column;align-items:center}
 .ai-fig{margin:0;min-width:0}
+.slider-cap{position:absolute;left:0;bottom:8px;margin:0}
+@media (max-width:860px){.slider-cap{position:static;display:flex;justify-content:center;margin-top:12px}}
 .ai-cap{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-family:var(--body);font-weight:400;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .ai-cap b{font-family:var(--head);font-weight:700;font-size:9px;letter-spacing:.06em;color:#fff;background:var(--ink);padding:1px 4px;border-radius:2px}
 .ai-fig .ai-cap{display:flex;justify-content:flex-end}
@@ -281,26 +282,27 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
         <div class="track" id="track" tabindex="0">
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p><p class="sub">Ducks lay their eggs in silence</p></div>
-            <div class="pic"><img src="img/slide-1-ente.jpg" alt="Weiße Ente sitzt ruhig mit geschlossenen Augen neben ihrem Ei" width="1536" height="1024"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
+            <div class="pic"><img src="img/slide-1-ente.jpg" alt="Weiße Ente sitzt ruhig mit geschlossenen Augen neben ihrem Ei" width="1536" height="1024"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="2 von 5">
             <div class="txt"><p class="big">Hühner gackern dabei wie <span class="red">blöde.</span></p><p class="sub">Chicken cackle like crazy</p></div>
-            <div class="pic"><img src="img/slide-2-huhn.jpg" alt="Weißes Huhn legt frontal ein Ei, schreit lauthals mit weit aufgerissenem Schnabel und ausgebreiteten Flügeln, umgeben von Eiern" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
+            <div class="pic"><img src="img/slide-2-huhn.jpg" alt="Weißes Huhn legt frontal ein Ei, schreit lauthals mit weit aufgerissenem Schnabel und ausgebreiteten Flügeln, umgeben von Eiern" width="1536" height="1024" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="3 von 5">
             <div class="txt"><p class="big">Was ist die <span class="red">Folge?</span></p><p class="sub">What is the result?</p></div>
-            <div class="pic"><img src="img/slide-3-huhn-ente.jpg" alt="Gackerndes Huhn mit Ei im Vordergrund, klein im Hintergrund eine stille Ente mit ihrem Ei" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
+            <div class="pic"><img src="img/slide-3-huhn-ente.jpg" alt="Gackerndes Huhn mit Ei im Vordergrund, klein im Hintergrund eine stille Ente mit ihrem Ei" width="1536" height="1024" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="4 von 5">
             <div class="txt"><p class="big">Alle Welt kauft <span class="red">Hühnereier!</span></p><p class="sub">The whole world buys chicken eggs</p></div>
-            <div class="pic"><img src="img/slide-4-bestseller.jpg" alt="Weißes Ei mit rotem Etikett Bestseller" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
+            <div class="pic"><img src="img/slide-4-bestseller.jpg" alt="Weißes Ei mit rotem Etikett Bestseller" width="1536" height="1024" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="5 von 5">
             <div class="txt"><p class="big">So let's <span class="red">cackle!</span></p><p class="sub">Lassen Sie uns laut gackern – damit Ihre Eier verkauft werden</p><a class="btn" href="#check" style="margin-top:26px">Capeeshee-Check starten</a></div>
-            <div class="pic"><img src="img/slide-5-cackle.jpg" alt="Huhn steht auf gestapelten Eierkartons und gackert laut" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
+            <div class="pic"><img src="img/slide-5-cackle.jpg" alt="Huhn steht auf gestapelten Eierkartons und gackert laut" width="1536" height="1024" loading="lazy"></div>
           </div>
         </div>
         <div class="dots" id="dots" role="group" aria-label="Folie wählen"></div>
+        <span class="ai-cap slider-cap"><b>KI</b>Alle Motive KI-generiert von Capeeshee</span>
         <div class="arrows"><button type="button" id="prev" aria-label="Vorherige Folie">←</button><button type="button" id="next" aria-label="Nächste Folie">→</button></div>
       </div>
       <div class="hero-intro">
