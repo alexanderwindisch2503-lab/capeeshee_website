@@ -47,7 +47,7 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;font-family:var(--head);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 22px;border-radius:2px;border:0;cursor:pointer}
 .btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
-@media (max-width:900px){nav .nl{display:none}}
+@media (max-width:1180px){nav .nl{display:none}}
 
 /* Story: Ente, Huhn, Folge */
 .story{padding:0}
@@ -414,13 +414,14 @@ input,textarea{border:0}
 }
 
 /* Mobiles Menü */
+.logo{flex-shrink:0}
 .menu-btn{display:none;margin-left:auto;width:44px;height:44px;border:0;background:transparent;cursor:pointer;position:relative;padding:0}
 .menu-btn span{position:absolute;left:10px;right:10px;height:2px;background:var(--ink);border-radius:1px;transition:transform .3s ease,opacity .2s ease,top .3s ease}
 .menu-btn span:nth-child(1){top:15px}.menu-btn span:nth-child(2){top:21px}.menu-btn span:nth-child(3){top:27px}
 .menu-btn[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] span:nth-child(3){top:21px;transform:rotate(-45deg)}
-@media (max-width:900px){
+@media (max-width:1180px){
   header .bar{position:relative}
   .menu-btn{display:block}
   #mainnav{position:absolute;top:100%;left:0;right:0;height:calc(100svh - var(--hh,64px));background:var(--bg);flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(14px,3svh,28px);padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));margin:0;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s}
@@ -439,6 +440,8 @@ input,textarea{border:0}
     <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainnav"><span></span><span></span><span></span></button>
     <nav id="mainnav" aria-label="Hauptnavigation">
       <a class="nl" href="#leistungen">Leistungen</a>
+      <a class="nl" href="#ki">KI als Werkzeug</a>
+      <a class="nl" href="#new-marketing">Marketing im Wandel</a>
       <a class="nl" href="#branchen">Branchen</a>
       <a class="nl" href="#arbeitsweise">Arbeitsweise</a>
       <a class="nl" href="#ueber">Über uns</a>
@@ -533,7 +536,7 @@ input,textarea{border:0}
     </div>
   </section>
 
-  <section class="stance">
+  <section id="ki" class="stance">
     <div class="wrap">
       <div class="stance-top">
         <div>
@@ -692,7 +695,7 @@ input,textarea{border:0}
   b.addEventListener('click',function(){set(!n.classList.contains('open'));});
   n.addEventListener('click',function(e){if(e.target.closest('a'))set(false);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('open')){set(false);b.focus();}});
-  window.addEventListener('resize',function(){if(window.innerWidth>900)set(false);});
+  window.addEventListener('resize',function(){if(window.innerWidth>1180)set(false);});
 })();
 (function(){var h=document.querySelector('.hero');if(!h)return;function f(){document.documentElement.style.setProperty('--hh',Math.round(h.getBoundingClientRect().top+window.scrollY)+'px');}f();window.addEventListener('resize',f);})();
 (function(){
