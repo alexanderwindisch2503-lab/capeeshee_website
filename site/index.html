@@ -216,7 +216,7 @@ footer nav a{font-family:var(--body);text-transform:none;letter-spacing:0;font-w
 .slide.cta .lead{color:#ffe6e8;margin-top:18px;max-width:52ch}
 .slide.cta .btn{background:#fff;color:var(--red);margin-top:26px}
 /* Slider-Animation: Wort für Wort */
-.slide .big .w{display:inline-block;transform-origin:50% 80%}
+.slide .big .w{display:inline-block;transform-origin:0 80%}
 .slide:not(.on) .big .w{transform:scale(0)}
 .slide.on .big .w{animation:wpop .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i) * .16s + .15s)}
 @keyframes wpop{from{transform:scale(0)}to{transform:scale(1)}}
@@ -323,10 +323,13 @@ input,textarea{border:0}
 
 /* Zahlenband direkt nach dem Slider */
 .facts-band{background:var(--bg-alt);padding-block:clamp(40px,5vw,64px)}
-.facts-band .facts-row{margin-top:0;grid-template-columns:repeat(4,minmax(0,1fr))}
+.facts-band .facts-row{margin-top:0;display:flex;flex-wrap:nowrap;justify-content:space-evenly;align-items:flex-start;gap:12px}
+.facts-band .facts-row > div{flex:0 0 auto;position:relative;padding-bottom:34px}
+.facts-band .facts-row > div > span:not(.count){position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:-24px!important;white-space:nowrap}
 .intro{background:var(--bg)}
 .intro .btn.ghost{background:var(--bg-alt)}
-@media (max-width:860px){.facts-band .facts-row{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:start}}
+@media (max-width:860px){.facts-band .facts-row{gap:6px;justify-content:space-between;padding-left:calc(max(16px, env(safe-area-inset-left, 0px)) + 18px);padding-right:calc(max(16px, env(safe-area-inset-right, 0px)) + 18px)}.facts-band .facts-row > div{padding-bottom:34px}.facts-band .facts-row > div > span:not(.count){white-space:normal;width:6.4em;margin-top:-30px!important}}
+@media (max-width:360px){.facts-band .facts-row > div > span:not(.count){font-size:9px;letter-spacing:.06em}}
 
 /* We love Design! – senkrecht am rechten Seitenrand */
 .love{position:fixed;top:50%;right:max(10px, env(safe-area-inset-right, 0px));z-index:8;margin:0;max-width:none;
@@ -339,7 +342,7 @@ input,textarea{border:0}
 .facts-band strong{font-weight:600;font-size:clamp(56px,7.5vw,104px);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .facts-band span:not(.count){margin-top:10px}
 .facts-band .count{display:inline;margin:0;font-size:inherit;color:inherit;letter-spacing:inherit;text-transform:none}
-@media (max-width:860px){.facts-band strong{font-size:clamp(26px,8.6vw,64px);letter-spacing:-.04em}.facts-band span:not(.count){margin-top:6px;font-size:10px;letter-spacing:.08em;line-height:1.35}}
+@media (max-width:860px){.facts-band strong{font-size:clamp(24px,7.6vw,64px);letter-spacing:-.04em}.facts-band span:not(.count){margin-top:6px;font-size:10px;letter-spacing:.08em;line-height:1.35}}
 
 </style>
 </head>
@@ -631,7 +634,7 @@ input,textarea{border:0}
   var els=[].slice.call(document.querySelectorAll('.count'));
   if(!els.length||!('IntersectionObserver' in window)) return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  els.forEach(function(el){el.textContent='0';el.dataset.wait='1';});
+  els.forEach(function(el){el.style.display='inline-block';el.style.textAlign='right';el.style.minWidth=el.getBoundingClientRect().width+'px';el.textContent='0';el.dataset.wait='1';});
   function run(el){var to=+el.dataset.to,d=1600+Math.min(to,500),t0=null;
     function f(t){if(!t0)t0=t;var p=Math.min((t-t0)/d,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f);}
     requestAnimationFrame(f);}
