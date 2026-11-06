@@ -527,6 +527,15 @@ body{line-height:1.55}
 .cbox .cv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;background:#fff}
 .cbox .cvtail{opacity:0;visibility:hidden}
 .cbox.tail-on .cvtail{opacity:1;visibility:visible}
+
+/* Check-Video: läuft bis an den Bildschirmrand, unten mehr Luft */
+.check{padding-bottom:clamp(48px,6vw,88px);overflow-x:clip}
+.check .ai-fig{min-width:0}
+.cbox{aspect-ratio:16/9;width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px));overflow:visible}
+.cbox .cv{object-fit:contain;object-position:50% 100%;transform:translateX(var(--shift,0px));will-change:transform;
+  -webkit-mask-image:linear-gradient(to bottom,#000 90%,transparent 100%);mask-image:linear-gradient(to bottom,#000 90%,transparent 100%)}
+.check .ai-fig .ai-cap{margin-top:10px}
+@media (max-width:860px){.cbox{width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px))}}
 </style>
 </head>
 <body>
@@ -852,6 +861,12 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
   var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.65;
+  // Box bis an den rechten Bildschirmrand verlängern; das Video wandert synchron mit dem Huhn nach links
+  function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');return b;}
+  var B=bleed();window.addEventListener('resize',function(){B=bleed();follow();});
+  function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+  function follow(){var t=box.classList.contains('tail-on')?9:(v.currentTime||0);var desk=window.innerWidth>860;var S=desk?-B*0.62:-B*0.5;var k=ease((t-0.35)/1.6);box.style.setProperty('--shift',(S*k)+'px');}
+  (function loop(){follow();requestAnimationFrame(loop);})();
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function endFrame(){box.style.backgroundImage='url(video/check-huhn-ende.jpg)';box.style.backgroundSize='cover';box.style.backgroundPosition='50% 60%';v.style.opacity=0;}
   if(reduce){endFrame();return;}
