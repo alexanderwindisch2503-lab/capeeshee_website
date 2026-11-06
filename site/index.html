@@ -8,6 +8,7 @@
 <meta name="description" content="Full-Service-Agentur für den Mittelstand: Strategie, Marke, Websites, Werbung, Social Media und Content – KI-powered, mit über 25 Jahren Erfahrung. Agentur Capeeshee aus Augsburg.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="video/capeeshee-spot-poster.jpg?v=202611060958">
 <link rel="stylesheet" href="fonts/fonts.css?v=202611060810">
 <style>
 /* Layout: weiße Studio-Fläche wie die Fotos, riesige Poppins-Statements, Rot als einziger Akzent; bewusst nur helles Farbschema */
@@ -448,6 +449,37 @@ input,textarea{border:0}
 .about-ki-cols{margin-top:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px clamp(28px,5vw,72px)}
 .about-ki-cols .lead{margin:0;max-width:none}
 @media (max-width:760px){.about-ki-cols{grid-template-columns:1fr}}
+
+/* Video-Slider */
+.track.vmode{display:grid;overflow:visible;scroll-snap-type:none}
+.track.vmode > *{grid-area:1/1;min-width:0}
+.track.vmode .slide{visibility:hidden;overflow:visible}
+.track.vmode .slide.on{visibility:visible}
+.track.vmode .slide .txt{grid-column:1;grid-row:1;position:relative;z-index:2}
+.vwrap{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(20px,4vw,56px);align-items:center;padding-block:12px 64px;pointer-events:none;z-index:1}
+.vbox{grid-column:2;display:flex;justify-content:flex-end;min-width:0}
+.vbox{padding-top:clamp(60px,9vw,120px)}
+.vbox video{display:block;width:116%;max-width:none;flex:none;height:auto;max-height:calc(100svh - var(--hh,72px) - 250px);object-fit:contain;object-position:100% 50%;background:#fff}
+.vctrl{position:absolute;left:0;bottom:-6px;display:flex;gap:8px;z-index:7}
+.vbtn{height:40px;min-width:40px;border:0;border-radius:20px;background:var(--bg-alt);color:var(--ink);font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px}
+.vbtn:hover{background:#e9e9e6}
+.vbtn .ico{font-size:14px;letter-spacing:0}
+.vsound[aria-pressed="true"]{background:var(--red);color:#fff}
+@media (max-width:860px){
+  .vwrap{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:8px;padding-block:20px}
+  .vbox{padding-top:clamp(40px,10vw,90px)}
+  .vbox video{width:130%;max-height:56vh}
+  .vctrl{position:static;justify-content:center;margin-top:12px}
+}
+@media (max-width:600px) and (orientation:portrait){
+  .track.vmode .slide{grid-template-rows:46svh auto}
+  .track.vmode .slide .txt{grid-row:2}
+  .vwrap{grid-template-columns:1fr;grid-template-rows:46svh auto;gap:clamp(18px,3.5svh,36px);padding-block:9svh 12px;align-content:start}
+  .vbox{grid-column:1;grid-row:1;align-items:flex-end;justify-content:center;height:46svh;padding-top:0}
+  .vbox video{width:100%;max-height:none;aspect-ratio:1.32;object-fit:cover;object-position:50% 60%}
+  .vbtn .lbl{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){.vbox video{animation:none}}
 </style>
 </head>
 <body>
@@ -475,30 +507,27 @@ input,textarea{border:0}
     <div class="wrap">
       <div class="slider" aria-roledescription="Karussell">
         <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
-        <div class="track" id="track" tabindex="0">
+        <div class="track vmode" id="track" tabindex="0">
+          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted loop playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611060958"><source src="video/capeeshee-spot-mobil.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611060958" type="video/mp4"></video></div></div>
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p></div>
-            <div class="pic"><img src="img/slide-1-ente.jpg?v=202611060810" alt="Weiße Ente sitzt ruhig mit geschlossenen Augen neben ihrem Ei" width="856" height="658"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="2 von 5">
             <div class="txt"><p class="big">Hühner <span class="red">gackern</span> dabei wie blöde.</p></div>
-            <div class="pic"><img src="img/slide-2-huhn.jpg?v=202611060810" alt="Weißes Huhn legt frontal ein Ei, schreit lauthals mit weit aufgerissenem Schnabel und ausgebreiteten Flügeln, umgeben von Eiern" width="1049" height="937" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="3 von 5">
             <div class="txt"><p class="big">Was ist die <span class="red">Folge?</span></p></div>
-            <div class="pic"><img src="img/slide-3-huhn-ente.jpg?v=202611060810" alt="Gackerndes Huhn mit Ei im Vordergrund, klein im Hintergrund eine stille Ente mit ihrem Ei" width="1329" height="881" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="4 von 5">
             <div class="txt"><p class="big">Alle Welt <span class="red">kauft</span> Hühnereier!</p></div>
-            <div class="pic"><img src="img/slide-4-bestseller.jpg?v=202611060810" alt="Weißes Ei mit rotem Etikett Bestseller" width="483" height="628" loading="lazy"></div>
           </div>
           <div class="slide" aria-roledescription="Folie" aria-label="5 von 5">
             <div class="txt"><p class="big">Zeit, <span class="red">laut zu gackern.</span></p><p class="sub">Für Produkte &amp; Leistungen, die Ihre Kunden hören, sehen und kaufen.</p></div>
-            <div class="pic"><img src="img/slide-5-cackle.jpg?v=202611060810" alt="Huhn steht auf gestapelten Eierkartons und gackert laut" width="703" height="981" loading="lazy"></div>
           </div>
         </div>
         <div class="dots" id="dots" role="group" aria-label="Folie wählen"></div>
-        <span class="ai-cap slider-cap"><b>KI</b>Alle Motive KI-generiert von Capeeshee</span>
+        <div class="vctrl"><button type="button" id="vsound" class="vbtn vsound" aria-pressed="false"><span class="ico" aria-hidden="true">🔇</span><span class="lbl">Laut gackern</span></button><button type="button" id="vplay" class="vbtn" aria-label="Video pausieren"><span class="ico" aria-hidden="true">❚❚</span></button></div>
+        <span class="ai-cap slider-cap"><b>KI</b>Video und Motive KI-generiert von Capeeshee</span>
         <div class="arrows"><button type="button" id="prev" aria-label="Vorherige Folie">←</button><button type="button" id="next" aria-label="Nächste Folie">→</button></div>
       </div>
     </div>
@@ -739,42 +768,26 @@ input,textarea{border:0}
       else if(c.nodeType===1){walk(c);}});})(big);
     var sub=sl.querySelector('.sub'); if(sub){var sp=document.createElement('span');while(sub.firstChild)sp.appendChild(sub.firstChild);sub.appendChild(sp);sub.style.setProperty('--sd',(n*.16+.3).toFixed(2)+'s');}
   });
-  var slides=[].slice.call(track.querySelectorAll('.slide')), n=slides.length, dots=document.getElementById('dots'), i=0, timer=null, wrapping=false;
+  var slides=[].slice.call(track.querySelectorAll('.slide')), n=slides.length, dots=document.getElementById('dots'), i=-1;
+  var v=document.getElementById('spot'), snd=document.getElementById('vsound'), pl=document.getElementById('vplay');
+  var cuts=[0,3.12,7.17,9.12,11.58]; // Szenenwechsel im Video (Sekunden), Folie 5 läuft bis zum Ende
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function mkClone(src,cls){var c=src.cloneNode(true);c.classList.add('clone',cls,'on','noanim');c.setAttribute('aria-hidden','true');track.appendChild(c);return c;}
-  var clone=mkClone(slides[0],'clone-first'), cloneLast=mkClone(slides[n-1],'clone-last');
-  function pos(el){return el.offsetLeft-track.offsetLeft;}
-  function jump(el){track.style.scrollBehavior='auto';track.style.scrollSnapType='none';track.scrollLeft=pos(el);void track.offsetWidth;track.style.scrollSnapType='';track.style.scrollBehavior='';}
-  function after(fn){var done=false;function f(){if(done)return;done=true;track.removeEventListener('scrollend',f);fn();}if('onscrollend' in window)track.addEventListener('scrollend',f);setTimeout(f,reduce?0:1100);}
-  slides.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Folie '+(k+1));b.addEventListener('click',function(){go(k);stop();});dots.appendChild(b);});
-  function dot(k){[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
-  function resetClones(){[clone,cloneLast].forEach(function(c){c.classList.add('on','noanim');});}
-  function mark(k){i=k;slides.forEach(function(s,m){s.classList.remove('noanim');s.classList.toggle('on',m===k);s.setAttribute('aria-hidden',m===k?'false':'true');});resetClones();dot(k);}
-  function settle(k){slides.forEach(function(s,m){s.classList.toggle('on',m===k);s.setAttribute('aria-hidden',m===k?'false':'true');});slides[k].classList.add('noanim');i=k;jump(slides[k]);resetClones();dot(k);}
-  function wrapTo(c,k){ // weich auf die Kopie, dann unbemerkt auf die echte Folie
-    wrapping=true; slides.forEach(function(s){s.classList.remove('on');}); c.classList.remove('noanim','on'); void c.offsetWidth; c.classList.add('on'); i=k; dot(k);
-    track.scrollTo({left:pos(c),behavior:reduce?'auto':'smooth'});
-    after(function(){settle(k);wrapping=false;});
-  }
-  function go(k){
-    if(wrapping) return;
-    if(k>=n){wrapTo(clone,0);return;}
-    if(k<0){wrapTo(cloneLast,n-1);return;}
-    track.scrollTo({left:pos(slides[k]),behavior:reduce?'auto':'smooth'}); mark(k);
-  }
-  var t; track.addEventListener('scroll',function(){if(wrapping)return;clearTimeout(t);t=setTimeout(function(){if(wrapping)return;
-    var x=track.scrollLeft, w=track.clientWidth;
-    if(Math.abs(x-pos(clone))<w/2){settle(0);return;}
-    if(Math.abs(x-pos(cloneLast))<w/2){settle(n-1);return;}
-    var best=0,bd=1e9;slides.forEach(function(s,m){var d=Math.abs(x-pos(s));if(d<bd){bd=d;best=m;}});if(best!==i)mark(best);},120);},{passive:true});
-  function start(){if(reduce||timer)return;timer=setInterval(function(){go(i+1);},5200);}
-  var idle; function stop(){clearInterval(timer);timer=null;clearTimeout(idle);idle=setTimeout(start,7000);}
-  document.getElementById('prev').addEventListener('click',function(){go(i-1);stop();});
-  document.getElementById('next').addEventListener('click',function(){go(i+1);stop();});
-  track.addEventListener('pointerdown',stop);track.addEventListener('focusin',stop);
-  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(i+1);stop();}if(e.key==='ArrowLeft'){go(i-1);stop();}});
-  window.addEventListener('resize',function(){jump(slides[i]);});
-  jump(slides[0]);mark(0);start();
+  slides.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Folie '+(k+1));b.addEventListener('click',function(){seek(k);});dots.appendChild(b);});
+  function mark(k){if(k===i)return;i=k;slides.forEach(function(s,m){s.classList.toggle('on',m===k);s.setAttribute('aria-hidden',m===k?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
+  function sceneAt(t){var k=0;for(var m=0;m<cuts.length;m++){if(t>=cuts[m]-0.02)k=m;}return k;}
+  function seek(k){k=(k+n)%n;try{v.currentTime=cuts[k]+0.04;}catch(e){}mark(k);play();}
+  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){setPl(false);});setPl(true);}
+  function setPl(on){pl.setAttribute('aria-label',on?'Video pausieren':'Video abspielen');pl.querySelector('.ico').textContent=on?'❚❚':'▶';}
+  function tick(){mark(sceneAt(v.currentTime||0));requestAnimationFrame(tick);}
+  document.getElementById('prev').addEventListener('click',function(){seek(i-1);});
+  document.getElementById('next').addEventListener('click',function(){seek(i+1);});
+  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight')seek(i+1);if(e.key==='ArrowLeft')seek(i-1);});
+  var sx=null;track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>45)seek(dx<0?i+1:i-1);},{passive:true});
+  snd.addEventListener('click',function(){v.muted=!v.muted;snd.setAttribute('aria-pressed',v.muted?'false':'true');snd.querySelector('.ico').textContent=v.muted?'🔇':'🔊';if(!v.muted&&v.paused)play();});
+  pl.addEventListener('click',function(){if(v.paused)play();else{v.pause();setPl(false);}});
+  v.muted=true; mark(0); tick();
+  if(reduce){setPl(false);}else{play();}
 })();
 
 (function(){
