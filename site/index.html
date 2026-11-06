@@ -521,6 +521,12 @@ body{line-height:1.55}
 .vbox{position:relative}
 .vbox .vtail{position:absolute;margin:0;max-width:none;max-height:none;opacity:0;visibility:hidden;pointer-events:none;transform:none!important;background:#fff}
 .vbox.tail-on .vtail{opacity:1;visibility:visible}
+
+/* Check-Abschnitt: Video statt Bild */
+.cbox{position:relative;width:100%;aspect-ratio:1.2;background:#fff;overflow:hidden}
+.cbox .cv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;background:#fff}
+.cbox .cvtail{opacity:0;visibility:hidden}
+.cbox.tail-on .cvtail{opacity:1;visibility:visible}
 </style>
 </head>
 <body>
@@ -742,7 +748,7 @@ body{line-height:1.55}
         <p class="lead">Zehn kurze Fragen zu Marke, Website, Print und Social Media, und Sie erhalten sofort eine Auswertung mit Ihren wichtigsten Hebeln.</p>
         <ul><li>Dauer: etwa zwei Minuten</li><li>Ergebnis sofort, als Seite und PDF</li><li>Digital und Print im Blick</li></ul>
       </div>
-      <figure class="ai-fig"><img src="img/huhn-sprung.jpg?v=202611060810" alt="Weißes Huhn springt mit ausgebreiteten Flügeln hoch und gackert laut, einzelne Federn fliegen" width="982" height="952" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
+      <figure class="ai-fig"><div class="cbox" aria-label="Weißes Huhn fliegt heran, landet, dreht sich zur Kamera und zwinkert" role="img"><video id="chk" class="cv" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn.mp4?v=202611061207" type="video/mp4"></video><video id="chktail" class="cv cvtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil-ende.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn-ende.mp4?v=202611061207" type="video/mp4"></video></div><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
     </div>
   </section>
 
@@ -843,6 +849,18 @@ body{line-height:1.55}
   els.forEach(function(el){io.observe(el);});
 })();
 document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet. Bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
+
+(function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
+  var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.65;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function endFrame(){box.style.backgroundImage='url(video/check-huhn-ende.jpg)';box.style.backgroundSize='cover';box.style.backgroundPosition='50% 60%';v.style.opacity=0;}
+  if(reduce){endFrame();return;}
+  function arm(at){armed=true;try{tv.currentTime=at||0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});}
+  function tick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.3)arm(v.currentTime-HANDOVER);if(armed&&!tv.paused&&tv.currentTime>0.08){box.classList.add('tail-on');return;}if(!box.classList.contains('tail-on'))requestAnimationFrame(tick);}
+  v.addEventListener('ended',function(){if(!armed)arm(0.33);setTimeout(function(){box.classList.add('tail-on');},150);});
+  function start(){if(started)return;started=true;var p=v.play();if(p&&p.catch)p.catch(endFrame);requestAnimationFrame(tick);}
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
+})();
 </script>
 </body>
 </html>
