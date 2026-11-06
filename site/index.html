@@ -762,7 +762,7 @@ body{line-height:1.55}
         <h2>Wie laut gackert <span class="red">Ihr</span> Unternehmen?</h2>
         <p class="lead">Zehn kurze Fragen zu Marke, Website, Print und Social Media, und Sie erhalten sofort eine Auswertung mit Ihren wichtigsten Hebeln.</p>
       </div>
-      <figure class="ai-fig"><div class="cbox" aria-label="Weißes Huhn fliegt heran, landet, dreht sich zur Kamera und zwinkert" role="img"><video id="chk" class="cv" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn.mp4?v=202611061207" type="video/mp4"></video><video id="chktail" class="cv cvtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil-ende.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn-ende.mp4?v=202611061207" type="video/mp4"></video></div><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
+      <figure class="ai-fig"><div class="cbox" aria-label="Weißes Huhn fliegt heran, landet, dreht sich zur Kamera und zwinkert" role="img"><video id="chk" class="cv" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn.mp4?v=202611061207" type="video/mp4"></video><video id="chktail" class="cv cvtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil-ende.mp4?v=202611061250" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn-ende.mp4?v=202611061250" type="video/mp4"></video></div><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
     </div>
   </section>
 
@@ -865,7 +865,7 @@ body{line-height:1.55}
 document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet. Bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
-  var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.65;
+  var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.83;
   // Box bis an den rechten Bildschirmrand verlängern; das Video wandert synchron mit dem Huhn nach links
   function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');var z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var bh=(r.width+b)*9/16;box.parentNode.style.paddingTop=Math.ceil(bh*(z-1))+'px';return b;}
   var B=bleed();window.addEventListener('resize',function(){B=bleed();follow();});
@@ -877,7 +877,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   if(reduce){endFrame();return;}
   function arm(at){armed=true;try{tv.currentTime=at||0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});}
   function tick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.3)arm(v.currentTime-HANDOVER);if(armed&&!tv.paused&&tv.currentTime>0.08){box.classList.add('tail-on');return;}if(!box.classList.contains('tail-on'))requestAnimationFrame(tick);}
-  v.addEventListener('ended',function(){if(!armed)arm(0.33);setTimeout(function(){box.classList.add('tail-on');},150);});
+  v.addEventListener('ended',function(){if(!armed)arm(0.4);setTimeout(function(){box.classList.add('tail-on');},150);});
   function start(){if(started)return;started=true;var p=v.play();if(p&&p.catch)p.catch(endFrame);requestAnimationFrame(tick);}
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
 })();
