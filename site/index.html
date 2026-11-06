@@ -363,7 +363,7 @@ input,textarea{border:0}
 @media (max-width:860px){.message{grid-template-columns:1fr}}
 
 /* Zahlenband direkt nach dem Slider */
-.facts-band{background:var(--bg-alt);padding-block:clamp(40px,5vw,64px)}
+.facts-band{background:#fff;padding-block:clamp(40px,5vw,64px)}
 .facts-band .facts-row{margin-top:0;display:flex;flex-wrap:nowrap;justify-content:space-evenly;align-items:flex-start;gap:12px}
 .facts-band .facts-row > div{flex:0 0 auto;position:relative;padding-bottom:34px}
 .facts-band .facts-row > div > span:not(.count){position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:-24px!important;white-space:nowrap}
@@ -489,6 +489,27 @@ input,textarea{border:0}
 .vbox video{transition:transform .5s ease;transform-origin:52% 92%}
 .track.vmode[data-scene="4"] .vbox video{transform:scale(1.22)}
 .hero{overflow-x:clip}
+
+/* Über Capeeshee mit KI (Variante B: Hühner-Beige) */
+.nk{padding-block:clamp(64px,9vw,120px)}
+.nk .red{color:var(--red)}
+.nk-h{max-width:18ch}
+.nk-cols{margin-top:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px clamp(28px,5vw,72px)}
+.nk-cols .lead{margin:0;max-width:none}
+.nk-quote{margin-top:clamp(48px,6vw,80px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(28px,4vw,56px)}
+.nk-q{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,46px);line-height:1.05;letter-spacing:-.04em;margin:0 0 16px;text-wrap:balance}
+.nk-qtxt > p:last-child{margin:0;font-size:clamp(16px,1.3vw,18px);line-height:1.65}
+.nk-fig{margin:0}.nk-fig img{width:100%;height:auto;display:block}
+.nk-sub{margin-top:clamp(48px,6vw,80px);font-family:var(--display);font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:-.03em}
+.nk-grid{margin-top:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.nk-tile{padding:26px 24px 28px;min-width:0}
+.nk-tile .n{display:block;font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;color:var(--red);margin-bottom:10px}
+.nk-tile h4{margin:0 0 8px;font-family:var(--head);font-weight:700;font-size:18px;line-height:1.25;color:var(--ink)}
+.nk-tile p{margin:0;font-size:15.5px;line-height:1.55}
+@media (max-width:1024px){.nk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.nk-cols,.nk-quote{grid-template-columns:1fr}}
+@media (max-width:560px){.nk-grid{grid-template-columns:1fr}}
+.nk{background:#f4eee6}.nk-quote{background:#fff}.nk-q{color:var(--ink)}.nk-tile{background:#fff}
 </style>
 </head>
 <body>
@@ -499,7 +520,7 @@ input,textarea{border:0}
     <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainnav"><span></span><span></span><span></span></button>
     <nav id="mainnav" aria-label="Hauptnavigation">
       <a class="nl" href="#leistungen">Leistungen</a>
-      <a class="nl" href="#ki">KI als Werkzeug</a>
+      <a class="nl" href="#capeeshee">KI als Werkzeug</a>
       <a class="nl" href="#new-marketing">Marketing im Wandel</a>
       <a class="nl" href="#branchen">Branchen</a>
       <a class="nl" href="#arbeitsweise">Arbeitsweise</a>
@@ -542,14 +563,20 @@ input,textarea{border:0}
     </div>
   </section>
 
-  <section id="capeeshee" class="about-ki">
+  <section id="capeeshee" class="nk">
     <div class="wrap">
       <p class="eyebrow">Über Capeeshee</p>
-      <h2>Capeeshee. 25 Jahre Erfahrung mit <span class="red">KI-Power.</span></h2>
-      <div class="about-ki-cols">
-        <p class="lead">[Blindtext] Hier steht in Kürze ein Text über Capeeshee: wer wir sind, wofür wir stehen und wie wir arbeiten. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-        <p class="lead">[Blindtext] Hier steht, wie wir KI einsetzen und was Sie davon haben. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est lorem ipsum dolor sit amet.</p>
+      <h2 class="nk-h">25 Jahre Werbung für den Mittelstand. <span class="red">Jetzt mit KI-Power.</span></h2>
+      <div class="nk-cols">
+        <p class="lead">Seit über 25 Jahren helfen wir mittelständischen Unternehmen, laut zu gackern: mit Marketing- und Werbemaßnahmen, die Ihre Produkte und Dienstleistungen sichtbar machen und Ihre Kunden erreichen. Vom Logo über die Broschüre bis zur Website wissen wir, was wirkt und warum.</p>
+        <p class="lead">Dabei sind wir immer mit der Zeit gegangen: vom ersten Prospekt über die erste Website bis zu Social Media. Heute setzen wir bewusst auf künstliche Intelligenz – nicht als Ersatz für Erfahrung, sondern als Werkzeug, das uns schneller, effizienter und günstiger macht.</p>
       </div>
+      <div class="nk-quote">
+        <div class="nk-qtxt"><p class="nk-q">Ein Logo aus der KI? Ein Flyer in fünf Minuten?</p><p>Das geht, und viele haben es schon ausprobiert. Aber gute Werbung entsteht nicht per Knopfdruck. Sie entsteht, wenn jemand weiß, was die KI wissen muss, was sie gut kann und wo sie Fehler macht. Genau das bringen wir mit.</p></div>
+        <figure class="ai-fig nk-fig"><img src="img/ki-tools.jpg?v=202611060810" width="1536" height="1024" loading="lazy" alt="Smartphone mit KI-Apps auf einer Laptop-Tastatur"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
+      </div>
+      <h3 class="nk-sub">Wo wir KI bewusst einsetzen</h3>
+      <div class="nk-grid"><div class="nk-tile"><span class="n">01</span><h4>Texte &amp; Inhalte</h4><p>Entwürfe für Werbetexte, Social-Media-Beiträge, Blogartikel und Newsletter – schnell erstellt und von uns auf den Punkt gebracht.</p></div><div class="nk-tile"><span class="n">02</span><h4>Bilder &amp; Videos</h4><p>Motive, Grafiken, Storyboards und kurze Clips für Kampagnen – so wie der Spot oben auf dieser Seite.</p></div><div class="nk-tile"><span class="n">03</span><h4>Bei Google gefunden werden</h4><p>Suchbegriffe recherchieren, Mitbewerber analysieren und Texte so aufbauen, dass Google und KI-Suchen sie verstehen.</p></div><div class="nk-tile"><span class="n">04</span><h4>Websites, Shops &amp; Apps</h4><p>KI unterstützt uns beim Programmieren und bei der Fehlersuche. So entstehen individuelle Lösungen schneller und günstiger.</p></div><div class="nk-tile"><span class="n">05</span><h4>Online-Werbung steuern</h4><p>Budgets und Zielgruppen bei Google- und Social-Media-Anzeigen laufend optimieren.</p></div><div class="nk-tile"><span class="n">06</span><h4>Zahlen &amp; Auswertungen</h4><p>Große Datenmengen auswerten, Trends erkennen und verständliche Berichte erstellen.</p></div></div>
     </div>
   </section>
 
@@ -601,26 +628,6 @@ input,textarea{border:0}
         <p class="lead">Viele Unternehmen leisten Hervorragendes – nur weiß es kaum jemand. Gute Produkte und starke Leistungen verkaufen sich nicht von allein.</p>
         <p class="lead">Wir sorgen dafür, dass Ihre Kunden davon hören, es sehen und verstehen: selbstbewusst, verständlich und genau dort, wo sie suchen.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="ki" class="stance">
-    <div class="wrap">
-      <div class="stance-top">
-        <div>
-          <p class="eyebrow">Unsere Haltung</p>
-          <h2>KI ist das Werkzeug. Erfahrung macht daraus Wirkung.</h2>
-          <p class="lead" style="margin-top:22px">Ein Logo aus der KI? Ein Flyer in fünf Minuten? Das geht – und viele haben es schon ausprobiert. Aber gute Werbung entsteht nicht per Knopfdruck. Sie entsteht, wenn jemand weiß, was die KI wissen muss, was sie gut kann und wo sie Fehler macht.</p>
-          <p class="lead" style="margin-top:14px">Wir verbinden 25 Jahre Agenturerfahrung mit den Werkzeugen von heute: Wir füttern KI mit den richtigen Informationen, prüfen jedes Ergebnis mit geschultem Blick und verknüpfen verschiedene Systeme technisch miteinander – bis aus Ideen fertige Websites, Shops und Apps werden.</p>
-        </div>
-        <figure class="ai-fig stance-fig"><img src="img/ki-tools.jpg?v=202611060810" alt="Smartphone mit den Apps bekannter KI-Assistenten auf einer Laptop-Tastatur, Schwarz-Weiß" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
-      </div>
-      <div class="ai-claim">
-        <p class="ai-claim-big">Maximale Kreativität trifft auf <span>Next-Level-Effizienz.</span></p>
-        <p class="lead">Durch den gezielten Einsatz von KI eliminieren wir zeitraubende Routineprozesse, beschleunigen Workflows von der Idee bis zum Rollout und schaffen echten Freiraum für das, was zählt – wegweisendes Design, präzisen Code und Content, der konvertiert.</p>
-      </div>
-      <h3 class="ai-head">Wo wir KI für Sie einsetzen</h3>
-      <div class="ai-grid"><div class="ai-use"><span class="n">01</span><h4>Texte &amp; Inhalte</h4><p>Entwürfe für Werbetexte, Social-Media-Beiträge, Blogartikel und Newsletter – schnell erstellt und von uns auf den Punkt gebracht.</p></div><div class="ai-use"><span class="n">02</span><h4>Bilder &amp; Videos</h4><p>Motive, Grafiken, Storyboards und kurze Clips für Kampagnen – so wie die Motive auf dieser Website.</p></div><div class="ai-use"><span class="n">03</span><h4>Bei Google gefunden werden</h4><p>Suchbegriffe recherchieren, Mitbewerber analysieren und Texte so aufbauen, dass Google und KI-Suchen sie verstehen.</p></div><div class="ai-use"><span class="n">04</span><h4>Websites, Shops &amp; Apps</h4><p>KI unterstützt uns beim Programmieren und bei der Fehlersuche. So entstehen individuelle Lösungen schneller und günstiger.</p></div><div class="ai-use"><span class="n">05</span><h4>Online-Werbung steuern</h4><p>Budgets und Zielgruppen bei Google- und Social-Media-Anzeigen laufend optimieren.</p></div><div class="ai-use"><span class="n">06</span><h4>Zahlen &amp; Auswertungen</h4><p>Große Datenmengen auswerten, Trends erkennen und verständliche Berichte erstellen.</p></div></div>
     </div>
   </section>
 
