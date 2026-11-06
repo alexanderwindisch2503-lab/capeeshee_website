@@ -484,6 +484,11 @@ input,textarea{border:0}
 /* Letzte Szene (gackernde Ente): Pointe in Entengelb */
 .track.vmode .slide .big .red{transition:color .6s ease}
 .track.vmode[data-scene="5"] .slide .big .red{color:#f0a92a}
+
+/* Szene 5 (Henne springt auf die Kartons): Video etwas größer, damit die Henne so groß wirkt wie in den anderen Szenen */
+.vbox video{transition:transform .5s ease;transform-origin:52% 92%}
+.track.vmode[data-scene="4"] .vbox video{transform:scale(1.22)}
+.hero{overflow-x:clip}
 </style>
 </head>
 <body>
