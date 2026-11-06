@@ -537,12 +537,12 @@ body{line-height:1.55}
 .check .ai-fig{margin:0;position:relative;display:flex;flex-direction:column;line-height:0}
 
 .check .ai-fig{min-width:0}
-.cbox{--zoom:1.3;aspect-ratio:16/9;width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px));overflow:visible}
+.cbox{--zoom:1;aspect-ratio:3/2;width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px));overflow:visible}
 .cbox .cv{object-fit:contain;object-position:50% 100%;transform-origin:100% 100%;transform:translateX(var(--shift,0px)) scale(var(--zoom,1.3));will-change:transform}
 .check-grid > div:first-child{position:relative;z-index:2}
 .check .ai-fig{position:relative;z-index:1}
 .check .ai-fig .ai-cap{position:absolute!important;right:0;bottom:28px;margin:0!important;z-index:3;line-height:1.4}
-@media (max-width:860px){.cbox{--zoom:1.12}.check .ai-fig .ai-cap{top:-30px;bottom:auto}}
+@media (max-width:860px){.cbox{--zoom:1}.check .ai-fig .ai-cap{top:-30px;bottom:auto}}
 @media (max-width:860px){.cbox{width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px))}}
 </style>
 </head>
@@ -765,7 +765,7 @@ body{line-height:1.55}
         <h2>Wie laut gackert <span class="red">Ihr</span> Unternehmen?</h2>
         <p class="lead">Zehn kurze Fragen zu Marke, Website, Print und Social Media, und Sie erhalten sofort eine Auswertung mit Ihren wichtigsten Hebeln.</p>
       </div>
-      <figure class="ai-fig"><div class="cbox" aria-label="Weißes Huhn fliegt heran, landet, dreht sich zur Kamera und zwinkert" role="img"><video id="chk" class="cv" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil.mp4?v=202611061207" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn.mp4?v=202611061207" type="video/mp4"></video><video id="chktail" class="cv cvtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil-ende.mp4?v=202611061250" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn-ende.mp4?v=202611061250" type="video/mp4"></video></div><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
+      <figure class="ai-fig"><div class="cbox" aria-label="Weißes Huhn fliegt heran, landet, kommt ganz nah an die Kamera und kneift die Augen zusammen" role="img"><video id="chk" class="cv" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil.mp4?v=202611061705" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn.mp4?v=202611061705" type="video/mp4"></video><video id="chktail" class="cv cvtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/check-huhn-mobil-ende.mp4?v=202611061705" type="video/mp4" media="(max-width: 860px)"><source src="video/check-huhn-ende.mp4?v=202611061705" type="video/mp4"></video></div><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></figure>
     </div>
   </section>
 
@@ -868,19 +868,19 @@ body{line-height:1.55}
 document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet. Bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
-  var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.83;
+  var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=7.9;
   // Box bis an den rechten Bildschirmrand verlängern; das Video wandert synchron mit dem Huhn nach links
-  function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');var z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var bh=(r.width+b)*9/16;box.parentNode.style.paddingTop=Math.ceil(bh*(z-1))+'px';return b;}
+  function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');var z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var bh=(r.width+b)*2/3;box.parentNode.style.paddingTop=Math.ceil(bh*(z-1))+'px';return b;}
   var B=bleed();window.addEventListener('resize',function(){B=bleed();follow();});
   function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
-  function follow(){var t=box.classList.contains('tail-on')?9:(v.currentTime||0);var bw=box.getBoundingClientRect().width,fw=box.parentNode.getBoundingClientRect().width,z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var desk=window.innerWidth>860;var S=(desk?fw*0.56:fw/2)-bw*(1-0.5*z);if(desk)S=Math.max(S,fw*0.1-bw+0.74*bw*z);var k=ease((t-0.35)/1.6);box.style.setProperty('--shift',(S*k)+'px');}
+  function follow(){var t=box.classList.contains('tail-on')?9:(v.currentTime||0);var bw=box.getBoundingClientRect().width,fw=box.parentNode.getBoundingClientRect().width,z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var desk=window.innerWidth>860;var S=(desk?fw*0.56:fw/2)-bw*(1-0.5*z);if(desk)S=Math.max(S,fw*0.1-bw+0.74*bw*z);var k=ease((t-0.3)/3.2);box.style.setProperty('--shift',(S*k)+'px');}
   (function loop(){follow();requestAnimationFrame(loop);})();
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function endFrame(){box.style.backgroundImage='url(video/check-huhn-ende.jpg)';box.style.backgroundSize='cover';box.style.backgroundPosition='50% 60%';v.style.opacity=0;}
   if(reduce){endFrame();return;}
   function arm(at){armed=true;try{tv.currentTime=at||0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});}
-  function tick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.3)arm(v.currentTime-HANDOVER);if(armed&&!tv.paused&&tv.currentTime>0.08){box.classList.add('tail-on');return;}if(!box.classList.contains('tail-on'))requestAnimationFrame(tick);}
-  v.addEventListener('ended',function(){if(!armed)arm(0.4);setTimeout(function(){box.classList.add('tail-on');},150);});
+  function tick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.3)arm(v.currentTime-HANDOVER);if(armed&&!tv.paused&&tv.currentTime>0.04){box.classList.add('tail-on');return;}if(!box.classList.contains('tail-on'))requestAnimationFrame(tick);}
+  v.addEventListener('ended',function(){if(!armed)arm(0);setTimeout(function(){box.classList.add('tail-on');},80);});
   function start(){if(started)return;started=true;var p=v.play();if(p&&p.catch)p.catch(endFrame);requestAnimationFrame(tick);}
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
 })();
