@@ -516,6 +516,11 @@ body{line-height:1.55}
 .lead{line-height:1.5}
 .nk-qtxt > p:last-child{line-height:1.5}
 .svc p,.svc ul,.nk-tile p,.ai-use p{line-height:1.45}
+
+/* Endlosschleife der Ente: zweites Video exakt über dem Hauptvideo, ohne Nachladen */
+.vbox{position:relative}
+.vbox .vtail{position:absolute;margin:0;max-width:none;max-height:none;opacity:0;visibility:hidden;pointer-events:none;transform:none!important;background:#fff}
+.vbox.tail-on .vtail{opacity:1;visibility:visible}
 </style>
 </head>
 <body>
@@ -544,7 +549,7 @@ body{line-height:1.55}
       <div class="slider" aria-roledescription="Karussell">
         <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
         <div class="track vmode" id="track" tabindex="0">
-          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611060958"><source src="video/capeeshee-spot-mobil.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611060958" type="video/mp4"></video></div></div>
+          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611060958"><source src="video/capeeshee-spot-mobil.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611060958" type="video/mp4"></video><video id="spottail" class="vtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/capeeshee-spot-mobil-ende.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot-ende.mp4?v=202611060958" type="video/mp4"></video></div></div>
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p></div>
           </div>
@@ -794,20 +799,23 @@ body{line-height:1.55}
   var v=document.getElementById('spot'), snd=document.getElementById('vsound'), pl=document.getElementById('vplay');
   // Szenen im Video: Startzeit (Sekunden) und welche Headline dazu gehört
   var scenes=[{t:0,txt:0},{t:3.12,txt:1},{t:7.17,txt:2},{t:9.12,txt:3},{t:11.58,txt:4},{t:14.21,txt:4}];
-  var n=scenes.length, tail=false, mainSrc='', mainPoster=v.getAttribute('poster');
-  var VER='202611060958';
+  var n=scenes.length, tail=false;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   scenes.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Szene '+(k+1));b.addEventListener('click',function(){seek(k);});dots.appendChild(b);});
   function mark(k){if(k===sc)return;sc=k;track.dataset.scene=k;var t=scenes[k].txt;slides.forEach(function(s,m){s.classList.toggle('on',m===t);s.setAttribute('aria-hidden',m===t?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
   function sceneAt(t){if(tail)return n-1;var k=0;for(var m=0;m<n;m++){if(t>=scenes[m].t-0.02)k=m;}return k;}
-  function seek(k){if(k<0)k=n-1;if(k>=n)k=0;var t=scenes[k].t+0.04;var go=function(){try{v.currentTime=t;}catch(e){}};if(tail){fromTail();v.addEventListener('loadedmetadata',go,{once:true});}else{go();}mark(k);play();}
+  function seek(k){if(k<0)k=n-1;if(k>=n)k=0;var t=scenes[k].t+0.04;var go=function(){try{v.currentTime=t;}catch(e){}};if(tail){fromTail();}go();mark(k);play();}
   function play(){var p=v.play();if(p&&p.catch)p.catch(function(){setPl('play');});setPl('pause');}
   function setPl(m){var ico={pause:'❚❚',play:'▶',again:'↺'}[m],lbl={pause:'Video pausieren',play:'Video abspielen',again:'Video noch einmal abspielen'}[m];pl.setAttribute('aria-label',lbl);pl.querySelector('.ico').textContent=ico;pl.dataset.mode=m;}
   function tick(){mark(sceneAt(v.currentTime||0));requestAnimationFrame(tick);}
   // Ende: kein Neustart, die gackernde Ente bewegt sich in einer sanften Endlosschleife weiter
-  function toTail(){mainSrc=v.currentSrc;var mob=/mobil/.test(mainSrc);tail=true;v.poster='video/capeeshee-spot-ende.jpg?v='+VER;v.loop=true;v.src='video/capeeshee-spot'+(mob?'-mobil':'')+'-ende.mp4?v='+VER;var p=v.play();if(p&&p.catch)p.catch(function(){});setPl('again');}
-  function fromTail(){tail=false;v.loop=false;v.poster=mainPoster;v.src=mainSrc;v.load();}
-  v.addEventListener('ended',function(){if(!tail)toTail();});
+  var tv=document.getElementById('spottail'), box=v.parentNode;
+  function placeTail(){var r=v.getBoundingClientRect(),b=box.getBoundingClientRect();tv.style.left=(r.left-b.left)+'px';tv.style.top=(r.top-b.top)+'px';tv.style.width=r.width+'px';tv.style.height=r.height+'px';tv.style.objectFit=getComputedStyle(v).objectFit;tv.style.objectPosition=getComputedStyle(v).objectPosition;}
+  function toTail(){if(tail)return;tail=true;placeTail();try{tv.currentTime=0;}catch(e){}var p=tv.play();var show=function(){box.classList.add('tail-on');};if(p&&p.then)p.then(show,show);else show();setPl('again');}
+  function fromTail(){tail=false;box.classList.remove('tail-on');tv.pause();}
+  v.addEventListener('timeupdate',function(){if(!tail&&v.duration&&v.currentTime>=v.duration-0.1)toTail();});
+  v.addEventListener('ended',function(){toTail();});
+  window.addEventListener('resize',function(){if(tail)placeTail();});
   document.getElementById('prev').addEventListener('click',function(){seek(sc-1);});
   document.getElementById('next').addEventListener('click',function(){seek(sc+1);});
   track.addEventListener('keydown',function(e){if(e.key==='ArrowRight')seek(sc+1);if(e.key==='ArrowLeft')seek(sc-1);});
