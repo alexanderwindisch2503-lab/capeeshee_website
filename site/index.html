@@ -572,7 +572,7 @@ body{line-height:1.55}
       <div class="slider" aria-roledescription="Karussell">
         <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
         <div class="track vmode" id="track" tabindex="0">
-          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611061640"><source src="video/capeeshee-spot-mobil.mp4?v=202611061640" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611061640" type="video/mp4"></video><video id="spottail" class="vtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/capeeshee-spot-mobil-ende.mp4?v=202611061640" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot-ende.mp4?v=202611061640" type="video/mp4"></video></div></div>
+          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611061640"><source src="video/capeeshee-spot-mobil.mp4?v=202611061640" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611061640" type="video/mp4"></video><video id="spottail" class="vtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/capeeshee-spot-mobil-ende.mp4?v=202611061648" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot-ende.mp4?v=202611061648" type="video/mp4"></video></div></div>
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p></div>
           </div>
@@ -834,14 +834,14 @@ body{line-height:1.55}
   // Ende: kein Neustart, die gackernde Ente bewegt sich in einer sanften Endlosschleife weiter
   var tv=document.getElementById('spottail'), box=v.parentNode;
   function placeTail(){var r=v.getBoundingClientRect(),b=box.getBoundingClientRect();tv.style.left=(r.left-b.left)+'px';tv.style.top=(r.top-b.top)+'px';tv.style.width=r.width+'px';tv.style.height=r.height+'px';tv.style.objectFit=getComputedStyle(v).objectFit;tv.style.objectPosition=getComputedStyle(v).objectPosition;}
-  // Übergang in die Schleife: Die Schleife startet bei 21,5 s exakt im Takt des Hauptvideos (gleiche Bilder, gleiche Geschwindigkeit),
-  // wird erst eingeblendet, wenn sie sicher läuft, und schwingt danach sanft hin und her (ohne harte Umkehr).
-  var HANDOVER=21.5, armed=false;
+  // Übergang in die Schleife: Die Schleife startet am Ende (ca. 22 s, Schnabel zu) mit dem gleichen Bild wie das Hauptvideo,
+  // wird erst eingeblendet, wenn sie sicher läuft, und bewegt die Ente danach nur ganz langsam (6 s Periode, ohne harte Umkehr).
+  var HANDOVER=21.9, armed=false;
   function arm(at){armed=true;placeTail();try{tv.currentTime=at||0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});}
   function show(){tail=true;box.classList.add('tail-on');setPl('again');}
   function fromTail(){tail=false;armed=false;box.classList.remove('tail-on');tv.pause();}
-  function tailTick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.5)arm(v.currentTime-HANDOVER);if(armed&&!tail&&!tv.paused&&tv.currentTime>0.12)show();}
-  v.addEventListener('ended',function(){if(!armed)arm(0.6);var t0=Date.now();(function w(){if(tail)return;if(!tv.paused&&tv.currentTime>0.65||Date.now()-t0>800){show();return;}requestAnimationFrame(w);})();});
+  function tailTick(){if(!armed&&!v.paused&&v.currentTime>=HANDOVER&&v.currentTime<HANDOVER+0.5)arm(v.currentTime-HANDOVER);if(armed&&!tail&&!tv.paused&&tv.currentTime>0.04)show();}
+  v.addEventListener('ended',function(){if(!armed)arm(0);var t0=Date.now();(function w(){if(tail)return;if(!tv.paused&&tv.currentTime>0.05||Date.now()-t0>800){show();return;}requestAnimationFrame(w);})();});
   window.addEventListener('resize',function(){if(tail)placeTail();});
   document.getElementById('prev').addEventListener('click',function(){seek(sc-1);});
   document.getElementById('next').addEventListener('click',function(){seek(sc+1);});
