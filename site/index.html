@@ -508,7 +508,7 @@ input,textarea{border:0}
       <div class="slider" aria-roledescription="Karussell">
         <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
         <div class="track vmode" id="track" tabindex="0">
-          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted loop playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611060958"><source src="video/capeeshee-spot-mobil.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611060958" type="video/mp4"></video></div></div>
+          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611060958"><source src="video/capeeshee-spot-mobil.mp4?v=202611060958" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611060958" type="video/mp4"></video></div></div>
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p></div>
           </div>
@@ -768,26 +768,29 @@ input,textarea{border:0}
       else if(c.nodeType===1){walk(c);}});})(big);
     var sub=sl.querySelector('.sub'); if(sub){var sp=document.createElement('span');while(sub.firstChild)sp.appendChild(sub.firstChild);sub.appendChild(sp);sub.style.setProperty('--sd',(n*.16+.3).toFixed(2)+'s');}
   });
-  var slides=[].slice.call(track.querySelectorAll('.slide')), n=slides.length, dots=document.getElementById('dots'), i=-1;
+  var slides=[].slice.call(track.querySelectorAll('.slide')), dots=document.getElementById('dots'), sc=-1;
   var v=document.getElementById('spot'), snd=document.getElementById('vsound'), pl=document.getElementById('vplay');
-  var cuts=[0,3.12,7.17,9.12,11.58]; // Szenenwechsel im Video (Sekunden), Folie 5 läuft bis zum Ende
+  // Szenen im Video: Startzeit (Sekunden) und welche Headline dazu gehört
+  var scenes=[{t:0,txt:0},{t:3.12,txt:1},{t:7.17,txt:2},{t:9.12,txt:3},{t:11.58,txt:4},{t:14.21,txt:4}];
+  var n=scenes.length;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  slides.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Folie '+(k+1));b.addEventListener('click',function(){seek(k);});dots.appendChild(b);});
-  function mark(k){if(k===i)return;i=k;slides.forEach(function(s,m){s.classList.toggle('on',m===k);s.setAttribute('aria-hidden',m===k?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
-  function sceneAt(t){var k=0;for(var m=0;m<cuts.length;m++){if(t>=cuts[m]-0.02)k=m;}return k;}
-  function seek(k){k=(k+n)%n;try{v.currentTime=cuts[k]+0.04;}catch(e){}mark(k);play();}
-  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){setPl(false);});setPl(true);}
-  function setPl(on){pl.setAttribute('aria-label',on?'Video pausieren':'Video abspielen');pl.querySelector('.ico').textContent=on?'❚❚':'▶';}
+  scenes.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Szene '+(k+1));b.addEventListener('click',function(){seek(k);});dots.appendChild(b);});
+  function mark(k){if(k===sc)return;sc=k;var t=scenes[k].txt;slides.forEach(function(s,m){s.classList.toggle('on',m===t);s.setAttribute('aria-hidden',m===t?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
+  function sceneAt(t){var k=0;for(var m=0;m<n;m++){if(t>=scenes[m].t-0.02)k=m;}return k;}
+  function seek(k){if(k<0)k=n-1;if(k>=n)k=0;try{v.currentTime=scenes[k].t+0.04;}catch(e){}mark(k);play();}
+  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){setPl('play');});setPl('pause');}
+  function setPl(m){var ico={pause:'❚❚',play:'▶',again:'↺'}[m],lbl={pause:'Video pausieren',play:'Video abspielen',again:'Video noch einmal abspielen'}[m];pl.setAttribute('aria-label',lbl);pl.querySelector('.ico').textContent=ico;pl.dataset.mode=m;}
   function tick(){mark(sceneAt(v.currentTime||0));requestAnimationFrame(tick);}
-  document.getElementById('prev').addEventListener('click',function(){seek(i-1);});
-  document.getElementById('next').addEventListener('click',function(){seek(i+1);});
-  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight')seek(i+1);if(e.key==='ArrowLeft')seek(i-1);});
+  v.addEventListener('ended',function(){setPl('again');}); // kein Loop: die gackernde Ente bleibt am Ende stehen
+  document.getElementById('prev').addEventListener('click',function(){seek(sc-1);});
+  document.getElementById('next').addEventListener('click',function(){seek(sc+1);});
+  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight')seek(sc+1);if(e.key==='ArrowLeft')seek(sc-1);});
   var sx=null;track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
-  track.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>45)seek(dx<0?i+1:i-1);},{passive:true});
-  snd.addEventListener('click',function(){v.muted=!v.muted;snd.setAttribute('aria-pressed',v.muted?'false':'true');snd.querySelector('.ico').textContent=v.muted?'🔇':'🔊';if(!v.muted&&v.paused)play();});
-  pl.addEventListener('click',function(){if(v.paused)play();else{v.pause();setPl(false);}});
+  track.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>45)seek(dx<0?sc+1:sc-1);},{passive:true});
+  snd.addEventListener('click',function(){v.muted=!v.muted;snd.setAttribute('aria-pressed',v.muted?'false':'true');snd.querySelector('.ico').textContent=v.muted?'🔇':'🔊';if(!v.muted&&v.paused&&!v.ended)play();});
+  pl.addEventListener('click',function(){if(v.ended){seek(0);}else if(v.paused){play();}else{v.pause();setPl('play');}});
   v.muted=true; mark(0); tick();
-  if(reduce){setPl(false);}else{play();}
+  if(reduce){setPl('play');}else{play();}
 })();
 
 (function(){
