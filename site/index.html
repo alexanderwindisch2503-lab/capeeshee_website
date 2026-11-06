@@ -530,6 +530,7 @@ body{line-height:1.55}
 
 /* Check-Video: läuft bis an den Bildschirmrand, unten mehr Luft */
 .check{padding-bottom:0;overflow-x:clip}
+@media (min-width:861px){.check{padding-top:clamp(24px,3vw,48px)}}
 .check-grid > div:first-child{padding-bottom:clamp(40px,5vw,72px)}
 .check .ai-fig{margin:0;position:relative;display:flex;flex-direction:column;line-height:0}
 
@@ -866,7 +867,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
   var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=5.65;
   // Box bis an den rechten Bildschirmrand verlängern; das Video wandert synchron mit dem Huhn nach links
-  function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');return b;}
+  function bleed(){var r=box.parentNode.getBoundingClientRect();var b=Math.max(0,document.documentElement.clientWidth-r.right);box.style.setProperty('--bleed',b+'px');var z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var bh=(r.width+b)*9/16;box.parentNode.style.paddingTop=Math.ceil(bh*(z-1))+'px';return b;}
   var B=bleed();window.addEventListener('resize',function(){B=bleed();follow();});
   function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
   function follow(){var t=box.classList.contains('tail-on')?9:(v.currentTime||0);var bw=box.getBoundingClientRect().width,fw=box.parentNode.getBoundingClientRect().width,z=parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||1;var desk=window.innerWidth>860;var S=(desk?fw*0.56:fw/2)-bw*(1-0.5*z);if(desk)S=Math.max(S,fw*0.1-bw+0.74*bw*z);var k=ease((t-0.35)/1.6);box.style.setProperty('--shift',(S*k)+'px');}
