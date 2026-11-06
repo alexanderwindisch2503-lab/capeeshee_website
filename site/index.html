@@ -480,6 +480,10 @@ input,textarea{border:0}
   .vbtn .lbl{font-size:11px}
 }
 @media (prefers-reduced-motion:reduce){.vbox video{animation:none}}
+
+/* Letzte Szene (gackernde Ente): Pointe in Entengelb */
+.track.vmode .slide .big .red{transition:color .6s ease}
+.track.vmode[data-scene="5"] .slide .big .red{color:#f0a92a}
 </style>
 </head>
 <body>
@@ -775,7 +779,7 @@ input,textarea{border:0}
   var n=scenes.length;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   scenes.forEach(function(s,k){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Szene '+(k+1));b.addEventListener('click',function(){seek(k);});dots.appendChild(b);});
-  function mark(k){if(k===sc)return;sc=k;var t=scenes[k].txt;slides.forEach(function(s,m){s.classList.toggle('on',m===t);s.setAttribute('aria-hidden',m===t?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
+  function mark(k){if(k===sc)return;sc=k;track.dataset.scene=k;var t=scenes[k].txt;slides.forEach(function(s,m){s.classList.toggle('on',m===t);s.setAttribute('aria-hidden',m===t?'false':'true');});[].forEach.call(dots.children,function(d,m){d.setAttribute('aria-current',m===k?'true':'false');});}
   function sceneAt(t){var k=0;for(var m=0;m<n;m++){if(t>=scenes[m].t-0.02)k=m;}return k;}
   function seek(k){if(k<0)k=n-1;if(k>=n)k=0;try{v.currentTime=scenes[k].t+0.04;}catch(e){}mark(k);play();}
   function play(){var p=v.play();if(p&&p.catch)p.catch(function(){setPl('play');});setPl('pause');}
