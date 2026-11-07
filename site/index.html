@@ -613,8 +613,8 @@ body{line-height:1.55}
 .rg-projects{margin-top:18px;display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
 .rg-proj{background:transparent;border:0;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit;min-width:0}
 .rg-proj.big{grid-column:span 2}
-.rg-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:transparent;padding-bottom:8px}
-.rg-proj.big .rg-mosaic{grid-template-columns:repeat(5,1fr)}
+.rg-mosaic{display:grid;grid-template-columns:repeat(var(--sp,3),1fr);gap:8px;background:transparent;padding-bottom:8px}
+.rg-proj.big .rg-mosaic{grid-template-columns:repeat(var(--sp,5),1fr)}
 .rg-mosaic img{width:100%;height:100%;object-fit:contain;display:block}
 .rg-mosaic span{aspect-ratio:1;background:#fff center/contain no-repeat;background-origin:content-box;padding:8%}
 .rg-proj .b{background:#fff;flex:1;padding:20px 22px 24px;display:grid;gap:6px}
@@ -623,7 +623,8 @@ body{line-height:1.55}
 .rg-proj p{margin:0}
 .rg-badges{display:flex;flex-wrap:wrap;gap:6px;margin:0}
 .rg-dhead .rg-badges{margin:14px 0 10px}
-.rg-badge{justify-self:start;background:var(--red);color:#fff;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:12px}
+.rg-badge{justify-self:start;background:var(--red);color:#fff;font:600 10px var(--head);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:10px;line-height:1.4}
+.rg-badge:nth-child(2){background:var(--t2,#b65434)}.rg-badge:nth-child(3){background:var(--t3,#d68a57)}.rg-badge:nth-child(4){background:var(--t4,#dbb39a);color:var(--ink)}.rg-badge:nth-child(n+5){background:var(--t5,#e9ded4);color:var(--ink)}
 .rg-works{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}
 .rg-work{display:grid;gap:8px;align-content:start;min-width:0}
 .rg-thumb{position:relative;aspect-ratio:4/3;border:0;padding:6%;cursor:zoom-in;background:#fff;display:block;width:100%}
@@ -1070,9 +1071,9 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
-  function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=big?10:6,c='';
-    for(var i=0;i<n;i++)c+='<span>'+(t.length?'<img src="'+esc(t[i%t.length])+'" alt="" loading="lazy" decoding="async">':'')+'</span>';
-    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
+  function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=Math.min(big?10:6,t.length),c='';
+    for(var i=0;i<n;i++)c+='<span><img src="'+esc(t[i])+'" alt="" loading="lazy" decoding="async"></span>';
+    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true" style="--sp:'+(big?(n>=10?5:Math.max(3,Math.ceil(n/2))):(n>=6?3:Math.max(2,Math.ceil(n/2))))+'">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
   function render(){REG=[];chipsRender();
     if(mode!=='leistung'){var l=D.kunden.slice();if(mode==='branche')l=l.filter(function(k){return k.branche===sel});
       count.textContent=l.length+(l.length===1?' Kunde':' Kunden');
