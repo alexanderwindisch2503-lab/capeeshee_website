@@ -842,7 +842,7 @@ body{line-height:1.55}
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('open')){set(false);b.focus();}});
   window.addEventListener('resize',function(){if(window.innerWidth>1180)set(false);});
 })();
-(function(){var h=document.querySelector('.hero');if(!h)return;function f(){document.documentElement.style.setProperty('--hh',Math.round(h.getBoundingClientRect().top+window.scrollY)+'px');}f();window.addEventListener('resize',f);})();
+(function(){var h=document.querySelector('header');if(!h)return;function f(){var x=Math.round(h.getBoundingClientRect().height);if(x>0&&x<200)document.documentElement.style.setProperty('--hh',x+'px');}f();window.addEventListener('resize',f);})();
 (function(){
   var track=document.getElementById('track'); if(!track||track.closest('[hidden]')) return;
   [].forEach.call(track.querySelectorAll('.slide'),function(sl){
