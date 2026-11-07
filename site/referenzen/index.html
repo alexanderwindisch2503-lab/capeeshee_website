@@ -45,8 +45,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgb
 .logo img{height:34px;width:auto}
 @media (max-width:560px){.logo img{height:28px}}
 nav{margin-left:auto;display:flex;gap:clamp(14px,1.6vw,26px);align-items:center}
-@media (min-width:1281px){nav .nl{white-space:nowrap}}
-#mainnav .nl{white-space:normal;overflow-wrap:anywhere}
+@media (min-width:1281px){nav .nl{white-space:nowrap;font-size:13px}nav{gap:18px!important}}
+@media (max-width:1280px){#mainnav .nl{white-space:normal;overflow-wrap:anywhere}}
 nav a{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:14px;text-decoration:none;color:var(--ink)}
 nav a:hover,nav a:focus-visible{color:var(--red)}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;font-family:var(--head);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 22px;border-radius:2px;border:0;cursor:pointer}
@@ -705,13 +705,31 @@ body{line-height:1.55}
 .rg-leer{margin-top:24px;color:var(--muted)}
 .rg:not([hidden])~.rg-leer{display:none}
 nav a[aria-current="page"]{color:var(--red)}
+
+/* Kopfzeile über dem Hero transparent, beim Scrollen weiß */
+.logo{position:relative}
+.logo .logo-w{position:absolute;left:0;top:0;opacity:0}
+html.over-hero header{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease}
+html.over-hero .thero{min-height:100vh;min-height:100svh}
+html.over-hero .thero-in{padding-top:calc(var(--hh,72px) + clamp(40px,8vh,110px))}
+html.over-hero .thero .seal{top:calc(var(--hh,72px) + clamp(12px,2vw,28px))!important}
+html.over-hero:not(.scrolled):not(.menu-open) header{background:linear-gradient(rgba(40,16,6,.38),rgba(40,16,6,0));backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom-color:transparent}
+html.over-hero:not(.scrolled):not(.menu-open) body::before{background:rgba(40,16,6,.38)}
+html.over-hero:not(.scrolled):not(.menu-open) header nav a{color:#fff}
+html.over-hero:not(.scrolled):not(.menu-open) header nav a:hover{color:#f0f400}
+html.over-hero:not(.scrolled):not(.menu-open) .menu-btn span{background:#fff}
+html.over-hero:not(.scrolled):not(.menu-open) .logo .logo-n{opacity:0}
+html.over-hero:not(.scrolled):not(.menu-open) .logo .logo-w{opacity:1}
+html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
+.logo img{transition:opacity .3s ease}
+@media (max-width:860px){html.over-hero .thero-in{padding-top:calc(var(--hh,64px) + 24px)}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap bar">
-    <a class="logo" href="#top" aria-label="Agentur Capeeshee, zur Startseite"><img src="img/logo-capeeshee.svg?v=202611071038" alt="Capeeshee" width="709" height="135"></a>
+    <a class="logo" href="#top" aria-label="Agentur Capeeshee, zur Startseite"><img class="logo-n" src="img/logo-capeeshee.svg?v=202611071038" alt="Capeeshee" width="709" height="135"><img class="logo-w" src="img/logo-capeeshee-weiss.svg?v=202611072052" alt="" aria-hidden="true" width="709" height="135"></a>
     <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainnav"><span></span><span></span><span></span></button>
     <nav id="mainnav" aria-label="Hauptnavigation">
       <a class="nl" href="#leistungen">Leistungen</a>
@@ -785,7 +803,7 @@ nav a[aria-current="page"]{color:var(--red)}
   b.addEventListener('click',function(){set(!n.classList.contains('open'));});
   n.addEventListener('click',function(e){if(e.target.closest('a'))set(false);});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&n.classList.contains('open')){set(false);b.focus();}});
-  window.addEventListener('resize',function(){if(window.innerWidth>1180)set(false);});
+  window.addEventListener('resize',function(){if(window.innerWidth>1280)set(false);});
 })();
 (function(){var h=document.querySelector('header');if(!h)return;function f(){var x=Math.round(h.getBoundingClientRect().height);if(x>0&&x<200)document.documentElement.style.setProperty('--hh',x+'px');}f();window.addEventListener('resize',f);})();
 (function(){
@@ -972,6 +990,10 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     if(!d||!d.kunden||!d.kunden.length)return;D=d;root.hidden=false;var st=sec.querySelector('.refs');if(st)st.hidden=true;logos();render();
     if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
 })();
+
+// Kopfzeile über dem Hero transparent, ab dem ersten Scrollen weiß
+(function(){var h=document.querySelector('.thero');if(!h)return;var r=document.documentElement;r.classList.add('over-hero');
+  function f(){r.classList.toggle('scrolled',window.scrollY>20)}f();window.addEventListener('scroll',f,{passive:true});})();
 </script>
 </body>
 </html>
