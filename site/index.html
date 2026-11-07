@@ -571,8 +571,19 @@ body{line-height:1.55}
 .thero .seal{top:clamp(20px,2.4vw,32px)!important;right:max(16px,env(safe-area-inset-right,0px))!important}
 .thero-txt{max-width:min(680px,58%)}
 .thero-sub{white-space:nowrap}
-.thero-h{font-family:Poppins,sans-serif;font-weight:800;font-size:clamp(40px,6vw,84px);line-height:.98;letter-spacing:-.045em;color:#fff;margin:0;text-wrap:balance;text-shadow:0 2px 24px rgba(60,20,8,.25)}
-.thero-h span{display:block;color:#f0f400}
+.thero-h{font-family:Poppins,sans-serif;font-weight:800;font-size:clamp(44px,6.8vw,96px);line-height:.98;letter-spacing:-.045em;color:#fff;margin:0;text-wrap:balance;text-shadow:0 2px 24px rgba(60,20,8,.25)}
+.thero-h span{display:block}
+.thero-h .l2{color:#f0f400}
+/* Headline synchron zum Balleinschlag: Zeile 1 fährt ein und federt nach, Zeile 2 blendet verzögert ein */
+.js-hit .thero-h .l1{opacity:0;transform:translateX(-70px)}
+.js-hit .thero-h .l2{opacity:0;transform:translateY(14px)}
+.js-hit .thero-txt .thero-sub{opacity:0}
+.js-hit.hit .thero-h .l1{animation:treffer .95s cubic-bezier(.2,.9,.3,1) forwards}
+.js-hit.hit .thero-h .l2{animation:linie .7s ease-out .75s forwards}
+.js-hit.hit .thero-txt .thero-sub{animation:linie .7s ease-out 1.25s forwards}
+@keyframes treffer{0%{opacity:0;transform:translateX(-70px)}22%{opacity:1;transform:translateX(9px)}40%{transform:translateX(-5px)}58%{transform:translateX(3px)}76%{transform:translateX(-1.2px)}100%{opacity:1;transform:none}}
+@keyframes linie{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.js-hit .thero-h .l1,.js-hit .thero-h .l2,.js-hit .thero-txt .thero-sub{opacity:1!important;transform:none!important;animation:none!important}}
 .thero-sub{margin:22px 0 0;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(13px,1.1vw,16px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5)}
 .thero .thero-cap{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;color:rgba(255,255,255,.85)}
 @media (orientation:landscape) and (max-height:560px){.thero-h{font-size:clamp(28px,8.5vh,44px)}.thero-sub{margin-top:12px;font-size:11px;white-space:normal}.thero-in{padding-block:20px 44px!important;justify-content:center!important}.thero-txt{max-width:60%!important}.thero .seal{width:64px}}
@@ -749,7 +760,7 @@ html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
     <div class="wrap thero-in">
       <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#f0f400"/><circle cx="100" cy="100" r="58" fill="none" stroke="#303133" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#303133" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#303133" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#303133" letter-spacing="3">POWERED</text></svg></div>
       <div class="thero-txt">
-        <h1 class="thero-h">Auf die Linie. <span>Werbung, die sitzt.</span></h1>
+        <h1 class="thero-h"><span class="l1">Werbung, die trifft.</span> <span class="l2">Auf ganzer Linie.</span></h1>
         <p class="thero-sub">KI-powered Werbeagentur für Web &amp; Print in Augsburg</p>
       </div>
       <button type="button" id="tsound" class="tsound" aria-pressed="false"><svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg><svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span class="lbl">Ton an</span></button>
@@ -1100,6 +1111,10 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
   var box=document.querySelector('.thero'),still=null;
+  // Headline beim Balleinschlag (2,4 s) zeigen; Sicherheitsnetz, falls das Video nicht startet
+  var HIT=2.4;box.classList.add('js-hit');function treffer(){box.classList.add('hit')}
+  (function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})();
+  setTimeout(function(){if(v.paused||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
   // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
   function standbild(){try{if(!v.videoWidth)return false;var c=still||document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;var g=c.getContext('2d');g.drawImage(v,0,0,c.width,c.height);
     // prüfen, ob wirklich ein Bild übernommen wurde (manche Handys liefern bei Hardware-Video ein leeres Bild)
@@ -1111,9 +1126,9 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.08)ende()});
   window.addEventListener('pageshow',function(){if(v.ended||(v.duration&&v.currentTime>=v.duration-0.1))ende()});
   // Video startet neu, sobald der Hero nach dem Wegscrollen wieder ins Bild kommt
-  var weg=false;function neu(){if(!box.classList.contains('ended'))return;try{v.currentTime=0;}catch(e){}var p=v.play();var los=function(){box.classList.remove('ended');v.removeEventListener('playing',los)};v.addEventListener('playing',los);if(p&&p.catch)p.catch(function(){v.removeEventListener('playing',los)})}
+  var weg=false;function neu(){if(!box.classList.contains('ended'))return;try{v.currentTime=0;}catch(e){}var p=v.play();var los=function(){box.classList.remove('ended');v.removeEventListener('playing',los);box.classList.remove('hit');void box.offsetWidth;(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})()};v.addEventListener('playing',los);if(p&&p.catch)p.catch(function(){v.removeEventListener('playing',los)})}
   if('IntersectionObserver' in window)new IntersectionObserver(function(e){e.forEach(function(x){if(x.intersectionRatio<0.15)weg=true;else if(weg&&x.intersectionRatio>0.5){weg=false;neu()}})},{threshold:[0,0.15,0.5,1]}).observe(box);
-  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&(v.ended||box.classList.contains('ended'))){box.classList.remove('ended');try{v.currentTime=0;}catch(e){}v.play();}ui();});
+  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&(v.ended||box.classList.contains('ended'))){box.classList.remove('ended');box.classList.remove('hit');try{v.currentTime=0;}catch(e){}v.play();(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT)treffer();else requestAnimationFrame(w)})();}ui();});
 })();
 
 // Referenz-Galerie: lädt /referenzen/api.php. Startseite (data-teaser) zeigt eine Auswahl, /referenzen/ die ganze Galerie.
