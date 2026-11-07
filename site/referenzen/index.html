@@ -551,11 +551,6 @@ body{line-height:1.55}
 
 /* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
 .thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:calc(100vh - var(--hh,72px));min-height:calc(100svh - var(--hh,72px));display:flex;align-items:stretch}
-.thero-still{opacity:0}
-.thero.ended .thero-still{opacity:1}
-.thero.has-still .thero-end{display:none}
-.thero-end{position:absolute;inset:0;opacity:0}
-.thero.ended .thero-end{opacity:1}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
 @media (prefers-reduced-motion:reduce){.thero .thero-bg{display:none}.thero{background:#b5532f url(video/tennis-hero-still.jpg?v=202611071045) 70% 55%/cover no-repeat}}
 .tsound{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 14px 0 11px;border:0;border-radius:2px;background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.85);font:600 12px var(--head);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
@@ -735,14 +730,12 @@ html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
 
 /* Headline unter die Linie, Unterzeile oben mittig als Schreibmaschine */
 html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp(56px,7vh,80px)!important}
-.thero-type{position:absolute;left:0;right:0;top:calc(var(--hh,72px) + clamp(28px,6vh,70px));margin:0;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));text-align:center;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(14px,1.35vw,19px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5);line-height:1.6;z-index:3}
+.thero-type{white-space:nowrap;position:absolute;left:0;right:0;top:calc(var(--hh,72px) + clamp(130px,19vh,200px));margin:0;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));text-align:center;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(14px,1.35vw,19px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5);line-height:1.6;z-index:3}
 .thero-type .tt .c{visibility:hidden}
 .thero-type .tt .c.on{visibility:visible}
-.thero-type .caret{display:inline-block;width:.08em;min-width:2px;height:1.05em;margin-left:.12em;vertical-align:-.15em;background:#f0f400;animation:caret .9s steps(1) infinite}
-@keyframes caret{50%{opacity:0}}
-@media (max-width:860px){html.over-hero .thero-in{padding-bottom:64px!important}.thero-type{font-size:12px;letter-spacing:.16em;padding-inline:24px}html.over-hero .thero .seal{top:calc(var(--hh,64px) + 96px)!important}}
+@media (max-width:860px){html.over-hero .thero-in{padding-bottom:64px!important}.thero-type{font-size:12px;letter-spacing:.16em;padding-inline:24px;top:calc(var(--hh,64px) + 128px);white-space:normal}}
 @media (orientation:landscape) and (max-height:560px){.thero-type{top:calc(var(--hh,64px) + 10px);font-size:11px}html.over-hero .thero-in{padding-bottom:40px!important}}
-@media (prefers-reduced-motion:reduce){.thero-type .tt .c{visibility:visible}.thero-type .caret{display:none}}
+@media (prefers-reduced-motion:reduce){.thero-type .tt .c{visibility:visible}}
 </style>
 </head>
 <body>
@@ -904,36 +897,26 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
 })();
 
-// Tennis-Hero: Video einmal abspielen, am Ende bleibt das letzte Bild stehen; Ton per Knopf (startet ein beendetes Video neu)
-(function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound');if(!v)return;
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;return;}
-  var p=v.play();if(p&&p.catch)p.catch(function(){});
+// Tennis-Hero: Video spielt einmal und bleibt auf dem letzten Bild stehen. Headline schlägt mit dem Ball ein,
+// danach wird die Unterzeile eingetippt. Kommt der Hero nach dem Wegscrollen wieder ins Bild, beginnt alles neu.
+(function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound'),box=document.querySelector('.thero');if(!v||!box)return;
+  var HIT=2.12,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
+  if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}}
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;box.classList.add('hit');tchars.forEach(function(c){c.classList.add('on')});return;}
+  box.classList.add('js-hit');
+  function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
+  function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1500)}
+  function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else raf=requestAnimationFrame(w)})()}
+  function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
+  function start(){zuruecksetzen();try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){setTimeout(treffer,600)});warte()}
+  var p=v.play();if(p&&p.catch)p.catch(function(){});warte();
+  setTimeout(function(){if(v.paused&&!v.ended||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
+  // beim Zurückscrollen in den Hero alles von vorn
+  var weg=false;
+  if('IntersectionObserver' in window)new IntersectionObserver(function(e){e.forEach(function(x){if(x.intersectionRatio<0.2){if(!weg){weg=true;v.pause()}}else if(weg&&x.intersectionRatio>0.5){weg=false;start()}})},{threshold:[0,0.2,0.5,1]}).observe(box);
+  window.addEventListener('pageshow',function(e){if(e.persisted)start()});
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
-  // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
-  var box=document.querySelector('.thero'),still=null;
-  // Headline schlägt mit dem Ball ein (Aufprall bei 2,4 s, Fallzeit der Schrift 0,28 s); Sicherheitsnetz, falls das Video nicht startet
-  var HIT=2.12;box.classList.add('js-hit');
-  var tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,caret=null;
-  if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}caret=document.createElement('span');caret.className='caret';caret.hidden=true;tt.appendChild(caret)}
-  function tippen(){clearTimeout(tTimer);tchars.forEach(function(c){c.classList.remove('on')});if(!tchars.length)return;var i=0;caret.hidden=false;
-    (function n(){if(i<tchars.length){tchars[i].classList.add('on');tt.insertBefore(caret,tchars[i].nextSibling);i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}else{tTimer=setTimeout(function(){caret.hidden=true},1800)}})()}
-  function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tchars.forEach(function(c){c.classList.remove('on')});tTimer=setTimeout(tippen,1500)}
-  (function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})();
-  setTimeout(function(){if(v.paused||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
-  // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
-  function standbild(){try{if(!v.videoWidth)return false;var c=still||document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;var g=c.getContext('2d');g.drawImage(v,0,0,c.width,c.height);
-    // prüfen, ob wirklich ein Bild übernommen wurde (manche Handys liefern bei Hardware-Video ein leeres Bild)
-    var ok=0;[[.3,.3],[.7,.3],[.5,.5],[.3,.7],[.7,.7]].forEach(function(q){var d=g.getImageData(Math.floor(c.width*q[0]),Math.floor(c.height*q[1]),1,1).data;if(d[3]>200&&d[0]+d[1]+d[2]>30)ok++});
-    if(ok<4){box.classList.remove('has-still');return false}
-    if(!still){still=c;c.className='thero-bg thero-still';c.setAttribute('aria-hidden','true');v.parentNode.insertBefore(c,v.nextSibling);}box.classList.add('has-still');return true}catch(e){return false}}
-  function ende(){if(!box.classList.contains('ended')){standbild();box.classList.add('ended')}}
-  v.addEventListener('ended',ende);
-  v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.08)ende()});
-  window.addEventListener('pageshow',function(){if(v.ended||(v.duration&&v.currentTime>=v.duration-0.1))ende()});
-  // Video startet neu, sobald der Hero nach dem Wegscrollen wieder ins Bild kommt
-  var weg=false;function neu(){if(!box.classList.contains('ended'))return;try{v.currentTime=0;}catch(e){}var p=v.play();var los=function(){box.classList.remove('ended');v.removeEventListener('playing',los);box.classList.remove('hit');void box.offsetWidth;(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})()};v.addEventListener('playing',los);if(p&&p.catch)p.catch(function(){v.removeEventListener('playing',los)})}
-  if('IntersectionObserver' in window)new IntersectionObserver(function(e){e.forEach(function(x){if(x.intersectionRatio<0.15)weg=true;else if(weg&&x.intersectionRatio>0.5){weg=false;neu()}})},{threshold:[0,0.15,0.5,1]}).observe(box);
-  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&(v.ended||box.classList.contains('ended'))){box.classList.remove('ended');box.classList.remove('hit');try{v.currentTime=0;}catch(e){}v.play();(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT)treffer();else requestAnimationFrame(w)})();}ui();});
+  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&v.ended)start();ui();});
 })();
 
 // Referenz-Galerie: lädt /referenzen/api.php. Startseite (data-teaser) zeigt eine Auswahl, /referenzen/ die ganze Galerie.
