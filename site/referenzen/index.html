@@ -550,6 +550,9 @@ body{line-height:1.55}
 
 /* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
 .thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:calc(100vh - var(--hh,72px));min-height:calc(100svh - var(--hh,72px));display:flex;align-items:stretch}
+.thero-still{opacity:0}
+.thero.ended .thero-still{opacity:1}
+.thero.has-still .thero-end{display:none}
 .thero-end{position:absolute;inset:0;opacity:0}
 .thero.ended .thero-end{opacity:1}
 .thero.ended #tspot{visibility:hidden}
@@ -869,7 +872,11 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   var p=v.play();if(p&&p.catch)p.catch(function(){});
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
-  var box=document.querySelector('.thero');function ende(){box.classList.add('ended')}
+  var box=document.querySelector('.thero'),still=null;
+  // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
+  function standbild(){try{if(!v.videoWidth)return false;var c=still||document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+    if(!still){still=c;c.className='thero-bg thero-still';c.setAttribute('aria-hidden','true');v.parentNode.insertBefore(c,v.nextSibling);}box.classList.add('has-still');return true}catch(e){return false}}
+  function ende(){if(!box.classList.contains('ended')){standbild();box.classList.add('ended')}}
   v.addEventListener('ended',ende);
   v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.08)ende()});
   window.addEventListener('pageshow',function(){if(v.ended||(v.duration&&v.currentTime>=v.duration-0.1))ende()});
