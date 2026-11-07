@@ -621,6 +621,8 @@ body{line-height:1.55}
 .rg-proj h3{font-size:22px;margin:0}
 .rg-proj .m{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0}
 .rg-proj p{margin:0}
+.rg-badges{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.rg-dhead .rg-badges{margin:14px 0 10px}
 .rg-badge{justify-self:start;background:var(--red);color:#fff;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:12px}
 .rg-works{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}
 .rg-work{display:grid;gap:8px;align-content:start;min-width:0}
@@ -1050,6 +1052,11 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   var out=document.getElementById('rgOut'),chips=document.getElementById('rgChips'),count=document.getElementById('rgCount'),main=document.getElementById('rgMain'),det=document.getElementById('rgDetail'),sec=document.getElementById('referenzen');
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function nb(k){return k.bereiche.length}
+  function lst(k){return k.leistungen||[]}
+  function cd(k){return lst(k).some(function(l){return l.toLowerCase().replace(/[^a-z]/g,'')==='corporatedesign'})}
+  function gross(k){return cd(k)||nb(k)>=RUNDUM}
+  function badge(k){var l=lst(k);return l.length?l.map(function(x){return '<span class="rg-badge">'+esc(x)+'</span>'}).join(''):(nb(k)>=RUNDUM?'<span class="rg-badge">Rundum betreut</span>':'')}
+  function gesamt(){var m={},o=[];D.kunden.forEach(function(k){lst(k).forEach(function(l){if(!m[l]){m[l]=0;o.push(l)}m[l]++})});o.sort(function(a,b){var x=a==='Corporate Design'?0:1,y=b==='Corporate Design'?0:1;return x-y||m[b]-m[a]});return o.map(function(l){return {k:'L:'+l,n:l,c:m[l]}})}
   function alle(){var a=[];D.kunden.forEach(function(k){k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){a.push({k:k,b:b,w:w})})})});return a}
   function kunde(id){return D.kunden.filter(function(k){return k.id===id})[0]}
   function thumb(w,ref){var n=w.items.length,lbl=w.typ==='video'?'':(n>1?(n+(w.typ==='serie'?' Varianten':(w.typ==='praesentation'?' Folien':' Seiten'))):'');
@@ -1058,18 +1065,21 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function chipsRender(){
     if(mode==='projekte'){chips.innerHTML='';chips.hidden=true;return}
     chips.hidden=false;var list;
-    if(mode==='leistung')list=D.kategorien.map(function(c){return {k:c.key,n:c.name,c:c.anzahl}});
+    if(mode==='leistung')list=gesamt().concat(D.kategorien.map(function(c){return {k:c.key,n:c.name,c:c.anzahl}}));
     else{var m={};D.kunden.forEach(function(k){if(k.branche)m[k.branche]=(m[k.branche]||0)+1});list=Object.keys(m).sort(function(a,b){return m[b]-m[a]||a.localeCompare(b,'de')}).map(function(k){return {k:k,n:k,c:m[k]}})}
     if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
   function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=big?10:6,c='';
     for(var i=0;i<n;i++)c+='<span>'+(t.length?'<img src="'+esc(t[i%t.length])+'" alt="" loading="lazy" decoding="async">':'')+'</span>';
-    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true">'+c+'</span><span class="b">'+(nb(k)>=RUNDUM?'<span class="rg-badge">Rundum betreut</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
+    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
   function render(){REG=[];chipsRender();
     if(mode!=='leistung'){var l=D.kunden.slice();if(mode==='branche')l=l.filter(function(k){return k.branche===sel});
       count.textContent=l.length+(l.length===1?' Kunde':' Kunden');
-      out.innerHTML='<div class="rg-projects">'+l.map(function(k){return projekt(k,mode==='projekte'&&nb(k)>=RUNDUM)}).join('')+'</div>';}
+      out.innerHTML='<div class="rg-projects">'+l.map(function(k){return projekt(k,mode==='projekte'&&gross(k))}).join('')+'</div>';}
+    else if(sel&&sel.indexOf('L:')===0){var ln=sel.slice(2),lk=D.kunden.filter(function(k){return lst(k).indexOf(ln)>-1});
+      count.textContent=lk.length+(lk.length===1?' Kunde':' Kunden')+' mit '+ln;
+      out.innerHTML='<div class="rg-projects">'+lk.map(function(k){return projekt(k,true)}).join('')+'</div>';}
     else{var ws=alle().filter(function(x){return x.b.key===sel}),name=(D.kategorien.filter(function(c){return c.key===sel})[0]||{}).name||'';
       count.textContent=ws.length+(ws.length===1?' Arbeit':' Arbeiten')+' im Bereich '+name;
       out.innerHTML='<div class="rg-works">'+ws.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>';}
@@ -1077,7 +1087,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function zeigeKunde(id){var k=kunde(id);if(!k)return;REG=[];
     var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small></h4><div class="rg-works">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
     var f=[['Branche',k.branche],['Ort',k.ort],['Zeitraum',k.zeitraum],['Bereiche',k.bereiche.map(function(b){return b.name}).join(', ')]].filter(function(x){return x[1]});
-    det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3><p class="lead">'+(nb(k)>=RUNDUM?'<strong>Corporate Identity aus einer Hand: '+nb(k)+' Bereiche.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
+    det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3>'+(badge(k)?'<p class="rg-badges">'+badge(k)+'</p>':'')+'<p class="lead">'+(cd(k)?'<strong>Corporate Design aus einer Hand: '+esc(k.bereiche.map(function(b){return b.name}).join(', '))+'.</strong> ':(nb(k)>=RUNDUM?'<strong>Rundum betreut: '+nb(k)+' Bereiche.</strong> ':''))+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
     main.hidden=true;det.hidden=false;sec.scrollIntoView({behavior:'smooth',block:'start'});}
   function zurueck(){det.hidden=true;main.hidden=false;render();sec.scrollIntoView({behavior:'smooth',block:'start'})}
   function lbBau(){lb=document.createElement('div');lb.className='rg-lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Arbeit groß ansehen');

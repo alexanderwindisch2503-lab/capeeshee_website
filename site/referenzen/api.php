@@ -22,7 +22,7 @@ $CACHE_SEC = 300;
 // Feste Bereiche in fester Reihenfolge. Schlüssel = Ordnername ohne Umlaute, klein, nur Buchstaben/Ziffern.
 $BEREICHE = [
   'logo' => 'Logo',
-  'corporatedesign' => 'Corporate Design',
+  'markenhandbuch' => 'Markenhandbuch',
   'geschaeftsausstattung' => 'Geschäftsausstattung',
   'briefpapier' => 'Briefpapier',
   'visitenkarten' => 'Visitenkarten',
@@ -46,6 +46,9 @@ $BEREICHE = [
   'video' => 'Video',
   'fotografie' => 'Fotografie',
 ];
+
+// Frühere oder andere Namen für denselben Bereich
+$ALIAS = ['corporatedesign' => 'markenhandbuch', 'styleguide' => 'markenhandbuch', 'cdmanual' => 'markenhandbuch', 'gestaltungsrichtlinien' => 'markenhandbuch'];
 
 $QUELLEN = ['pdf','ppt','pptx','odp','jpg','jpeg','png','webp','gif','tif','tiff','mp4','mov','m4v','avi','mkv','wmv','mpg','mpeg'];
 $DIREKT = ['jpg','jpeg','png','webp','gif'];
@@ -157,11 +160,19 @@ foreach (eintraege($BASE) as $kOrdner) {
     }
     if (!$arbeiten) continue;
     $k = schluessel(titel($bOrdner, false));
+    if (isset($ALIAS[$k])) $k = $ALIAS[$k];
     if (isset($bereiche[$k])) $bereiche[$k]['arbeiten'] = array_merge($bereiche[$k]['arbeiten'], $arbeiten);  // "Broschüren" und "Broschueren" zusammenführen
     else $bereiche[$k] = ['key' => $k, 'name' => $BEREICHE[$k] ?? titel($bOrdner, false), 'arbeiten' => $arbeiten];
   }
   if (!$bereiche) continue;
   $bereiche = array_values($bereiche);
+  // Gesamtleistungen aus info.txt ("Leistung: Corporate Design, Website-Relaunch"),
+  // Corporate Design automatisch bei Logo plus mindestens drei weiteren Bereichen
+  $leistungen = [];
+  foreach (preg_split('/\s*[,;]\s*/', (string)($inf['leistung'] ?? ($inf['leistungen'] ?? ''))) as $l) if (trim($l) !== '') $leistungen[] = trim($l);
+  $hatLogo = false; foreach ($bereiche as $b) if ($b['key'] === 'logo') $hatLogo = true;
+  $istCD = false; foreach ($leistungen as $l) if (schluessel($l) === 'corporatedesign') $istCD = true;
+  if (!$istCD && $hatLogo && count($bereiche) >= 4 && !isset($inf['leistung'])) array_unshift($leistungen, 'Corporate Design');
   $kunden[] = [
     'id' => schluessel(titel($kOrdner, false)),
     'name' => $inf['name'] ?? titel($kOrdner, false),
@@ -169,6 +180,7 @@ foreach (eintraege($BASE) as $kOrdner) {
     'ort' => $inf['ort'] ?? '',
     'zeitraum' => $inf['zeitraum'] ?? ($inf['jahre'] ?? ''),
     'text' => $inf['text'] ?? '',
+    'leistungen' => $leistungen,
     'bereiche' => $bereiche,
   ];
 }
