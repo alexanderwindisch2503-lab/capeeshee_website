@@ -41,6 +41,9 @@ jobs:
           if [ "$SFTP_PATH" = "/" ] || [ "$SFTP_PATH" = "." ] || [ "$SFTP_PATH" = "~" ]; then
             echo "::error::SFTP_PATH darf nicht das Hauptverzeichnis sein"; exit 1; fi
 
+      - name: Unterseiten erzeugen (Referenzen)
+        run: python3 tools/build_seiten.py
+
       - name: Per SFTP hochladen
         env:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}

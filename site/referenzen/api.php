@@ -93,11 +93,18 @@ function eintraege($dir) {
   });
   return $a;
 }
+function eintraege_alle($dir) {
+  $a = @scandir($dir);
+  if (!$a) return [];
+  $a = array_values(array_filter($a, function ($n) { return $n !== '' && $n[0] !== '.'; }));
+  usort($a, function ($x, $y) { return (ordnungswert($x) <=> ordnungswert($y)) ?: strnatcasecmp($x, $y); });
+  return $a;
+}
 function info($datei) {
   $r = [];
   if (!is_file($datei)) return $r;
   foreach (preg_split('/\r\n|\r|\n/', utf8((string)file_get_contents($datei))) as $z) {
-    if (preg_match('/^\s*([A-Za-zÄÖÜäöü]+)\s*:\s*(.+?)\s*$/u', $z, $m)) $r[schluessel($m[1])] = $m[2];
+    if (preg_match('/^\s*([A-Za-zÄÖÜäöü]+)\s*:\s*(.*?)\s*$/u', $z, $m)) $r[schluessel($m[1])] = $m[2];
   }
   return $r;
 }
@@ -175,12 +182,13 @@ foreach (eintraege($BASE) as $kOrdner) {
   if (!$istCD && $hatLogo && count($bereiche) >= 4 && !isset($inf['leistung'])) array_unshift($leistungen, 'Corporate Design');
   $kunden[] = [
     'id' => schluessel(titel($kOrdner, false)),
-    'name' => $inf['name'] ?? titel($kOrdner, false),
+    'name' => ($inf['name'] ?? '') ?: titel($kOrdner, false),
     'branche' => $inf['branche'] ?? '',
     'ort' => $inf['ort'] ?? '',
     'zeitraum' => $inf['zeitraum'] ?? ($inf['jahre'] ?? ''),
     'text' => $inf['text'] ?? '',
     'leistungen' => $leistungen,
+    'reihenfolge' => is_numeric($inf['reihenfolge'] ?? null) ? (int)$inf['reihenfolge'] : null,
     'bereiche' => $bereiche,
   ];
 }
@@ -204,11 +212,32 @@ usort($kategorien, function ($a, $b) use ($reihe) {
   $x = $reihe[$a['key']] ?? 1000; $y = $reihe[$b['key']] ?? 1000;
   return ($x <=> $y) ?: strnatcasecmp($a['name'], $b['name']);
 });
+// Gleiche Leistung in unterschiedlicher Schreibweise vereinheitlichen (erste Schreibweise gilt)
+$lname = [];
+foreach ($kunden as &$k) {
+  $neu = [];
+  foreach ($k['leistungen'] as $l) { $s = schluessel($l); if (!isset($lname[$s])) $lname[$s] = $l; if (!in_array($lname[$s], $neu, true)) $neu[] = $lname[$s]; }
+  $k['leistungen'] = $neu;
+}
+unset($k);
+// Sortierung: Reihenfolge aus info.txt, dann Corporate Design, dann Anzahl der Bereiche
 usort($kunden, function ($a, $b) {
-  return (count($b['bereiche']) <=> count($a['bereiche'])) ?: strnatcasecmp($a['name'], $b['name']);
+  $ra = $a['reihenfolge'] ?? PHP_INT_MAX; $rb = $b['reihenfolge'] ?? PHP_INT_MAX;
+  if ($ra !== $rb) return $ra <=> $rb;
+  $ca = in_array('corporatedesign', array_map('schluessel', $a['leistungen']), true) ? 0 : 1;
+  $cb = in_array('corporatedesign', array_map('schluessel', $b['leistungen']), true) ? 0 : 1;
+  return ($ca <=> $cb) ?: (count($b['bereiche']) <=> count($a['bereiche'])) ?: strnatcasecmp($a['name'], $b['name']);
 });
 
-$json = json_encode(['stand' => date('c'), 'kategorien' => $kategorien, 'kunden' => $kunden], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+// Kundenlogos für die Logoreihe: referenzen/_kundenlogos/<Name>.svg|png|jpg
+$logos = [];
+foreach (eintraege_alle("$BASE/_kundenlogos") as $d) {
+  $ext = strtolower(pathinfo($d, PATHINFO_EXTENSION));
+  if (!in_array($ext, ['svg', 'png', 'jpg', 'jpeg', 'webp'], true)) continue;
+  $logos[] = ['name' => titel($d), 'url' => url("_kundenlogos/$d")];
+}
+
+$json = json_encode(['stand' => date('c'), 'kategorien' => $kategorien, 'kunden' => $kunden, 'logos' => $logos], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 if (!is_dir($CACHE_DIR)) @mkdir($CACHE_DIR, 0755);
 if (is_dir($CACHE_DIR)) @file_put_contents($CACHE_FILE, $json, LOCK_EX);
 echo $json;
