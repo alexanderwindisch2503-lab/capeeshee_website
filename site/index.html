@@ -43,7 +43,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgb
 .logo img{height:34px;width:auto}
 @media (max-width:560px){.logo img{height:28px}}
 nav{margin-left:auto;display:flex;gap:clamp(14px,1.6vw,26px);align-items:center}
-nav .nl{white-space:nowrap}
+@media (min-width:1281px){nav .nl{white-space:nowrap}}
+#mainnav .nl{white-space:normal;overflow-wrap:anywhere}
 nav a{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:14px;text-decoration:none;color:var(--ink)}
 nav a:hover,nav a:focus-visible{color:var(--red)}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;font-family:var(--head);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 22px;border-radius:2px;border:0;cursor:pointer}
