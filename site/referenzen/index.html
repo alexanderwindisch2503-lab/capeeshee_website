@@ -561,7 +561,9 @@ body{line-height:1.55}
 .tsound svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .tsound .i-on{display:none}.tsound[aria-pressed="true"] .i-on{display:block}.tsound[aria-pressed="true"] .i-off{display:none}
 .wrap.thero-in .tsound{left:0}
-@media (max-width:860px){.wrap.thero-in .tsound{left:auto;right:16px;bottom:12px;height:34px;font-size:11px;width:112px}}
+@media (max-width:860px){.wrap.thero-in .tsound{left:auto;right:16px;bottom:12px;height:30px;font-size:10px;letter-spacing:.08em;gap:6px;width:88px}.tsound svg{width:15px;height:15px}}
+@media (max-width:400px){.thero .thero-cap{letter-spacing:.04em;font-size:9.5px}}
+@media (max-width:350px){.wrap.thero-in .tsound{width:34px}.tsound .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
 .thero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,22,10,.42) 0%,rgba(60,22,10,.18) 45%,rgba(60,22,10,0) 70%);pointer-events:none}
 .thero-in{position:relative;z-index:2;width:100%;min-height:inherit;display:flex;flex-direction:column;justify-content:center;padding-block:clamp(96px,10vh,140px) clamp(56px,8vh,96px)}
 .hero[hidden]{display:none!important}
@@ -579,7 +581,7 @@ body{line-height:1.55}
   .thero-in{justify-content:flex-end;padding-block:24px 52px}
   .thero-txt{max-width:100%}
   .thero-sub{white-space:normal}
-  .thero .thero-cap{bottom:18px;left:max(16px,env(safe-area-inset-left,0px));right:auto;max-width:calc(100% - 170px);line-height:1.35}
+  .thero .thero-cap{bottom:18px;left:max(16px,env(safe-area-inset-left,0px));right:auto;white-space:nowrap}
 }
 .philo-sec{padding-block:clamp(56px,8vw,104px) 0}
 .lst-intro{margin-top:clamp(72px,9vw,128px);margin-bottom:clamp(32px,4vw,48px)}
