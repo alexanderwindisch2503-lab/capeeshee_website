@@ -553,7 +553,6 @@ body{line-height:1.55}
 .thero.has-still .thero-end{display:none}
 .thero-end{position:absolute;inset:0;opacity:0}
 .thero.ended .thero-end{opacity:1}
-.thero.ended #tspot{visibility:hidden}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
 @media (prefers-reduced-motion:reduce){.thero .thero-bg{display:none}.thero{background:#b5532f url(video/tennis-hero-still.jpg?v=202611071045) 70% 55%/cover no-repeat}}
 .tsound{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 14px 0 11px;border:0;border-radius:2px;background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.85);font:600 12px var(--head);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
@@ -727,8 +726,8 @@ nav a[aria-current="page"]{color:var(--red)}
 <main id="top">
 
   <section class="thero" aria-label="Tennisball springt auf die Linie eines Sandplatzes">
-    <picture class="thero-end" aria-hidden="true"><source srcset="video/tennis-hero-mobil-ende.jpg?v=202611071956" media="(max-width: 860px) and (orientation: portrait)"><img class="thero-bg" src="video/tennis-hero-ende.jpg?v=202611071956" alt="" decoding="async"></picture>
     <video id="tspot" class="thero-bg" muted playsinline autoplay preload="auto" poster="video/tennis-hero-poster.jpg?v=202611071045" aria-hidden="true" tabindex="-1"><source src="video/tennis-hero-mobil.mp4?v=202611071045" type="video/mp4" media="(max-width: 860px) and (orientation: portrait)"><source src="video/tennis-hero.mp4?v=202611071045" type="video/mp4"></video>
+    <picture class="thero-end" aria-hidden="true"><source srcset="video/tennis-hero-mobil-ende.jpg?v=202611071956" media="(max-width: 860px) and (orientation: portrait)"><img class="thero-bg" src="video/tennis-hero-ende.jpg?v=202611071956" alt="" decoding="async"></picture>
     <div class="wrap thero-in">
       <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#f0f400"/><circle cx="100" cy="100" r="58" fill="none" stroke="#303133" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#303133" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#303133" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#303133" letter-spacing="3">POWERED</text></svg></div>
       <div class="thero-txt">
@@ -1084,7 +1083,10 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
   var box=document.querySelector('.thero'),still=null;
   // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
-  function standbild(){try{if(!v.videoWidth)return false;var c=still||document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+  function standbild(){try{if(!v.videoWidth)return false;var c=still||document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;var g=c.getContext('2d');g.drawImage(v,0,0,c.width,c.height);
+    // prüfen, ob wirklich ein Bild übernommen wurde (manche Handys liefern bei Hardware-Video ein leeres Bild)
+    var ok=0;[[.3,.3],[.7,.3],[.5,.5],[.3,.7],[.7,.7]].forEach(function(q){var d=g.getImageData(Math.floor(c.width*q[0]),Math.floor(c.height*q[1]),1,1).data;if(d[3]>200&&d[0]+d[1]+d[2]>30)ok++});
+    if(ok<4){box.classList.remove('has-still');return false}
     if(!still){still=c;c.className='thero-bg thero-still';c.setAttribute('aria-hidden','true');v.parentNode.insertBefore(c,v.nextSibling);}box.classList.add('has-still');return true}catch(e){return false}}
   function ende(){if(!box.classList.contains('ended')){standbild();box.classList.add('ended')}}
   v.addEventListener('ended',ende);
