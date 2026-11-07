@@ -188,6 +188,7 @@ foreach (eintraege($BASE) as $kOrdner) {
     'zeitraum' => $inf['zeitraum'] ?? ($inf['jahre'] ?? ''),
     'text' => $inf['text'] ?? '',
     'leistungen' => $leistungen,
+    'logoreihe' => in_array(schluessel($inf['logoreihe'] ?? ''), ['ja', 'yes', '1', 'x'], true),
     'reihenfolge' => is_numeric($inf['reihenfolge'] ?? null) ? (int)$inf['reihenfolge'] : null,
     'bereiche' => $bereiche,
   ];

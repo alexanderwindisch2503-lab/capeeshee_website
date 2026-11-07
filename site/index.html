@@ -548,7 +548,7 @@ body{line-height:1.55}
 
 /* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
 .thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:calc(100vh - var(--hh,72px));min-height:calc(100svh - var(--hh,72px));display:flex;align-items:stretch}
-.thero-end{position:absolute;inset:0;opacity:0;transition:opacity .25s ease}
+.thero-end{position:absolute;inset:0;opacity:0}
 .thero.ended .thero-end{opacity:1}
 .thero.ended #tspot{visibility:hidden}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
@@ -687,7 +687,8 @@ body{line-height:1.55}
 .rt-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 40px}
 .rt-head .lead{margin-top:16px;max-width:52ch}
 .rg-logos{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:28px 40px!important;align-items:center}
-.rg-logos li{display:flex;align-items:center;justify-content:center;height:56px}
+.rg-logos li,.rg-logos a{display:flex;align-items:center;justify-content:center;height:56px}
+.rg-logos img{mix-blend-mode:multiply}
 .rg-logos img{max-width:100%;max-height:56px;object-fit:contain;filter:grayscale(1);opacity:.7;transition:opacity .2s,filter .2s}
 .rg-logos li:hover img{filter:none;opacity:1}
 .rg-page{padding-top:clamp(40px,6vw,80px)}
@@ -1078,6 +1079,9 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   v.addEventListener('ended',ende);
   v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.08)ende()});
   window.addEventListener('pageshow',function(){if(v.ended||(v.duration&&v.currentTime>=v.duration-0.1))ende()});
+  // Video startet neu, sobald der Hero nach dem Wegscrollen wieder ins Bild kommt
+  var weg=false;function neu(){if(!box.classList.contains('ended'))return;try{v.currentTime=0;}catch(e){}var p=v.play();var los=function(){box.classList.remove('ended');v.removeEventListener('playing',los)};v.addEventListener('playing',los);if(p&&p.catch)p.catch(function(){v.removeEventListener('playing',los)})}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(e){e.forEach(function(x){if(x.intersectionRatio<0.15)weg=true;else if(weg&&x.intersectionRatio>0.5){weg=false;neu()}})},{threshold:[0,0.15,0.5,1]}).observe(box);
   if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&(v.ended||box.classList.contains('ended'))){box.classList.remove('ended');try{v.currentTime=0;}catch(e){}v.play();}ui();});
 })();
 
@@ -1155,8 +1159,11 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     else if(t.dataset.back)zurueck();
     else if(t.dataset.open!==undefined)lbAuf(REG[+t.dataset.open]);});
   window.addEventListener('resize',function(){if(D&&!TEASER){var g=out.querySelector('.rg-projects');if(g&&!out.querySelector('.rg-more'))fuell(g,true)}});
-  function logos(){var box=document.getElementById('rgLogos');if(!box||!D.logos||!D.logos.length)return;
-    box.querySelector('ul').outerHTML='<ul class="rg-logos">'+D.logos.map(function(l){return '<li><img src="'+esc(U(l.url))+'" alt="'+esc(l.name)+'" title="'+esc(l.name)+'" loading="lazy"></li>'}).join('')+'</ul>'}
+  function logos(){var box=document.getElementById('rgLogos');if(!box)return;
+    var L=[],ids={};D.kunden.forEach(function(k){if(!k.logoreihe)return;var b=k.bereiche.filter(function(x){return x.key==='logo'})[0];if(!b)return;L.push({n:k.name,u:b.arbeiten[0].items[0].t,h:'/referenzen/#'+k.id});ids[k.id]=1});
+    (D.logos||[]).forEach(function(l){L.push({n:l.name,u:l.url,h:''})});
+    if(!L.length)return;
+    box.querySelector('ul').outerHTML='<ul class="rg-logos">'+L.map(function(l){var i='<img src="'+esc(U(l.u))+'" alt="'+esc(l.n)+'" title="'+esc(l.n)+'" loading="lazy">';return '<li>'+(l.h?'<a href="'+esc(l.h)+'" aria-label="Referenzen '+esc(l.n)+'">'+i+'</a>':i)+'</li>'}).join('')+'</ul>'}
   fetch('/referenzen/api.php',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(!d||!d.kunden||!d.kunden.length)return;D=d;root.hidden=false;var st=sec.querySelector('.refs');if(st)st.hidden=true;logos();render();
     if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
