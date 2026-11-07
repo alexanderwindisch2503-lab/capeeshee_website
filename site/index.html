@@ -611,12 +611,12 @@ body{line-height:1.55}
 .rg-chip small{color:var(--muted);margin-left:6px}.rg-chip[aria-pressed="true"] small{color:#f1d2c2}
 .rg-count{margin:28px 0 0;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
 .rg-projects{margin-top:18px;display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
-.rg-proj{background:#fff;border:0;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit;min-width:0}
+.rg-proj{background:transparent;border:0;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit;min-width:0}
 .rg-proj.big{grid-column:span 2}
-.rg-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--line)}
+.rg-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:transparent;padding-bottom:8px}
 .rg-proj.big .rg-mosaic{grid-template-columns:repeat(5,1fr)}
-.rg-mosaic span{aspect-ratio:1;background:#fff center/contain no-repeat;background-origin:content-box;padding:8%}
-.rg-proj .b{padding:20px 22px 24px;display:grid;gap:6px}
+.rg-mosaic span{aspect-ratio:1;box-shadow:0 1px 4px rgba(48,49,51,.08);background:#fff center/contain no-repeat;background-origin:content-box;padding:8%}
+.rg-proj .b{background:#fff;box-shadow:0 1px 4px rgba(48,49,51,.08);flex:1;padding:20px 22px 24px;display:grid;gap:6px}
 .rg-proj h3{font-size:22px;margin:0}
 .rg-proj .m{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0}
 .rg-proj p{margin:0}
