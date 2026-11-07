@@ -15,7 +15,7 @@
 :root{
   color-scheme:light;
   --bg:#ffffff; --bg-alt:#f5f5f3; --ink:#303133; --text:#5f6164; --muted:#8a8c8f; --line:#e4e4e1;
-  --red:#9e4015; --red-soft:#f5e6dc; --dark:#141618; --dark-text:#b9bcc0;
+  --red:#9e4015; --red-soft:#f5e6dc; --t1:#8c3024; --t2:#b65434; --t3:#d68a57; --t4:#dbb39a; --t5:#e9ded4; --dark:#141618; --dark-text:#b9bcc0;
   --display:"Poppins", "Segoe UI", system-ui, sans-serif;
   --head:"Titillium Web", "Segoe UI", system-ui, sans-serif;
   --body:"Yantramanav", "Segoe UI", system-ui, sans-serif;
@@ -579,6 +579,23 @@ body{line-height:1.55}
 .philo h2{margin:0;text-wrap:balance}.philo h2 .red{color:var(--red)}
 .philo-txt{display:grid;gap:18px}.philo-txt .lead{margin:0;max-width:56ch}
 @media (max-width:860px){.philo{grid-template-columns:1fr}}
+
+/* Sandplatz-Palette: fünf Töne von Rostbraun bis Kreide */
+.flow li{position:relative;padding-top:30px!important}
+.flow li::before{content:"";position:absolute;left:0;right:-3px;top:0;height:12px;background:var(--c)}
+.flow li:first-child::before{border-radius:6px 0 0 6px}.flow li:last-child::before{border-radius:0 6px 6px 0;right:0}
+.flow li .n{color:var(--c)!important}
+.flow li:nth-child(1){--c:var(--t1)}.flow li:nth-child(2){--c:var(--t2)}.flow li:nth-child(3){--c:var(--t3)}.flow li:nth-child(4){--c:var(--t4)}.flow li:nth-child(5){--c:var(--t5)}
+.flow li:nth-child(4) .n,.flow li:nth-child(5) .n{color:var(--t3)!important}
+@media (max-width:860px){.flow li::before{right:0;border-radius:6px!important}}
+.philo-bar{grid-column:1/-1;margin-top:clamp(28px,4vw,48px)}
+.philo-bar .track{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--t1),var(--t2),var(--t3),var(--t4),var(--t5))}
+.philo-bar .lbl{display:flex;justify-content:space-between;margin-top:10px;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.facts-band .facts-row > div:nth-child(1) strong{color:var(--t1)}.facts-band .facts-row > div:nth-child(2) strong{color:var(--t2)}.facts-band .facts-row > div:nth-child(3) strong{color:var(--t3)}.facts-band .facts-row > div:nth-child(4) strong{color:var(--t4)}
+.services .svc{border-top:4px solid var(--c)!important}
+.services .svc:nth-child(-n+4){--c:var(--t1)}.services .svc:nth-child(n+5):nth-child(-n+8){--c:var(--t2)}.services .svc:nth-child(n+9){--c:var(--t3)}
+.services .svc,.nk-tile{background:var(--t5)!important}
+.btn:hover{background:var(--t1)!important}
 </style>
 </head>
 <body>
@@ -680,6 +697,7 @@ body{line-height:1.55}
           <p class="lead">In der Werbung ist es wie im Tennis: Nur wer dranbleibt, gewinnt. Eine einzelne Aktion verpufft schnell. Sichtbar wird eine Marke erst, wenn sie kontinuierlich auf allen passenden Kanälen präsent ist.</p>
           <p class="lead">Doch Sichtbarkeit allein genügt nicht. Ihre Kunden beschäftigen sich nur dann mit Ihrem Angebot, wenn es ihnen eine Lösung bietet. Sie wollen in ihrer Situation abgeholt werden, nicht bedrängt. Denn heute entscheidet der Kunde selbst, wann er welche Werbung sieht und wie weit er sich auf ein Produkt einlässt.</p>
         </div>
+        <div class="philo-bar" aria-hidden="true"><div class="track"></div><div class="lbl"><span>Einzelne Aktion</span><span>Kontinuität</span></div></div>
       </div>
     </div>
   </section>
