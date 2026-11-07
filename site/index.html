@@ -553,11 +553,12 @@ body{line-height:1.55}
 .thero.ended #tspot{visibility:hidden}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
 @media (prefers-reduced-motion:reduce){.thero .thero-bg{display:none}.thero{background:#b5532f url(video/tennis-hero-still.jpg?v=202611071045) 70% 55%/cover no-repeat}}
-.tsound{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:16px;z-index:3;height:40px;padding:0 16px 0 12px;border:0;border-radius:20px;background:rgba(255,255,255,.9);color:#303133;font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(4px)}
-.tsound:hover{background:#fff}
-.tsound .ico{font-size:14px;letter-spacing:0}
+.tsound{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:16px;z-index:3;display:inline-flex;align-items:center;gap:9px;height:38px;padding:0 14px 0 11px;border:0;border-radius:2px;background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.85);font:600 12px var(--head);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+.tsound:hover,.tsound:focus-visible{background:#fff;color:var(--ink)}
+.tsound svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tsound .i-on{display:none}.tsound[aria-pressed="true"] .i-on{display:block}.tsound[aria-pressed="true"] .i-off{display:none}
 .wrap.thero-in .tsound{left:0}
-@media (max-width:860px){.wrap.thero-in .tsound{left:auto;right:0;bottom:12px;height:34px;font-size:11px;padding:0 12px 0 10px}}
+@media (max-width:860px){.wrap.thero-in .tsound{left:auto;right:0;bottom:12px;height:34px;font-size:11px;padding:0 11px 0 9px}}
 .thero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,22,10,.42) 0%,rgba(60,22,10,.18) 45%,rgba(60,22,10,0) 70%);pointer-events:none}
 .thero-in{position:relative;z-index:2;width:100%;min-height:inherit;display:flex;flex-direction:column;justify-content:center;padding-block:clamp(96px,10vh,140px) clamp(56px,8vh,96px)}
 .hero[hidden]{display:none!important}
@@ -728,7 +729,7 @@ nav a[aria-current="page"]{color:var(--red)}
         <h1 class="thero-h">Auf die Linie. <span>Werbung, die sitzt.</span></h1>
         <p class="thero-sub">KI-powered Werbeagentur für Web &amp; Print in Augsburg</p>
       </div>
-      <button type="button" id="tsound" class="tsound" aria-pressed="false"><span class="ico" aria-hidden="true">🔇</span><span class="lbl">Ton an</span></button>
+      <button type="button" id="tsound" class="tsound" aria-pressed="false"><svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg><svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span class="lbl">Ton an</span></button>
       <span class="ai-cap thero-cap"><b>KI</b>Video KI-generiert von Capeeshee</span>
     </div>
   </section>
@@ -1073,7 +1074,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 (function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound');if(!v)return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;return;}
   var p=v.play();if(p&&p.catch)p.catch(function(){});
-  function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.ico').textContent=on?'🔊':'🔇';snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
+  function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
   var box=document.querySelector('.thero');function ende(){box.classList.add('ended')}
   v.addEventListener('ended',ende);
