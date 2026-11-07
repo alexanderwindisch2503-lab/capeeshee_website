@@ -578,10 +578,8 @@ body{line-height:1.55}
 /* Headline synchron zum Balleinschlag: Zeile 1 fährt ein und federt nach, Zeile 2 blendet verzögert ein */
 .js-hit .thero-h .l1{opacity:0;transform:translateY(-140px)}
 .js-hit .thero-h .l2{opacity:0;transform:translateY(14px)}
-.js-hit .thero-txt .thero-sub{opacity:0}
 .js-hit.hit .thero-h .l1{animation:treffer .95s linear forwards}
 .js-hit.hit .thero-h .l2{animation:linie .7s ease-out .9s forwards}
-.js-hit.hit .thero-txt .thero-sub{animation:linie .7s ease-out 1.45s forwards}
 @keyframes treffer{0%{opacity:0;transform:translateY(-140px);animation-timing-function:cubic-bezier(.55,0,1,.45)}30%{opacity:1;transform:translateY(0) scale(1.04,.9);animation-timing-function:cubic-bezier(0,.55,.45,1)}48%{transform:translateY(-18px) scale(.99,1.02);animation-timing-function:cubic-bezier(.55,0,1,.45)}62%{transform:translateY(0) scale(1.02,.96);animation-timing-function:cubic-bezier(0,.55,.45,1)}76%{transform:translateY(-6px) scale(1);animation-timing-function:cubic-bezier(.55,0,1,.45)}88%{transform:translateY(0) scale(1.01,.99)}100%{opacity:1;transform:none}}
 @keyframes linie{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js-hit .thero-h .l1,.js-hit .thero-h .l2,.js-hit .thero-txt .thero-sub{opacity:1!important;transform:none!important;animation:none!important}}
@@ -732,6 +730,17 @@ html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
 .logo img{transition:filter .3s ease}
 .logo:focus:not(:focus-visible){outline:0}
 @media (max-width:860px){html.over-hero .thero-in{padding-top:calc(var(--hh,64px) + 24px)}}
+
+/* Headline unter die Linie, Unterzeile oben mittig als Schreibmaschine */
+html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp(56px,7vh,80px)!important}
+.thero-type{position:absolute;left:0;right:0;top:calc(var(--hh,72px) + clamp(28px,6vh,70px));margin:0;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));text-align:center;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(14px,1.35vw,19px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5);line-height:1.6;z-index:3}
+.thero-type .tt .c{visibility:hidden}
+.thero-type .tt .c.on{visibility:visible}
+.thero-type .caret{display:inline-block;width:.08em;min-width:2px;height:1.05em;margin-left:.12em;vertical-align:-.15em;background:#f0f400;animation:caret .9s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+@media (max-width:860px){html.over-hero .thero-in{padding-bottom:64px!important}.thero-type{font-size:12px;letter-spacing:.16em;padding-inline:24px}html.over-hero .thero .seal{top:calc(var(--hh,64px) + 96px)!important}}
+@media (orientation:landscape) and (max-height:560px){.thero-type{top:calc(var(--hh,64px) + 10px);font-size:11px}html.over-hero .thero-in{padding-bottom:40px!important}}
+@media (prefers-reduced-motion:reduce){.thero-type .tt .c{visibility:visible}.thero-type .caret{display:none}}
 </style>
 </head>
 <body>
@@ -760,9 +769,9 @@ html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
     <picture class="thero-end" aria-hidden="true"><source srcset="video/tennis-hero-mobil-ende.jpg?v=202611071956" media="(max-width: 860px) and (orientation: portrait)"><img class="thero-bg" src="video/tennis-hero-ende.jpg?v=202611071956" alt="" decoding="async"></picture>
     <div class="wrap thero-in">
       <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#f0f400"/><circle cx="100" cy="100" r="58" fill="none" stroke="#303133" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#303133" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#303133" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#303133" letter-spacing="3">POWERED</text></svg></div>
+      <p class="thero-type" aria-label="KI-powered Werbeagentur für Web und Print in Augsburg"><span class="tt" aria-hidden="true">KI-powered Werbeagentur für Web &amp; Print in Augsburg</span></p>
       <div class="thero-txt">
         <h1 class="thero-h"><span class="l1">Werbung, die trifft.</span> <span class="l2">Auf ganzer Linie.</span></h1>
-        <p class="thero-sub">KI-powered Werbeagentur für Web &amp; Print in Augsburg</p>
       </div>
       <button type="button" id="tsound" class="tsound" aria-pressed="false"><svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg><svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span class="lbl">Ton an</span></button>
       <span class="ai-cap thero-cap"><b>KI</b>Video KI-generiert von Capeeshee</span>
@@ -1113,7 +1122,12 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
   var box=document.querySelector('.thero'),still=null;
   // Headline schlägt mit dem Ball ein (Aufprall bei 2,4 s, Fallzeit der Schrift 0,28 s); Sicherheitsnetz, falls das Video nicht startet
-  var HIT=2.12;box.classList.add('js-hit');function treffer(){box.classList.add('hit')}
+  var HIT=2.12;box.classList.add('js-hit');
+  var tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,caret=null;
+  if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}caret=document.createElement('span');caret.className='caret';caret.hidden=true;tt.appendChild(caret)}
+  function tippen(){clearTimeout(tTimer);tchars.forEach(function(c){c.classList.remove('on')});if(!tchars.length)return;var i=0;caret.hidden=false;
+    (function n(){if(i<tchars.length){tchars[i].classList.add('on');tt.insertBefore(caret,tchars[i].nextSibling);i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}else{tTimer=setTimeout(function(){caret.hidden=true},1800)}})()}
+  function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tchars.forEach(function(c){c.classList.remove('on')});tTimer=setTimeout(tippen,1500)}
   (function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})();
   setTimeout(function(){if(v.paused||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
   // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
