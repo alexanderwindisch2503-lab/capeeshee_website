@@ -610,7 +610,7 @@ body{line-height:1.55}
 .rg-chip[aria-pressed="true"]{border-color:var(--red);background:var(--red);color:#fff}
 .rg-chip small{color:var(--muted);margin-left:6px}.rg-chip[aria-pressed="true"] small{color:#f1d2c2}
 .rg-count{margin:28px 0 0;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
-.rg-projects{margin-top:18px;display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
+.rg-projects{margin-top:18px;display:grid;align-items:start;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
 .rg-proj{background:transparent;border:0;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit;min-width:0}
 .rg-proj.big{grid-column:span 2}
 .rg-mosaic{display:grid;grid-template-columns:repeat(var(--sp,3),1fr);gap:8px;background:transparent;padding-bottom:8px}
@@ -1071,9 +1071,9 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
-  function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=Math.min(big?10:6,t.length),c='';
+  function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var L=t.length,n=big?(L>=10?10:(L>=5?5:L)):(L>=6?6:(L>=3?3:L)),c='';
     for(var i=0;i<n;i++)c+='<span><img src="'+esc(t[i])+'" alt="" loading="lazy" decoding="async"></span>';
-    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true" style="--sp:'+(big?(n>=10?5:Math.max(3,Math.ceil(n/2))):(n>=6?3:Math.max(2,Math.ceil(n/2))))+'">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
+    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true" style="--sp:'+(big?(n>=5?5:Math.max(1,n)):(n>=3?3:Math.max(1,n)))+'">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
   function render(){REG=[];chipsRender();
     if(mode!=='leistung'){var l=D.kunden.slice();if(mode==='branche')l=l.filter(function(k){return k.branche===sel});
       count.textContent=l.length+(l.length===1?' Kunde':' Kunden');
