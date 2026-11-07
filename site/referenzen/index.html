@@ -575,15 +575,16 @@ body{line-height:1.55}
 .thero-sub{white-space:nowrap}
 .thero-h{font-family:Poppins,sans-serif;font-weight:800;font-size:clamp(44px,6.8vw,96px);line-height:.98;letter-spacing:-.045em;color:#fff;margin:0;text-wrap:balance;text-shadow:0 2px 24px rgba(60,20,8,.25)}
 .thero-h span{display:block}
-.thero-h .l2{color:#f0f400}
+.thero-h .l1{color:#f0f400;font-size:1.3em;line-height:.94;transform-origin:0 100%}
+.thero-h .l2{color:#fff;margin-top:.12em}
 /* Headline synchron zum Balleinschlag: Zeile 1 fährt ein und federt nach, Zeile 2 blendet verzögert ein */
-.js-hit .thero-h .l1{opacity:0;transform:translateX(-70px)}
+.js-hit .thero-h .l1{opacity:0;transform:translateY(-140px)}
 .js-hit .thero-h .l2{opacity:0;transform:translateY(14px)}
 .js-hit .thero-txt .thero-sub{opacity:0}
-.js-hit.hit .thero-h .l1{animation:treffer .95s cubic-bezier(.2,.9,.3,1) forwards}
-.js-hit.hit .thero-h .l2{animation:linie .7s ease-out .75s forwards}
-.js-hit.hit .thero-txt .thero-sub{animation:linie .7s ease-out 1.25s forwards}
-@keyframes treffer{0%{opacity:0;transform:translateX(-70px)}22%{opacity:1;transform:translateX(9px)}40%{transform:translateX(-5px)}58%{transform:translateX(3px)}76%{transform:translateX(-1.2px)}100%{opacity:1;transform:none}}
+.js-hit.hit .thero-h .l1{animation:treffer .95s linear forwards}
+.js-hit.hit .thero-h .l2{animation:linie .7s ease-out .9s forwards}
+.js-hit.hit .thero-txt .thero-sub{animation:linie .7s ease-out 1.45s forwards}
+@keyframes treffer{0%{opacity:0;transform:translateY(-140px);animation-timing-function:cubic-bezier(.55,0,1,.45)}30%{opacity:1;transform:translateY(0) scale(1.04,.9);animation-timing-function:cubic-bezier(0,.55,.45,1)}48%{transform:translateY(-18px) scale(.99,1.02);animation-timing-function:cubic-bezier(.55,0,1,.45)}62%{transform:translateY(0) scale(1.02,.96);animation-timing-function:cubic-bezier(0,.55,.45,1)}76%{transform:translateY(-6px) scale(1);animation-timing-function:cubic-bezier(.55,0,1,.45)}88%{transform:translateY(0) scale(1.01,.99)}100%{opacity:1;transform:none}}
 @keyframes linie{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js-hit .thero-h .l1,.js-hit .thero-h .l2,.js-hit .thero-txt .thero-sub{opacity:1!important;transform:none!important;animation:none!important}}
 .thero-sub{margin:22px 0 0;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(13px,1.1vw,16px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5)}
@@ -901,8 +902,8 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
   // Schlussbild als feste Ebene: bleibt sichtbar, auch wenn das Handy das Video beim Scrollen entlädt
   var box=document.querySelector('.thero'),still=null;
-  // Headline beim Balleinschlag (2,4 s) zeigen; Sicherheitsnetz, falls das Video nicht startet
-  var HIT=2.4;box.classList.add('js-hit');function treffer(){box.classList.add('hit')}
+  // Headline schlägt mit dem Ball ein (Aufprall bei 2,4 s, Fallzeit der Schrift 0,28 s); Sicherheitsnetz, falls das Video nicht startet
+  var HIT=2.12;box.classList.add('js-hit');function treffer(){box.classList.add('hit')}
   (function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else requestAnimationFrame(w)})();
   setTimeout(function(){if(v.paused||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
   // Schlussbild direkt aus dem laufenden Video übernehmen: gleiche Farben wie im Video, auch wenn das Handy das Video später entlädt
