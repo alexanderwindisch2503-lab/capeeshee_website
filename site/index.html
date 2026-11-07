@@ -571,11 +571,11 @@ body{line-height:1.55}
 .thero-h .l1{color:#f0f400;font-size:1.3em;line-height:.94;transform-origin:0 100%}
 .thero-h .l2{color:#fff;margin-top:.12em}
 /* Headline synchron zum Balleinschlag: Zeile 1 fährt ein und federt nach, Zeile 2 blendet verzögert ein */
-.js-hit .thero-h .l1{opacity:0;transform:translateY(-140px)}
+.js-hit .thero-h .l1{opacity:0;transform:translateX(-110vw)}
 .js-hit .thero-h .l2{opacity:0;transform:translateY(14px)}
-.js-hit.hit .thero-h .l1{animation:treffer .95s linear forwards}
-.js-hit.hit .thero-h .l2{animation:linie .7s ease-out .9s forwards}
-@keyframes treffer{0%{opacity:0;transform:translateY(-140px);animation-timing-function:cubic-bezier(.55,0,1,.45)}30%{opacity:1;transform:translateY(0) scale(1.04,.9);animation-timing-function:cubic-bezier(0,.55,.45,1)}48%{transform:translateY(-18px) scale(.99,1.02);animation-timing-function:cubic-bezier(.55,0,1,.45)}62%{transform:translateY(0) scale(1.02,.96);animation-timing-function:cubic-bezier(0,.55,.45,1)}76%{transform:translateY(-6px) scale(1);animation-timing-function:cubic-bezier(.55,0,1,.45)}88%{transform:translateY(0) scale(1.01,.99)}100%{opacity:1;transform:none}}
+.js-hit.hit .thero-h .l1{animation:treffer .28s cubic-bezier(.3,.6,.4,1) forwards}
+.js-hit.hit .thero-h .l2{animation:linie .7s ease-out .6s forwards}
+@keyframes treffer{0%{opacity:1;transform:translateX(-110vw)}100%{opacity:1;transform:none}}
 @keyframes linie{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js-hit .thero-h .l1,.js-hit .thero-h .l2,.js-hit .thero-txt .thero-sub{opacity:1!important;transform:none!important;animation:none!important}}
 .thero-sub{margin:22px 0 0;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(13px,1.1vw,16px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5)}
@@ -1114,7 +1114,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;box.classList.add('hit');tchars.forEach(function(c){c.classList.add('on')});return;}
   box.classList.add('js-hit');
   function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
-  function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1500)}
+  function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1200)}
   function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else raf=requestAnimationFrame(w)})()}
   function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
   function start(){zuruecksetzen();try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){setTimeout(treffer,600)});warte()}
