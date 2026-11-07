@@ -573,7 +573,9 @@ body{line-height:1.55}
   .thero-sub{white-space:normal}
   .thero .thero-cap{bottom:18px;left:max(16px,env(safe-area-inset-left,0px));right:auto}
 }
-.philo{margin-block:clamp(64px,8vw,112px) clamp(40px,5vw,64px);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start}
+.philo-sec{padding-block:clamp(56px,8vw,104px) 0}
+.lst-intro{margin-top:clamp(72px,9vw,128px);margin-bottom:clamp(32px,4vw,48px)}
+.philo{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start}
 .philo h2{margin:0;text-wrap:balance}.philo h2 .red{color:var(--red)}
 .philo-txt{display:grid;gap:18px}.philo-txt .lead{margin:0;max-width:56ch}
 @media (max-width:860px){.philo{grid-template-columns:1fr}}
@@ -670,15 +672,20 @@ body{line-height:1.55}
     </div>
   </section>
 
+  <section class="philo-sec" aria-label="Unsere Philosophie">
+    <div class="wrap">
+      <div class="philo">
+        <div class="philo-head"><p class="eyebrow">Unsere Philosophie</p><h2>Erfolg ist eine Frage der <span class="red">Ausdauer.</span></h2></div>
+        <div class="philo-txt">
+          <p class="lead">In der Werbung ist es wie im Tennis: Nur wer dranbleibt, gewinnt. Eine einzelne Aktion verpufft schnell. Sichtbar wird eine Marke erst, wenn sie kontinuierlich auf allen passenden Kanälen präsent ist.</p>
+          <p class="lead">Doch Sichtbarkeit allein genügt nicht. Ihre Kunden beschäftigen sich nur dann mit Ihrem Angebot, wenn es ihnen eine Lösung bietet. Sie wollen in ihrer Situation abgeholt werden, nicht bedrängt. Denn heute entscheidet der Kunde selbst, wann er welche Werbung sieht und wie weit er sich auf ein Produkt einlässt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="leistungen" class="leistungen">
     <div class="wrap">
-      <p class="eyebrow">Leistungen</p>
-      <h2 class="lst-title">Alles, was Ihre Werbung braucht.</h2>
-      <div class="svc-summary">
-        <p class="lead">Von der ersten Idee bis zum fertigen Ergebnis: Gemeinsam klären wir, wofür Ihr Unternehmen steht und wen Sie erreichen möchten. Daraus entwickeln wir einen unverwechselbaren Unternehmens- oder Markenauftritt. Dazu gehören Texte und Bilder, die überzeugen, Drucksachen, die man gern in die Hand nimmt, und Websites, Online-Shops oder Apps, die begeistern und gefunden werden.</p>
-        <p class="lead">Ihre Botschaft erreicht Ihre Kunden dort, wo sie sich informieren: im Netz, in den sozialen Medien oder auf Papier. Und wir bleiben dran. Wir prüfen, was wirkt, kümmern uns zuverlässig um die Technik und entwickeln Ihre Werbung Schritt für Schritt weiter.</p>
-        <p class="svc-claim">Ein Ansprechpartner. Ein Netzwerk an Spezialisten. <span class="red">Alles aus einer Hand.</span></p>
-      </div>
       <div class="pillar-row">
         <div class="img"><img src="img/strategie-spiegel.jpg?v=202611061253" alt="Frau sitzt vor einem runden Spiegel, ihr Spiegelbild ist unscharf, davor liegt ein roter Stift" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
           <div><span class="k">Visual Communication · Strategie</span><h3>Was möchten Sie kommunizieren?</h3><p>Wofür steht Ihr Unternehmen, und wie möchten Sie wahrgenommen werden? Gemeinsam entwickeln wir Ihre Kommunikationsstrategie, damit Ihre Produkte und Leistungen öfter und besser wahrgenommen werden als die Ihrer Mitbewerber. Ganzheitlich gedacht und auf Basis Ihrer Corporate Identity.</p></div>
@@ -691,11 +698,13 @@ body{line-height:1.55}
         <div class="img"><img src="img/web-geraete.jpg?v=202611071127" alt="Monitor, Laptop, Tablet und Smartphone zeigen dieselbe Website mit dem Tennisball auf der Linie" width="1536" height="1024" loading="lazy"><span class="ai-cap"><b>KI</b>KI-generiert von Capeeshee</span></div>
           <div><span class="k">Web Development</span><h3>Websites, die auf jedem Gerät überzeugen.</h3><p>Schnell, barrierefrei und für Smartphones zuerst gebaut, so wie Google und Ihre Kunden es erwarten. Mit langjähriger Programmiererfahrung und KI-gestützter Entwicklung verbinden wir bewährte Systeme mit individuellen Funktionen, schneller und günstiger als bisher.</p></div>
       </div>
-      <div class="philo">
-        <div class="philo-head"><p class="eyebrow">Unsere Philosophie</p><h2>Erfolg ist eine Frage der <span class="red">Ausdauer.</span></h2></div>
-        <div class="philo-txt">
-          <p class="lead">In der Werbung ist es wie im Tennis: Nur wer dranbleibt, gewinnt. Eine einzelne Aktion verpufft schnell. Sichtbar wird eine Marke erst, wenn sie kontinuierlich auf allen passenden Kanälen präsent ist.</p>
-          <p class="lead">Doch Sichtbarkeit allein genügt nicht. Ihre Kunden beschäftigen sich nur dann mit Ihrem Angebot, wenn es ihnen eine Lösung bietet. Sie wollen in ihrer Situation abgeholt werden, nicht bedrängt. Denn heute entscheidet der Kunde selbst, wann er welche Werbung sieht und wie weit er sich auf ein Produkt einlässt.</p>
+      <div class="lst-intro">
+        <p class="eyebrow">Leistungen</p>
+        <h2 class="lst-title">Alles, was Ihre Werbung braucht.</h2>
+        <div class="svc-summary">
+          <p class="lead">Von der ersten Idee bis zum fertigen Ergebnis: Gemeinsam klären wir, wofür Ihr Unternehmen steht und wen Sie erreichen möchten. Daraus entwickeln wir einen unverwechselbaren Unternehmens- oder Markenauftritt. Dazu gehören Texte und Bilder, die überzeugen, Drucksachen, die man gern in die Hand nimmt, und Websites, Online-Shops oder Apps, die begeistern und gefunden werden.</p>
+          <p class="lead">Ihre Botschaft erreicht Ihre Kunden dort, wo sie sich informieren: im Netz, in den sozialen Medien oder auf Papier. Und wir bleiben dran. Wir prüfen, was wirkt, kümmern uns zuverlässig um die Technik und entwickeln Ihre Werbung Schritt für Schritt weiter.</p>
+          <p class="svc-claim">Ein Ansprechpartner. Ein Netzwerk an Spezialisten. <span class="red">Alles aus einer Hand.</span></p>
         </div>
       </div>
       <div class="svc-wrap"><span class="svc-mark" aria-hidden="true">KI-assistierte<br>Workflows</span><div class="services all">
