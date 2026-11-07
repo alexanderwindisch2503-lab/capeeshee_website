@@ -571,11 +571,10 @@ body{line-height:1.55}
 .thero-h .l1{color:#f0f400;font-size:1.3em;line-height:.94;transform-origin:0 100%}
 .thero-h .l2{color:#fff;margin-top:.12em}
 /* Headline synchron zum Balleinschlag: Zeile 1 fährt ein und federt nach, Zeile 2 blendet verzögert ein */
-.js-hit .thero-h .l1{opacity:0;transform:translateX(-110vw)}
+.js-hit .thero-h .l1{transform:translateX(-110vw);will-change:transform}
+.js-hit.hit .thero-h .l1{transform:none}
 .js-hit .thero-h .l2{opacity:0;transform:translateY(14px)}
-.js-hit.hit .thero-h .l1{animation:treffer .28s cubic-bezier(.3,.6,.4,1) forwards}
 .js-hit.hit .thero-h .l2{animation:linie .7s ease-out .6s forwards}
-@keyframes treffer{0%{opacity:1;transform:translateX(-110vw)}100%{opacity:1;transform:none}}
 @keyframes linie{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js-hit .thero-h .l1,.js-hit .thero-h .l2,.js-hit .thero-txt .thero-sub{opacity:1!important;transform:none!important;animation:none!important}}
 .thero-sub{margin:22px 0 0;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(13px,1.1vw,16px);letter-spacing:.2em;text-transform:uppercase;color:#fff;text-shadow:0 1px 3px rgba(60,20,8,.75),0 0 14px rgba(60,20,8,.5)}
@@ -1109,17 +1108,25 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 // Tennis-Hero: Video spielt einmal und bleibt auf dem letzten Bild stehen. Headline schlägt mit dem Ball ein,
 // danach wird die Unterzeile eingetippt. Kommt der Hero nach dem Wegscrollen wieder ins Bild, beginnt alles neu.
 (function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound'),box=document.querySelector('.thero');if(!v||!box)return;
-  var HIT=2.12,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
+  var HIT=2.4,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
   if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}}
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;box.classList.add('hit');tchars.forEach(function(c){c.classList.add('on')});return;}
   box.classList.add('js-hit');
   function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
   function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1200)}
-  function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;if(v.currentTime>=HIT||v.ended)treffer();else raf=requestAnimationFrame(w)})()}
-  function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
+  // Bahn des Balls (Anteil der Bildbreite über die Zeit), gemessen im Video: die Schrift fährt im gleichen Tempo mit
+  var BAHN={d:[[.75,.038],[.88,.061],[1,.096],[1.12,.191],[1.25,.271],[1.38,.338],[1.5,.402],[1.62,.466],[1.75,.52],[1.88,.565],[2,.609],[2.12,.643],[2.25,.666],[2.38,.686],[2.4,.69]],
+            m:[[1.7,.03],[1.75,.053],[1.88,.084],[2,.122],[2.12,.16],[2.25,.197],[2.38,.228],[2.4,.232]]};
+  var l1=box.querySelector('.thero-h .l1');
+  function fahrt(t){var b=BAHN[/mobil/.test(v.currentSrc)?'m':'d'],a=b[0][1],z=b[b.length-1][1],x=a;
+    if(t<=b[0][0])x=a;else if(t>=b[b.length-1][0])x=z;else for(var i=1;i<b.length;i++)if(t<=b[i][0]){var k=(t-b[i-1][0])/(b[i][0]-b[i-1][0]);x=b[i-1][1]+k*(b[i][1]-b[i-1][1]);break}
+    var pr=(x-a)/(z-a),r=l1.getBoundingClientRect(),weit=r.width+(r.left-(parseFloat(l1.style.transform.replace(/[^\d.-]/g,''))||0))+40;
+    l1.style.transform='translateX('+(-(1-pr)*weit).toFixed(1)+'px)'}
+  function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;var t=v.currentTime;if(t>=HIT||v.ended){l1.style.transform='';treffer()}else{fahrt(t);raf=requestAnimationFrame(w)}})()}
+  function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');l1.style.transform='translateX(-110vw)';tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
   function start(){zuruecksetzen();try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){setTimeout(treffer,600)});warte()}
   var p=v.play();if(p&&p.catch)p.catch(function(){});warte();
-  setTimeout(function(){if(v.paused&&!v.ended||v.readyState<2)treffer()},3200);setTimeout(treffer,6000);
+  setTimeout(function(){if(v.paused&&!v.ended||v.readyState<2){l1.style.transform='';treffer()}},3200);setTimeout(function(){l1.style.transform='';treffer()},6000);
   // beim Zurückscrollen in den Hero alles von vorn
   var weg=false;
   if('IntersectionObserver' in window)new IntersectionObserver(function(e){e.forEach(function(x){if(x.intersectionRatio<0.2){if(!weg){weg=true;v.pause()}}else if(weg&&x.intersectionRatio>0.5){weg=false;start()}})},{threshold:[0,0.2,0.5,1]}).observe(box);
