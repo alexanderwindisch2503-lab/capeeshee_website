@@ -24,8 +24,11 @@ Options -Indexes
 <FilesMatch "\.(?i:php\d?|phtml|phar|cgi|pl|py|sh)$">
   Require all denied
 </FilesMatch>
-<Files "api.php">
+<FilesMatch "^(api|abgleich)\.php$">
   Require all granted
+</FilesMatch>
+<Files "_konfig.php">
+  Require all denied
 </Files>
 
 <IfModule mod_headers.c>
