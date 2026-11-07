@@ -1115,11 +1115,18 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
   function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1200)}
   // Bahn des Balls (Anteil der Bildbreite über die Zeit), gemessen im Video: die Schrift fährt im gleichen Tempo mit
-  // Einfahrt der Schrift wie der Ball: schnell herein, kurz vor dem Boden bremsen, beim Hochschnellen (2,05 s) stillstehen
-  var WEIT=0;window.addEventListener('resize',function(){WEIT=0});var START={d:1.6,m:1.7},l1=box.querySelector('.thero-h .l1');
-  function fahrt(t){var a=START[/mobil/.test(v.currentSrc)?'m':'d'],k=Math.max(0,Math.min(1,(t-a)/(HIT-a))),pr=k<.6?k/.6*.85:.85+.15*(1-Math.pow(1-(k-.6)/.4,3));
-    if(!WEIT){var alt=l1.style.transform;l1.style.transform='none';WEIT=l1.getBoundingClientRect().right+40;l1.style.transform=alt}var weit=WEIT;
-    l1.style.transform=k<=0?'translateX(-110vw)':'translateX('+(-(1-pr)*weit).toFixed(1)+'px)'}
+  // Einfahrt der Schrift exakt mit dem Ball: gemessene Ballbahn (Anteil der Bildbreite über die Zeit).
+  // Desktop: die Schrift bewegt sich Pixel für Pixel so schnell wie der Ball und steht, wenn er hochschnellt (2,05 s).
+  // Handy: dort fliegt der Ball fast senkrecht ins Bild, daher gleicher Zeitverlauf wie der Ball, auf die Schriftbreite übertragen.
+  var BAHN={d:[[.75,.038],[.88,.061],[1,.096],[1.12,.191],[1.25,.271],[1.38,.338],[1.5,.402],[1.62,.466],[1.75,.52],[1.88,.565],[2,.609],[2.05,.623]],
+            m:[[1.75,.053],[1.88,.084],[2,.122],[2.05,.135]]};
+  var WEIT=0;window.addEventListener('resize',function(){WEIT=0});var l1=box.querySelector('.thero-h .l1');
+  function bx(b,t){if(t<=b[0][0])return b[0][1];for(var i=1;i<b.length;i++)if(t<=b[i][0]){var k=(t-b[i-1][0])/(b[i][0]-b[i-1][0]);return b[i-1][1]+k*(b[i][1]-b[i-1][1])}return b[b.length-1][1]}
+  function fahrt(t){if(!WEIT){var alt=l1.style.transform;l1.style.transform='none';WEIT=l1.getBoundingClientRect().right+40;l1.style.transform=alt}
+    var mob=/mobil/.test(v.currentSrc),b=BAHN[mob?'m':'d'],end=b[b.length-1][1],x=bx(b,t),off;
+    if(mob){off=-(1-(x-b[0][1])/(end-b[0][1]))*WEIT;if(t<b[0][0])off=-WEIT}
+    else{var r=v.getBoundingClientRect(),sc=Math.max(r.width/(v.videoWidth||1764),r.height/(v.videoHeight||1176));off=(x-end)*(v.videoWidth||1764)*sc;if(t<b[0][0])off=-WEIT}
+    l1.style.transform='translateX('+Math.max(-WEIT,off).toFixed(1)+'px)'}
   function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;var t=v.currentTime;if(t>=HIT||v.ended){l1.style.transform='';treffer()}else{fahrt(t);raf=requestAnimationFrame(w)}})()}
   function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');l1.style.transform='translateX(-110vw)';tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
   function start(){zuruecksetzen();try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){setTimeout(treffer,600)});warte()}
