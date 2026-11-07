@@ -615,8 +615,9 @@ body{line-height:1.55}
 .rg-proj.big{grid-column:span 2}
 .rg-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:transparent;padding-bottom:8px}
 .rg-proj.big .rg-mosaic{grid-template-columns:repeat(5,1fr)}
-.rg-mosaic span{aspect-ratio:1;box-shadow:0 1px 4px rgba(48,49,51,.08);background:#fff center/contain no-repeat;background-origin:content-box;padding:8%}
-.rg-proj .b{background:#fff;box-shadow:0 1px 4px rgba(48,49,51,.08);flex:1;padding:20px 22px 24px;display:grid;gap:6px}
+.rg-mosaic img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 2px 5px rgba(48,49,51,.22))}
+.rg-mosaic span{aspect-ratio:1;background:#fff center/contain no-repeat;background-origin:content-box;padding:8%}
+.rg-proj .b{background:#fff;flex:1;padding:20px 22px 24px;display:grid;gap:6px}
 .rg-proj h3{font-size:22px;margin:0}
 .rg-proj .m{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0}
 .rg-proj p{margin:0}
@@ -1063,7 +1064,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
   function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=big?10:6,c='';
-    for(var i=0;i<n;i++)c+='<span'+(t.length?' style="background-image:url(\''+esc(t[i%t.length]).replace(/'/g,'%27')+'\')"':'')+'></span>';
+    for(var i=0;i<n;i++)c+='<span>'+(t.length?'<img src="'+esc(t[i%t.length])+'" alt="" loading="lazy" decoding="async">':'')+'</span>';
     return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true">'+c+'</span><span class="b">'+(nb(k)>=RUNDUM?'<span class="rg-badge">Rundum betreut</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
   function render(){REG=[];chipsRender();
     if(mode!=='leistung'){var l=D.kunden.slice();if(mode==='branche')l=l.filter(function(k){return k.branche===sel});
