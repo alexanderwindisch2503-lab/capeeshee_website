@@ -548,8 +548,6 @@ body{line-height:1.55}
 /* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
 .thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:calc(100vh - var(--hh,72px));min-height:calc(100svh - var(--hh,72px));display:flex;align-items:stretch}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
-.thero .thero-tail{opacity:0;visibility:hidden}
-.thero.tail-on .thero-tail{opacity:1;visibility:visible}
 @media (prefers-reduced-motion:reduce){.thero .thero-bg{display:none}.thero{background:#b5532f url(video/tennis-hero-still.jpg) 70% 55%/cover no-repeat}}
 .tsound{position:absolute;left:max(16px,env(safe-area-inset-left,0px));bottom:16px;z-index:3;height:40px;padding:0 16px 0 12px;border:0;border-radius:20px;background:rgba(255,255,255,.9);color:#303133;font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(4px)}
 .tsound:hover{background:#fff}
@@ -600,7 +598,6 @@ body{line-height:1.55}
 
   <section class="thero" aria-label="Tennisball springt auf die Linie eines Sandplatzes">
     <video id="tspot" class="thero-bg" muted playsinline autoplay preload="auto" poster="video/tennis-hero-poster.jpg?v=202611071020" aria-hidden="true" tabindex="-1"><source src="video/tennis-hero-mobil.mp4?v=202611071020" type="video/mp4" media="(max-width: 860px) and (orientation: portrait)"><source src="video/tennis-hero.mp4?v=202611071020" type="video/mp4"></video>
-    <video id="tspottail" class="thero-bg thero-tail" muted playsinline loop preload="auto" aria-hidden="true" tabindex="-1"><source src="video/tennis-hero-mobil-ende.mp4?v=202611071020" type="video/mp4" media="(max-width: 860px) and (orientation: portrait)"><source src="video/tennis-hero-ende.mp4?v=202611071020" type="video/mp4"></video>
     <div class="wrap thero-in">
       <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#f0f400"/><circle cx="100" cy="100" r="58" fill="none" stroke="#303133" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#303133" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#303133" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#303133" letter-spacing="3">POWERED</text></svg></div>
       <div class="thero-txt">
@@ -931,15 +928,12 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
 })();
 
-// Tennis-Hero: Video einmal abspielen, danach ruhige Staub-Schleife (gleiches Endbild, nahtloser Übergang); Ton per Knopf
-(function(){var v=document.getElementById('tspot'),tv=document.getElementById('tspottail'),snd=document.getElementById('tsound');if(!v||!tv)return;var box=document.querySelector('.thero'),armed=false;
+// Tennis-Hero: Video einmal abspielen, am Ende bleibt das letzte Bild stehen; Ton per Knopf (startet ein beendetes Video neu)
+(function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound');if(!v)return;
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;return;}
-  function arm(){if(armed)return;armed=true;try{tv.currentTime=0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});(function w(){if(!armed)return;if(!tv.paused&&tv.currentTime>0.04){box.classList.add('tail-on');}else requestAnimationFrame(w);})();}
-  v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.12)arm();});
-  v.addEventListener('ended',arm);
   var p=v.play();if(p&&p.catch)p.catch(function(){});
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.ico').textContent=on?'🔊':'🔇';snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
-  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&armed){armed=false;box.classList.remove('tail-on');tv.pause();try{v.currentTime=0;}catch(e){}v.play();}ui();});
+  if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&v.ended){try{v.currentTime=0;}catch(e){}v.play();}ui();});
 })();
 </script>
 </body>
