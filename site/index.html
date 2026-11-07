@@ -548,6 +548,9 @@ body{line-height:1.55}
 /* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
 .thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:min(86vh,820px);display:flex;align-items:flex-start}
 .thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
+.thero .thero-tail{opacity:0;visibility:hidden}
+.thero.tail-on .thero-tail{opacity:1;visibility:visible}
+@media (prefers-reduced-motion:reduce){.thero .thero-bg{display:none}.thero{background:#b5532f url(video/tennis-hero-still.jpg) 70% 55%/cover no-repeat}}
 .thero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,22,10,.42) 0%,rgba(60,22,10,.18) 45%,rgba(60,22,10,0) 70%);pointer-events:none}
 .thero-in{position:relative;z-index:2;width:100%;min-height:inherit;display:flex;flex-direction:column;justify-content:flex-start;padding-block:clamp(56px,9vw,120px) 32px}
 .hero[hidden]{display:none!important}
@@ -590,15 +593,16 @@ body{line-height:1.55}
 <p class="love" aria-hidden="true">We love Design!</p>
 <main id="top">
 
-  <section class="thero" aria-label="Tennisball trifft die Linie auf einem Sandplatz">
-    <img class="thero-bg" src="img/hero-ball-linie.jpg?v=202611070900" alt="" width="1536" height="1024" fetchpriority="high">
+  <section class="thero" aria-label="Tennisball springt auf die Linie eines Sandplatzes">
+    <video id="tspot" class="thero-bg" muted playsinline autoplay preload="auto" poster="video/tennis-hero-poster.jpg?v=202611070940" aria-hidden="true" tabindex="-1"><source src="video/tennis-hero-mobil.mp4?v=202611070940" type="video/mp4" media="(max-width: 860px) and (orientation: portrait)"><source src="video/tennis-hero.mp4?v=202611070940" type="video/mp4"></video>
+    <video id="tspottail" class="thero-bg thero-tail" muted playsinline loop preload="auto" aria-hidden="true" tabindex="-1"><source src="video/tennis-hero-mobil-ende.mp4?v=202611070940" type="video/mp4" media="(max-width: 860px) and (orientation: portrait)"><source src="video/tennis-hero-ende.mp4?v=202611070940" type="video/mp4"></video>
     <div class="wrap thero-in">
       <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
       <div class="thero-txt">
         <h1 class="thero-h">Auf die Linie. <span>Werbung, die sitzt.</span></h1>
         <p class="thero-sub">KI-powered Werbeagentur für Web &amp; Print in Augsburg</p>
       </div>
-      <span class="ai-cap thero-cap"><b>KI</b>Motiv KI-generiert von Capeeshee</span>
+      <span class="ai-cap thero-cap"><b>KI</b>Video KI-generiert von Capeeshee</span>
     </div>
   </section>
 
@@ -919,6 +923,15 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   v.addEventListener('ended',function(){if(!armed)arm(0);setTimeout(function(){box.classList.add('tail-on');},80);});
   function start(){if(started)return;started=true;var p=v.play();if(p&&p.catch)p.catch(endFrame);requestAnimationFrame(tick);}
   if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){io.disconnect();start();}});},{threshold:.45});io.observe(box);}else{start();}
+})();
+
+// Tennis-Hero: Video einmal abspielen, danach ruhige Staub-Schleife (gleiches Endbild, nahtloser Übergang)
+(function(){var v=document.getElementById('tspot'),tv=document.getElementById('tspottail');if(!v||!tv)return;var box=v.parentNode,armed=false;
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();return;}
+  function arm(){if(armed)return;armed=true;try{tv.currentTime=0;}catch(e){}var p=tv.play();if(p&&p.catch)p.catch(function(){});(function w(){if(!tv.paused&&tv.currentTime>0.04){box.classList.add('tail-on');}else requestAnimationFrame(w);})();}
+  v.addEventListener('timeupdate',function(){if(v.duration&&v.currentTime>=v.duration-0.12)arm();});
+  v.addEventListener('ended',arm);
+  var p=v.play();if(p&&p.catch)p.catch(function(){});
 })();
 </script>
 </body>
