@@ -1108,16 +1108,16 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 // Tennis-Hero: Video spielt einmal und bleibt auf dem letzten Bild stehen. Headline schlägt mit dem Ball ein,
 // danach wird die Unterzeile eingetippt. Kommt der Hero nach dem Wegscrollen wieder ins Bild, beginnt alles neu.
 (function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound'),box=document.querySelector('.thero');if(!v||!box)return;
-  var HIT=2.9,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
+  var HIT=2.05,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
   if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}}
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;box.classList.add('hit');tchars.forEach(function(c){c.classList.add('on')});return;}
   box.classList.add('js-hit');
   function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
   function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1200)}
   // Bahn des Balls (Anteil der Bildbreite über die Zeit), gemessen im Video: die Schrift fährt im gleichen Tempo mit
-  // Einfahrt der Schrift: erst etwas schneller, dann abbremsend, startet, wenn der Ball abspringt (tiefster Punkt bei 2,0 s), und hakt ein, wenn er wieder in der Luft ist
-  var WEIT=0;window.addEventListener('resize',function(){WEIT=0});var START={d:2.35,m:2.35},l1=box.querySelector('.thero-h .l1');
-  function fahrt(t){var a=START[/mobil/.test(v.currentSrc)?'m':'d'],k=Math.max(0,Math.min(1,(t-a)/(HIT-a))),pr=1-Math.pow(1-k,2);
+  // Einfahrt der Schrift wie der Ball: schnell herein, kurz vor dem Boden bremsen, beim Hochschnellen (2,05 s) stillstehen
+  var WEIT=0;window.addEventListener('resize',function(){WEIT=0});var START={d:1.6,m:1.7},l1=box.querySelector('.thero-h .l1');
+  function fahrt(t){var a=START[/mobil/.test(v.currentSrc)?'m':'d'],k=Math.max(0,Math.min(1,(t-a)/(HIT-a))),pr=k<.6?k/.6*.85:.85+.15*(1-Math.pow(1-(k-.6)/.4,3));
     if(!WEIT){var alt=l1.style.transform;l1.style.transform='none';WEIT=l1.getBoundingClientRect().right+40;l1.style.transform=alt}var weit=WEIT;
     l1.style.transform=k<=0?'translateX(-110vw)':'translateX('+(-(1-pr)*weit).toFixed(1)+'px)'}
   function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;var t=v.currentTime;if(t>=HIT||v.ended){l1.style.transform='';treffer()}else{fahrt(t);raf=requestAnimationFrame(w)}})()}
