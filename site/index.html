@@ -544,6 +544,29 @@ body{line-height:1.55}
 .check .ai-fig .ai-cap{position:absolute!important;right:0;bottom:28px;margin:0!important;z-index:3;line-height:1.4}
 @media (max-width:860px){.cbox{--zoom:1}.check .ai-fig .ai-cap{top:-30px;bottom:auto}}
 @media (max-width:860px){.cbox{width:calc(100% + var(--bleed,0px));margin-right:calc(-1 * var(--bleed,0px))}}
+
+/* Tennis-Hero: Vollbild-Motiv, Headline links im freien Sandbereich */
+.thero{position:relative;overflow:hidden;padding:0!important;background:#b5532f;min-height:min(86vh,820px);display:flex;align-items:flex-start}
+.thero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 55%}
+.thero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(60,22,10,.42) 0%,rgba(60,22,10,.18) 45%,rgba(60,22,10,0) 70%);pointer-events:none}
+.thero-in{position:relative;z-index:2;width:100%;min-height:inherit;display:flex;flex-direction:column;justify-content:flex-start;padding-block:clamp(56px,9vw,120px) 32px}
+.hero[hidden]{display:none!important}
+.thero .seal{top:clamp(20px,2.4vw,32px)!important;right:max(16px,env(safe-area-inset-right,0px))!important}
+.thero-txt{max-width:min(680px,58%)}
+.thero-sub{white-space:nowrap}
+.thero-h{font-family:Poppins,sans-serif;font-weight:800;font-size:clamp(40px,6vw,84px);line-height:.98;letter-spacing:-.045em;color:#fff;margin:0;text-wrap:balance;text-shadow:0 2px 24px rgba(60,20,8,.25)}
+.thero-h span{display:block;color:#e4f04a}
+.thero-sub{margin:22px 0 0;font-family:"Titillium Web",Poppins,sans-serif;font-weight:600;font-size:clamp(13px,1.1vw,16px);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.thero .thero-cap{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;color:rgba(255,255,255,.85)}
+@media (max-width:860px){
+  .thero{min-height:calc(100svh - var(--hh,64px))}
+  .thero-bg{object-position:80% 50%}
+  .thero::after{background:linear-gradient(0deg,rgba(60,22,10,.6) 0%,rgba(60,22,10,.25) 38%,rgba(60,22,10,0) 58%)}
+  .thero-in{justify-content:flex-end;padding-block:24px 52px}
+  .thero-txt{max-width:100%}
+  .thero-sub{white-space:normal}
+  .thero .thero-cap{bottom:18px;left:max(16px,env(safe-area-inset-left,0px));right:auto}
+}
 </style>
 </head>
 <body>
@@ -567,12 +590,25 @@ body{line-height:1.55}
 <p class="love" aria-hidden="true">We love Design!</p>
 <main id="top">
 
-  <section class="hero" aria-label="Enten, Hühner und Eier">
+  <section class="thero" aria-label="Tennisball trifft die Linie auf einem Sandplatz">
+    <img class="thero-bg" src="img/hero-ball-linie.jpg?v=202611070900" alt="" width="1536" height="1024" fetchpriority="high">
+    <div class="wrap thero-in">
+      <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
+      <div class="thero-txt">
+        <h1 class="thero-h">Werbung ist kein Sprint. <span>Werbung ist ein Match.</span></h1>
+        <p class="thero-sub">KI-powered Werbeagentur für Web &amp; Print in Augsburg</p>
+      </div>
+      <span class="ai-cap thero-cap"><b>KI</b>Motiv KI-generiert von Capeeshee</span>
+    </div>
+  </section>
+
+  <!-- Hero mit Enten-Video vorübergehend ausgeblendet (Sicherung auch im Branch hero-enten). Zum Wiederherstellen hidden entfernen und den Tennis-Hero oben löschen. -->
+  <section class="hero" hidden aria-label="Enten, Hühner und Eier">
     <div class="wrap">
       <div class="slider" aria-roledescription="Karussell">
         <div class="seal" role="img" aria-label="KI-powered Werbeagentur für Web und Print, Augsburg"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealring" d="M100,100 m-76,0 a76,76 0 1,1 152,0 a76,76 0 1,1 -152,0"/></defs><circle cx="100" cy="100" r="99" fill="#b8202b"/><circle cx="100" cy="100" r="58" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.2"/><g class="ring"><text font-family="Poppins, sans-serif" font-weight="600" font-size="13.5" fill="#fff" letter-spacing="1.5"><textPath href="#sealring" textLength="470" lengthAdjust="spacing">WERBEAGENTUR FÜR WEB &amp; PRINT · AUGSBURG · CAPEESHEE ·</textPath></text></g><text x="100" y="108" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="50" fill="#fff" letter-spacing="-2">KI</text><text x="100" y="128" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="600" font-size="11.5" fill="#fff" letter-spacing="3">POWERED</text></svg></div>
         <div class="track vmode" id="track" tabindex="0">
-          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="auto" poster="video/capeeshee-spot-poster.jpg?v=202611061640"><source src="video/capeeshee-spot-mobil.mp4?v=202611061640" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611061640" type="video/mp4"></video><video id="spottail" class="vtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/capeeshee-spot-mobil-ende.mp4?v=202611061648" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot-ende.mp4?v=202611061648" type="video/mp4"></video></div></div>
+          <div class="vwrap" aria-hidden="true"><div class="vbox"><video id="spot" muted playsinline preload="none" poster="video/capeeshee-spot-poster.jpg?v=202611061640"><source src="video/capeeshee-spot-mobil.mp4?v=202611061640" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot.mp4?v=202611061640" type="video/mp4"></video><video id="spottail" class="vtail" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"><source src="video/capeeshee-spot-mobil-ende.mp4?v=202611061648" type="video/mp4" media="(max-width: 860px)"><source src="video/capeeshee-spot-ende.mp4?v=202611061648" type="video/mp4"></video></div></div>
           <div class="slide on" aria-roledescription="Folie" aria-label="1 von 5">
             <div class="txt"><p class="big">Enten legen ihre Eier <span class="beak">in aller Stille.</span></p></div>
           </div>
@@ -808,7 +844,7 @@ body{line-height:1.55}
 })();
 (function(){var h=document.querySelector('.hero');if(!h)return;function f(){document.documentElement.style.setProperty('--hh',Math.round(h.getBoundingClientRect().top+window.scrollY)+'px');}f();window.addEventListener('resize',f);})();
 (function(){
-  var track=document.getElementById('track'); if(!track) return;
+  var track=document.getElementById('track'); if(!track||track.closest('[hidden]')) return;
   [].forEach.call(track.querySelectorAll('.slide'),function(sl){
     var big=sl.querySelector('.big'), n=0; if(!big) return;
     (function walk(node){[].slice.call(node.childNodes).forEach(function(c){
