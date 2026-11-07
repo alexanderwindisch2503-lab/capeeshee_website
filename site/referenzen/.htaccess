@@ -1,0 +1,38 @@
+# Referenzen: Ordner nicht auflisten, Druckdaten und Originale nicht ausliefern.
+# Öffentlich sind nur Bilder (jpg, png, webp, gif) und die Vorschau-Videos in _vorschau.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Zwischenspeicher und Infodateien nie direkt ausliefern
+  RewriteRule (^|/)_cache(/|$) - [F,L]
+  RewriteRule \.(txt|json)$ - [F,L,NC]
+  # Druck-PDFs, Präsentationen, Rohdaten und Original-Videos sperren (Vorschau-Videos in _vorschau bleiben erlaubt)
+  RewriteRule \.(pdf|pptx?|odp|key|ai|eps|psd|indd|idml|tiff?|zip|rar|7z)$ - [F,L,NC]
+  RewriteCond %{REQUEST_URI} !/_vorschau/
+  RewriteRule \.(mp4|mov|m4v|avi|mkv|wmv|mpe?g)$ - [F,L,NC]
+</IfModule>
+
+# Fallback ohne mod_rewrite: Druckdaten und Infodateien sperren
+<IfModule !mod_rewrite.c>
+  <FilesMatch "\.(?i:pdf|pptx?|odp|key|ai|eps|psd|indd|idml|tiff?|zip|rar|7z|txt|json|mov|avi|mkv|wmv|mpe?g)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+
+# Nur das eigene Skript darf als PHP laufen, hochgeladene PHP-Dateien nicht
+<FilesMatch "\.(?i:php\d?|phtml|phar|cgi|pl|py|sh)$">
+  Require all denied
+</FilesMatch>
+<Files "api.php">
+  Require all granted
+</Files>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpe?g|png|webp|gif|mp4)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <Files "api.php">
+    Header set Cache-Control "no-cache"
+  </Files>
+</IfModule>

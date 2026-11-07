@@ -1,0 +1,39 @@
+name: Referenzen-Vorschauen erzeugen
+
+# Wandelt neue oder geänderte Dateien im Ordner referenzen auf dem Webspace um
+# (Druck-PDFs, Präsentationen, Videos, große Bilder) und legt die Vorschauen daneben ab.
+# Läuft jede Nacht und auf Knopfdruck (Actions > Referenzen-Vorschauen erzeugen > Run workflow).
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: referenzen
+  cancel-in-progress: false
+
+jobs:
+  vorschauen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Werkzeuge installieren
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils ffmpeg libreoffice-impress --no-install-recommends
+          pip install --quiet paramiko pillow
+
+      - name: Vorschauen erzeugen
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PATH: ${{ secrets.SFTP_PATH }}
+        run: |
+          if [ "$SFTP_PATH" = "/" ] || [ -z "$SFTP_PATH" ]; then echo "::error::SFTP_PATH ungültig"; exit 1; fi
+          python3 tools/referenzen_vorschau.py --sftp
+
+      - name: Referenzliste auf der Website auffrischen
+        run: curl -fsS -o /dev/null "https://capeeshee.com/referenzen/api.php?neu=1" || echo "::warning::Auffrischen nicht möglich"

@@ -597,6 +597,60 @@ body{line-height:1.55}
 .services .svc h3{color:var(--ink)!important}.services .svc p{color:#3d332d!important}.services .svc .n{color:rgba(48,49,51,.7)!important}
 
 .btn:hover{background:var(--t1)!important}
+
+/* Referenz-Galerie (Daten aus referenzen/api.php) */
+.rg[hidden],.rg-main[hidden],.rg-detail[hidden],.rg-chips[hidden],#referenzen .refs[hidden]{display:none!important}
+.rg-lead{margin-top:20px}
+.rg-modes{margin-top:36px;display:flex;flex-wrap:wrap;gap:8px}
+.rg-mode{font:600 14px var(--head);letter-spacing:.08em;text-transform:uppercase;border:0;background:#fff;color:var(--ink);padding:12px 18px;border-radius:24px;cursor:pointer}
+.rg-mode[aria-pressed="true"]{background:var(--ink);color:#fff}
+.rg-chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.rg-chip{font:400 15px var(--body,inherit);border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 14px;border-radius:20px;cursor:pointer}
+.rg-chip[aria-pressed="true"]{border-color:var(--red);background:var(--red);color:#fff}
+.rg-chip small{color:var(--muted);margin-left:6px}.rg-chip[aria-pressed="true"] small{color:#f1d2c2}
+.rg-count{margin:28px 0 0;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.rg-projects{margin-top:18px;display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:20px}
+.rg-proj{background:#fff;border:0;text-align:left;padding:0;cursor:pointer;display:flex;flex-direction:column;font:inherit;color:inherit;min-width:0}
+.rg-proj.big{grid-column:span 2}
+.rg-mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:#fff}
+.rg-proj.big .rg-mosaic{grid-template-columns:repeat(5,1fr)}
+.rg-mosaic span{aspect-ratio:1;background:var(--t7,#f8f4f0) center/contain no-repeat;background-origin:content-box;padding:8%}
+.rg-proj .b{padding:20px 22px 24px;display:grid;gap:6px}
+.rg-proj h3{font-size:22px;margin:0}
+.rg-proj .m{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0}
+.rg-proj p{margin:0}
+.rg-badge{justify-self:start;background:var(--red);color:#fff;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:12px}
+.rg-works{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}
+.rg-work{display:grid;gap:8px;align-content:start;min-width:0}
+.rg-thumb{position:relative;aspect-ratio:4/3;border:0;padding:6%;cursor:zoom-in;background:#fff;display:block;width:100%}
+.rg-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.rg-thumb .n{position:absolute;right:8px;bottom:8px;background:rgba(48,49,51,.82);color:#fff;font:600 11px var(--head);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:10px}
+.rg-thumb .play{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(48,49,51,.78)}
+.rg-thumb .play::after{content:"";position:absolute;left:21px;top:16px;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff}
+.rg-cap{font-size:15px;color:var(--ink);font-weight:400}
+.rg-cust{font-size:14px;color:var(--red);background:none;border:0;padding:0;cursor:pointer;text-align:left;font-family:inherit;text-decoration:underline;text-underline-offset:3px}
+.rg-back{font:600 13px var(--head);letter-spacing:.1em;text-transform:uppercase;background:none;border:0;color:var(--red);cursor:pointer;padding:0;margin:32px 0 24px}
+.rg-dhead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:end}
+.rg-dhead h3{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,48px);letter-spacing:-.04em;line-height:1.05;margin:0}
+.rg-dhead .lead strong{color:var(--ink);font-weight:500}
+.rg-facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:15px;margin:0}
+.rg-facts dt{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:12px;padding-top:3px}
+.rg-facts dd{margin:0;color:var(--ink)}
+.rg-areas{margin-top:clamp(36px,5vw,60px);display:grid;gap:clamp(32px,4vw,52px)}
+.rg-area h4{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin:0 0 16px}
+.rg-area h4 small{font:400 14px inherit;color:var(--muted)}
+.rg-lb{position:fixed;inset:0;background:rgba(20,22,24,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:56px max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px))}
+.rg-lb[hidden]{display:none}
+.rg-lb .st{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.rg-lb img,.rg-lb video{max-width:100%;max-height:100%;object-fit:contain;background:#fff}
+.rg-lb video{background:#000}
+.rg-lb .x,.rg-lb .nav{position:absolute;border:0;background:#fff;color:var(--ink);border-radius:22px;cursor:pointer;font:600 13px var(--head);letter-spacing:.08em;text-transform:uppercase}
+.rg-lb .x{top:calc(12px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));padding:9px 16px}
+.rg-lb .nav{bottom:calc(16px + env(safe-area-inset-bottom,0px));width:44px;height:44px;font-size:20px}
+.rg-lb .prev{left:calc(50% - 110px)}.rg-lb .next{right:calc(50% - 110px)}
+.rg-lb .cap{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);color:#fff;font-size:14px;white-space:nowrap}
+.rg-lb .nav[hidden]{display:none}
+@media (max-width:760px){.rg-proj.big{grid-column:auto}.rg-proj.big .rg-mosaic{grid-template-columns:repeat(3,1fr)}.rg-dhead{grid-template-columns:1fr}.rg-lb .cap{display:none}}
 </style>
 </head>
 <body>
@@ -799,6 +853,20 @@ body{line-height:1.55}
     <div class="wrap">
       <p class="eyebrow">Works</p>
       <h2>Nutzen Sie unser Know-how.</h2>
+      <div class="rg" id="rg" hidden>
+        <p class="lead rg-lead">Finden Sie Beispiele nach Leistung, nach Branche oder direkt nach Kunde. Viele Kunden begleiten wir seit Jahren, vom Logo bis zum Leitsystem.</p>
+        <div class="rg-main" id="rgMain">
+          <div class="rg-modes" role="group" aria-label="Referenzen anzeigen nach">
+            <button type="button" class="rg-mode" data-mode="projekte" aria-pressed="true">Projekte</button>
+            <button type="button" class="rg-mode" data-mode="leistung" aria-pressed="false">Nach Leistung</button>
+            <button type="button" class="rg-mode" data-mode="branche" aria-pressed="false">Nach Branche</button>
+          </div>
+          <div class="rg-chips" id="rgChips"></div>
+          <p class="rg-count" id="rgCount" aria-live="polite"></p>
+          <div id="rgOut"></div>
+        </div>
+        <div class="rg-detail" id="rgDetail" hidden></div>
+      </div>
       <div class="refs">
         <article class="ref big"><div class="ph"><span><b>Bild folgt</b>Kloster Holzen</span></div><span class="meta">Hotellerie · Seit der Eröffnung 2011</span><h3>Hotel Kloster Holzen</h3><p>Pitch gewonnen, CI-Konzept, Logo, Geschäftsausstattung, Broschüren, Leitsystem, Speisekarten und Verpackungen aus einer Hand.</p></article>
         <article class="ref big"><div class="ph"><span><b>Bild folgt</b>Ostermeier</span></div><span class="meta">Großhandel &amp; Automaten · Langjährige Partnerschaft</span><h3>Ostermeier</h3><p>Unternehmenswebsite und B2B-Online-Shop für Bayerns größten Automatenaufsteller.</p></article>
@@ -972,6 +1040,65 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   var p=v.play();if(p&&p.catch)p.catch(function(){});
   function ui(){var on=!v.muted;snd.setAttribute('aria-pressed',on?'true':'false');snd.querySelector('.ico').textContent=on?'🔊':'🔇';snd.querySelector('.lbl').textContent=on?'Ton aus':'Ton an';}
   if(snd)snd.addEventListener('click',function(){v.muted=!v.muted;if(!v.muted&&v.ended){try{v.currentTime=0;}catch(e){}v.play();}ui();});
+})();
+
+// Referenz-Galerie: lädt referenzen/api.php. Ohne Daten bleibt die statische Auswahl sichtbar.
+(function(){var root=document.getElementById('rg');if(!root||!window.fetch)return;
+  var D=null,mode='projekte',sel=null,lb=null,lbList=[],lbI=0,RUNDUM=5;
+  var out=document.getElementById('rgOut'),chips=document.getElementById('rgChips'),count=document.getElementById('rgCount'),main=document.getElementById('rgMain'),det=document.getElementById('rgDetail'),sec=document.getElementById('referenzen');
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function nb(k){return k.bereiche.length}
+  function alle(){var a=[];D.kunden.forEach(function(k){k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){a.push({k:k,b:b,w:w})})})});return a}
+  function kunde(id){return D.kunden.filter(function(k){return k.id===id})[0]}
+  function thumb(w,ref){var n=w.items.length,lbl=w.typ==='video'?'':(n>1?(n+(w.typ==='serie'?' Varianten':(w.typ==='praesentation'?' Folien':' Seiten'))):'');
+    return '<button type="button" class="rg-thumb" data-open="'+ref+'" aria-label="'+esc(w.titel)+' groß ansehen"><img src="'+esc(w.items[0].t)+'" alt="" loading="lazy" decoding="async">'+(w.typ==='video'?'<span class="play" aria-hidden="true"></span>':'')+(lbl?'<span class="n">'+lbl+'</span>':'')+'</button>'}
+  var REG=[];function reg(w){REG.push(w);return REG.length-1}
+  function chipsRender(){
+    if(mode==='projekte'){chips.innerHTML='';chips.hidden=true;return}
+    chips.hidden=false;var list;
+    if(mode==='leistung')list=D.kategorien.map(function(c){return {k:c.key,n:c.name,c:c.anzahl}});
+    else{var m={};D.kunden.forEach(function(k){if(k.branche)m[k.branche]=(m[k.branche]||0)+1});list=Object.keys(m).sort(function(a,b){return m[b]-m[a]||a.localeCompare(b,'de')}).map(function(k){return {k:k,n:k,c:m[k]}})}
+    if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
+    chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
+  }
+  function projekt(k,big){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});var n=big?10:6,c='';
+    for(var i=0;i<n;i++)c+='<span'+(t.length?' style="background-image:url(\''+esc(t[i%t.length]).replace(/'/g,'%27')+'\')"':'')+'></span>';
+    return '<button type="button" class="rg-proj'+(big?' big':'')+'" data-kunde="'+esc(k.id)+'"><span class="rg-mosaic" aria-hidden="true">'+c+'</span><span class="b">'+(nb(k)>=RUNDUM?'<span class="rg-badge">Rundum betreut</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p>'+esc(k.text)+'</p>':'')+'</span></button>'}
+  function render(){REG=[];chipsRender();
+    if(mode!=='leistung'){var l=D.kunden.slice();if(mode==='branche')l=l.filter(function(k){return k.branche===sel});
+      count.textContent=l.length+(l.length===1?' Kunde':' Kunden');
+      out.innerHTML='<div class="rg-projects">'+l.map(function(k){return projekt(k,mode==='projekte'&&nb(k)>=RUNDUM)}).join('')+'</div>';}
+    else{var ws=alle().filter(function(x){return x.b.key===sel}),name=(D.kategorien.filter(function(c){return c.key===sel})[0]||{}).name||'';
+      count.textContent=ws.length+(ws.length===1?' Arbeit':' Arbeiten')+' im Bereich '+name;
+      out.innerHTML='<div class="rg-works">'+ws.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>';}
+  }
+  function zeigeKunde(id){var k=kunde(id);if(!k)return;REG=[];
+    var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small></h4><div class="rg-works">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
+    var f=[['Branche',k.branche],['Ort',k.ort],['Zeitraum',k.zeitraum],['Bereiche',k.bereiche.map(function(b){return b.name}).join(', ')]].filter(function(x){return x[1]});
+    det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3><p class="lead">'+(nb(k)>=RUNDUM?'<strong>Corporate Identity aus einer Hand: '+nb(k)+' Bereiche.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
+    main.hidden=true;det.hidden=false;sec.scrollIntoView({behavior:'smooth',block:'start'});}
+  function zurueck(){det.hidden=true;main.hidden=false;render();sec.scrollIntoView({behavior:'smooth',block:'start'})}
+  function lbBau(){lb=document.createElement('div');lb.className='rg-lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Arbeit groß ansehen');
+    lb.innerHTML='<button type="button" class="x">Schließen</button><div class="st"></div><button type="button" class="nav prev" aria-label="Vorherige Seite">‹</button><span class="cap"></span><button type="button" class="nav next" aria-label="Nächste Seite">›</button>';
+    document.body.appendChild(lb);
+    lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('x'))lbZu();else if(e.target.classList.contains('prev'))lbGeh(-1);else if(e.target.classList.contains('next'))lbGeh(1)});
+    var sx=null;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){if(sx===null)return;var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)lbGeh(d<0?1:-1);sx=null});}
+  function lbZeig(){var w=lbList,it=w.items[lbI],st=lb.querySelector('.st');
+    st.innerHTML=w.video?'<video src="'+esc(w.video)+'" poster="'+esc(it.f)+'" controls autoplay playsinline></video>':'<img src="'+esc(it.f)+'" alt="'+esc(w.titel)+'">';
+    var m=w.items.length>1&&!w.video;lb.querySelector('.prev').hidden=!m;lb.querySelector('.next').hidden=!m;
+    lb.querySelector('.cap').textContent=w.titel+(m?'  '+(lbI+1)+' / '+w.items.length:'');}
+  function lbAuf(w){if(!lb)lbBau();lbList=w;lbI=0;lb.hidden=false;document.documentElement.style.overflow='hidden';lbZeig();lb.querySelector('.x').focus()}
+  function lbZu(){if(!lb)return;var v=lb.querySelector('video');if(v)v.pause();lb.hidden=true;lb.querySelector('.st').innerHTML='';document.documentElement.style.overflow=''}
+  function lbGeh(d){if(!lb||lb.hidden||lbList.video)return;var n=lbList.items.length;lbI=(lbI+d+n)%n;lbZeig()}
+  document.addEventListener('keydown',function(e){if(!lb||lb.hidden)return;if(e.key==='Escape')lbZu();else if(e.key==='ArrowRight')lbGeh(1);else if(e.key==='ArrowLeft')lbGeh(-1)});
+  root.addEventListener('click',function(e){var t=e.target.closest('button');if(!t||!root.contains(t))return;
+    if(t.dataset.mode){mode=t.dataset.mode;sel=null;root.querySelectorAll('.rg-mode').forEach(function(b){b.setAttribute('aria-pressed',b===t)});render()}
+    else if(t.dataset.chip){sel=t.dataset.chip;render()}
+    else if(t.dataset.kunde)zeigeKunde(t.dataset.kunde);
+    else if(t.dataset.back)zurueck();
+    else if(t.dataset.open!==undefined)lbAuf(REG[+t.dataset.open]);});
+  fetch('referenzen/api.php',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    if(!d||!d.kunden||!d.kunden.length)return;D=d;root.hidden=false;var st=sec.querySelector('.refs');if(st)st.hidden=true;render();}).catch(function(){});
 })();
 </script>
 </body>
