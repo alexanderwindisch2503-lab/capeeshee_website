@@ -899,17 +899,17 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 // Tennis-Hero: Video spielt einmal und bleibt auf dem letzten Bild stehen. Headline schlägt mit dem Ball ein,
 // danach wird die Unterzeile eingetippt. Kommt der Hero nach dem Wegscrollen wieder ins Bild, beginnt alles neu.
 (function(){var v=document.getElementById('tspot'),snd=document.getElementById('tsound'),box=document.querySelector('.thero');if(!v||!box)return;
-  var HIT=2.4,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
+  var HIT=2.0,tt=box.querySelector('.thero-type .tt'),tchars=[],tTimer=null,raf=0;
   if(tt){var txt=tt.textContent;tt.textContent='';for(var i=0;i<txt.length;i++){var c=document.createElement('span');c.className='c';c.textContent=txt[i];tt.appendChild(c);tchars.push(c)}}
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();if(snd)snd.hidden=true;box.classList.add('hit');tchars.forEach(function(c){c.classList.add('on')});return;}
   box.classList.add('js-hit');
   function tippen(){clearTimeout(tTimer);var i=0;(function n(){if(i<tchars.length){tchars[i].classList.add('on');i++;tTimer=setTimeout(n,tchars[i-1].textContent===' '?40:55+Math.random()*45)}})()}
   function treffer(){if(box.classList.contains('hit'))return;box.classList.add('hit');clearTimeout(tTimer);tTimer=setTimeout(tippen,1200)}
   // Bahn des Balls (Anteil der Bildbreite über die Zeit), gemessen im Video: die Schrift fährt im gleichen Tempo mit
-  // Einfahrt der Schrift: startet kurz vor dem Einschlag, erst sehr schnell, dann abbremsend, steht genau beim Aufprall (2,4 s)
-  var START={d:1.6,m:2.0},l1=box.querySelector('.thero-h .l1');
-  function fahrt(t){var a=START[/mobil/.test(v.currentSrc)?'m':'d'],k=Math.max(0,Math.min(1,(t-a)/(HIT-a))),pr=1-Math.pow(1-k,4);
-    var r=l1.getBoundingClientRect(),cur=parseFloat((l1.style.transform.match(/-?[\d.]+/)||[0])[0])||0,weit=r.right-cur+40;
+  // Einfahrt der Schrift: erst etwas schneller, dann abbremsend, hakt genau ein, wenn der Ball abspringt (tiefster Punkt bei 2,0 s)
+  var WEIT=0;window.addEventListener('resize',function(){WEIT=0});var START={d:1.4,m:1.45},l1=box.querySelector('.thero-h .l1');
+  function fahrt(t){var a=START[/mobil/.test(v.currentSrc)?'m':'d'],k=Math.max(0,Math.min(1,(t-a)/(HIT-a))),pr=1-Math.pow(1-k,2);
+    if(!WEIT){var alt=l1.style.transform;l1.style.transform='none';WEIT=l1.getBoundingClientRect().right+40;l1.style.transform=alt}var weit=WEIT;
     l1.style.transform=k<=0?'translateX(-110vw)':'translateX('+(-(1-pr)*weit).toFixed(1)+'px)'}
   function warte(){cancelAnimationFrame(raf);(function w(){if(box.classList.contains('hit'))return;var t=v.currentTime;if(t>=HIT||v.ended){l1.style.transform='';treffer()}else{fahrt(t);raf=requestAnimationFrame(w)}})()}
   function zuruecksetzen(){cancelAnimationFrame(raf);clearTimeout(tTimer);box.classList.remove('hit');l1.style.transform='translateX(-110vw)';tchars.forEach(function(c){c.classList.remove('on')});void box.offsetWidth}
