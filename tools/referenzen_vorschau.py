@@ -211,15 +211,18 @@ def boxen(pdf, seite):
 
 
 def pdf_seiten(pdf):
-    out = subprocess.run(['pdfinfo', pdf], capture_output=True, text=True).stdout
-    m = re.search(r'^Pages:\s+(\d+)', out, re.M)
-    return int(m.group(1)) if m else 0
+    r = subprocess.run(['pdfinfo', pdf], capture_output=True, text=True)
+    m = re.search(r'^Pages:\s+(\d+)', r.stdout, re.M)
+    if m:
+        return int(m.group(1))
+    with open(pdf, 'rb') as f:
+        kopf = f.read(16)
+    groesse = os.path.getsize(pdf)
+    raise RuntimeError(f'PDF nicht lesbar ({groesse} Bytes, Anfang {kopf!r}): {r.stderr.strip()[:300]}')
 
 
 def pdf_umwandeln(pdf, spec, ordner):
     n = pdf_seiten(pdf)
-    if not n:
-        raise RuntimeError('PDF nicht lesbar')
     items = []
     for i, s in enumerate(seiten_aus_spec(spec, n), 1):
         b = boxen(pdf, s)
