@@ -42,13 +42,14 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgb
 .bar{display:flex;align-items:center;gap:24px;min-height:72px}
 .logo img{height:34px;width:auto}
 @media (max-width:560px){.logo img{height:28px}}
-nav{margin-left:auto;display:flex;gap:26px;align-items:center}
+nav{margin-left:auto;display:flex;gap:clamp(14px,1.6vw,26px);align-items:center}
+nav .nl{white-space:nowrap}
 nav a{font-family:var(--head);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:14px;text-decoration:none;color:var(--ink)}
 nav a:hover,nav a:focus-visible{color:var(--red)}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;font-family:var(--head);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;padding:13px 22px;border-radius:2px;border:0;cursor:pointer}
 .btn:hover{filter:brightness(1.08)}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
-@media (max-width:1180px){nav .nl{display:none}}
+@media (max-width:1280px){nav .nl{display:none}}
 
 /* Story: Ente, Huhn, Folge */
 .story{padding:0}
@@ -426,7 +427,7 @@ input,textarea{border:0}
 .menu-btn[aria-expanded="true"] span:nth-child(1){top:21px;transform:rotate(45deg)}
 .menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] span:nth-child(3){top:21px;transform:rotate(-45deg)}
-@media (max-width:1180px){
+@media (max-width:1280px){
   header .bar{position:relative}
   .menu-btn{display:block}
   #mainnav{position:absolute;top:100%;left:0;right:0;height:calc(100svh - var(--hh,64px));background:var(--bg);flex-direction:column;align-items:flex-start;justify-content:center;gap:clamp(14px,3svh,28px);padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));margin:0;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s}
