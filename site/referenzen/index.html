@@ -708,7 +708,6 @@ nav a[aria-current="page"]{color:var(--red)}
 
 /* Kopfzeile über dem Hero transparent, beim Scrollen weiß */
 .logo{position:relative}
-.logo .logo-w{position:absolute;left:0;top:0;opacity:0}
 html.over-hero header{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease}
 html.over-hero .thero{min-height:100vh;min-height:100svh}
 html.over-hero .thero-in{padding-top:calc(var(--hh,72px) + clamp(40px,8vh,110px))}
@@ -718,10 +717,10 @@ html.over-hero:not(.scrolled):not(.menu-open) body::before{background:rgba(40,16
 html.over-hero:not(.scrolled):not(.menu-open) header nav a{color:#fff}
 html.over-hero:not(.scrolled):not(.menu-open) header nav a:hover{color:#f0f400}
 html.over-hero:not(.scrolled):not(.menu-open) .menu-btn span{background:#fff}
-html.over-hero:not(.scrolled):not(.menu-open) .logo .logo-n{opacity:0}
-html.over-hero:not(.scrolled):not(.menu-open) .logo .logo-w{opacity:1}
+html.over-hero:not(.scrolled):not(.menu-open) .logo .logo-n{filter:brightness(0) invert(1)}
 html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
-.logo img{transition:opacity .3s ease}
+.logo img{transition:filter .3s ease}
+.logo:focus:not(:focus-visible){outline:0}
 @media (max-width:860px){html.over-hero .thero-in{padding-top:calc(var(--hh,64px) + 24px)}}
 </style>
 </head>
@@ -729,7 +728,7 @@ html.over-hero.scrolled header{box-shadow:0 1px 0 var(--line)}
 
 <header>
   <div class="wrap bar">
-    <a class="logo" href="#top" aria-label="Agentur Capeeshee, zur Startseite"><img class="logo-n" src="img/logo-capeeshee.svg?v=202611071038" alt="Capeeshee" width="709" height="135"><img class="logo-w" src="img/logo-capeeshee-weiss.svg?v=202611072052" alt="" aria-hidden="true" width="709" height="135"></a>
+    <a class="logo" href="#top" aria-label="Agentur Capeeshee, zur Startseite"><img class="logo-n" src="img/logo-capeeshee.svg?v=202611071038" alt="Capeeshee" width="709" height="135"></a>
     <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainnav"><span></span><span></span><span></span></button>
     <nav id="mainnav" aria-label="Hauptnavigation">
       <a class="nl" href="#leistungen">Leistungen</a>
