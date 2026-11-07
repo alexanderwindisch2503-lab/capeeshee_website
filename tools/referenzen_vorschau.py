@@ -33,6 +33,39 @@ VIDEO = {'.mp4', '.mov', '.m4v', '.avi', '.mkv', '.wmv', '.mpg', '.mpeg'}
 QUELLEN = PDF | OFFICE | BILD | VIDEO
 
 
+def zeig(n):
+    """Dateinamen lesbar ausgeben, auch wenn sie nicht in UTF-8 gespeichert sind (z. B. Umlaute aus Windows-FTP)."""
+    raw = n.encode('utf-8', 'surrogateescape')
+    try:
+        return raw.decode('utf-8')
+    except UnicodeDecodeError:
+        return raw.decode('cp1252', 'replace')
+
+
+def _paramiko_namen_tolerant():
+    """paramiko erwartet UTF-8-Dateinamen. Andere Bytes (Windows-Umlaute) werden verlustfrei durchgereicht."""
+    import paramiko
+    mods = [getattr(paramiko, m) for m in ('util', 'message', 'sftp_client', 'sftp_attr', 'sftp', 'py3compat') if hasattr(paramiko, m)]
+    def mk(name, orig):
+        if name == 'u':
+            def f(s, encoding='utf8'):
+                if isinstance(s, bytes):
+                    return s.decode('utf-8', 'surrogateescape')
+                return orig(s) if not isinstance(s, str) else s
+        else:
+            def f(s, *a, **k):
+                if isinstance(s, str):
+                    return s.encode('utf-8', 'surrogateescape')
+                return orig(s, *a, **k)
+        return f
+    for m in mods:
+        for name in ('u', 'b', 'asbytes'):
+            orig = getattr(m, name, None)
+            if callable(orig) and not getattr(orig, '_cap', False):
+                f = mk(name, orig); f._cap = True
+                setattr(m, name, f)
+
+
 def sichtbar(n):
     return bool(n) and n[0] not in '._'
 
@@ -74,6 +107,7 @@ class Lokal:
 class Sftp:
     def __init__(self, host, user, pw, root):
         import paramiko
+        _paramiko_namen_tolerant()
         self.t = paramiko.Transport((host, 22))
         self.t.connect(username=user, password=pw)
         self.s = paramiko.SFTPClient.from_transport(self.t)
@@ -274,8 +308,8 @@ def verarbeiten(fs, nur_pruefen=False):
             except ValueError:
                 pass
         if groesse > MAX_GROESSE:
-            print(f'Übersprungen (zu groß): {rel}/{name}'); continue
-        print(f'Erzeuge Vorschau: {rel}/{name}', flush=True)
+            print(f'Übersprungen (zu groß): {zeig(rel)}/{zeig(name)}'); continue
+        print(f'Erzeuge Vorschau: {zeig(rel)}/{zeig(name)}', flush=True)
         if nur_pruefen:
             continue
         ext = os.path.splitext(name)[1].lower()
@@ -297,18 +331,18 @@ def verarbeiten(fs, nur_pruefen=False):
                 fs.ordner_loeschen(vrel)
                 for f in sorted(os.listdir(ziel)):
                     fs.ablegen(os.path.join(ziel, f), f'{vrel}/{f}')
-                meta = dict(r, v=VERSION, src=name, size=groesse, mtime=mtime, spec=spec)
-                fs.schreiben(f'{vrel}/meta.json', json.dumps(meta, ensure_ascii=False).encode())
+                meta = dict(r, v=VERSION, src=zeig(name), size=groesse, mtime=mtime, spec=spec)
+                fs.schreiben(f'{vrel}/meta.json', json.dumps(meta).encode())
                 neu += 1
             except Exception as e:  # eine kaputte Datei soll den Rest nicht aufhalten
                 fehler += 1
-                print(f'::warning::Vorschau fehlgeschlagen für {rel}/{name}: {e}', flush=True)
+                print(f'::warning::Vorschau fehlgeschlagen für {zeig(rel)}/{zeig(name)}: {e}', flush=True)
     # Vorschauen ohne Quelldatei entfernen
     entfernt = 0
     for rel, dateien in ordner:
         for n, d, *_ in fs.liste(f'{rel}/_vorschau'):
             if d and n not in dateien:
-                print(f'Entferne alte Vorschau: {rel}/_vorschau/{n}')
+                print(f'Entferne alte Vorschau: {zeig(rel)}/_vorschau/{zeig(n)}')
                 if not nur_pruefen:
                     fs.ordner_loeschen(f'{rel}/_vorschau/{n}')
                 entfernt += 1

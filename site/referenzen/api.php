@@ -107,7 +107,9 @@ function elemente($absDir, $relDir, $datei) {
   $metaDatei = "$absDir/_vorschau/$datei/meta.json";
   $vrel = "$relDir/_vorschau/$datei";
   if (is_file($metaDatei)) {
-    $m = json_decode((string)file_get_contents($metaDatei), true);
+    $roh = (string)file_get_contents($metaDatei);
+    $m = json_decode($roh, true);
+    if (!is_array($m)) $m = json_decode(preg_replace('/\\\\ud[89a-f][0-9a-f]{2}/i', '', $roh), true);  // alte Einträge mit kaputten Zeichen
     if (is_array($m) && !empty($m['items'])) {
       $out = ['typ' => $m['type'] ?? 'bild', 'items' => []];
       foreach ($m['items'] as $it) {
@@ -155,9 +157,11 @@ foreach (eintraege($BASE) as $kOrdner) {
     }
     if (!$arbeiten) continue;
     $k = schluessel(titel($bOrdner, false));
-    $bereiche[] = ['key' => $k, 'name' => $BEREICHE[$k] ?? titel($bOrdner, false), 'arbeiten' => $arbeiten];
+    if (isset($bereiche[$k])) $bereiche[$k]['arbeiten'] = array_merge($bereiche[$k]['arbeiten'], $arbeiten);  // "Broschüren" und "Broschueren" zusammenführen
+    else $bereiche[$k] = ['key' => $k, 'name' => $BEREICHE[$k] ?? titel($bOrdner, false), 'arbeiten' => $arbeiten];
   }
   if (!$bereiche) continue;
+  $bereiche = array_values($bereiche);
   $kunden[] = [
     'id' => schluessel(titel($kOrdner, false)),
     'name' => $inf['name'] ?? titel($kOrdner, false),
