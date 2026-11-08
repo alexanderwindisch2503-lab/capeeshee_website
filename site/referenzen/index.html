@@ -650,7 +650,11 @@ body{line-height:1.55}
 .rg-thumb .play::after{content:"";position:absolute;left:21px;top:16px;border-style:solid;border-width:11px 0 11px 18px;border-color:transparent transparent transparent #fff}
 .rg-cap{font-size:15px;color:var(--ink);font-weight:400}
 .rg-cust{font-size:14px;color:var(--red);background:none;border:0;padding:0;cursor:pointer;text-align:left;font-family:inherit;text-decoration:underline;text-underline-offset:3px}
-.rg-back{font:600 13px var(--head);letter-spacing:.1em;text-transform:uppercase;background:none;border:0;color:var(--red);cursor:pointer;padding:0;margin:32px 0 24px}
+.rg-back{display:inline-flex;align-items:center;gap:10px;font:600 14px var(--head);letter-spacing:.06em;text-transform:uppercase;background:var(--red);border:0;border-radius:2px;color:#fff;cursor:pointer;padding:13px 22px;margin:32px 0 24px}
+.rg-back:hover{filter:brightness(1.08)}
+.rg-back.ende{margin:clamp(40px,5vw,64px) 0 0}
+.rg-back.schwebe{position:fixed;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:0;z-index:150;box-shadow:0 8px 24px rgba(20,22,24,.22);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
+.rg-back.schwebe.an{opacity:1;pointer-events:auto;transform:none}
 .rg-dhead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:end}
 .rg-dhead h3{font-family:var(--display);font-weight:800;font-size:clamp(30px,4vw,48px);letter-spacing:-.04em;line-height:1.05;margin:0}
 .rg-dhead .lead strong{color:var(--ink);font-weight:500}
@@ -707,7 +711,7 @@ body{line-height:1.55}
 .rg-proj .b{align-content:start}
 .rg-proj .rg-badges{align-items:flex-start}
 .rg-proj .tx{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.rg-proj h3{font-size:19px!important}
+.rg-proj h3{font-size:clamp(22px,1.9vw,26px)!important;line-height:1.15;letter-spacing:-.01em}.rg-proj.w2 h3{font-size:clamp(24px,2.3vw,30px)!important}
 .rg-feat{margin-top:18px;margin-bottom:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 .rg-mosaic.f4,.rg-mosaic.f8,.rg-mosaic.f1{aspect-ratio:auto!important;grid-auto-rows:auto}
 .rg-mosaic.f4 span,.rg-mosaic.f8 span,.rg-mosaic.f1 i{aspect-ratio:4/3!important}
@@ -1004,10 +1008,12 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
       count.textContent=ws.length+(ws.length===1?' Arbeit':' Arbeiten')+' im Bereich '+name;
       out.innerHTML='<div class="rg-works">'+vw.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>'+mehr(ws.length-vw.length,'w');}
   }
+  var bo=null;function backBeob(){if(bo)bo.disconnect();if(!('IntersectionObserver' in window))return;var o=det.querySelector('.rg-back.oben'),e=det.querySelector('.rg-back.ende'),f=det.querySelector('.rg-back.schwebe'),sicht={};
+    bo=new IntersectionObserver(function(es){es.forEach(function(x){sicht[x.target===o?'o':'e']=x.isIntersecting});var an=!sicht.o&&!sicht.e&&!det.hidden;f.classList.toggle('an',an);f.setAttribute('aria-hidden',an?'false':'true');f.tabIndex=an?0:-1});bo.observe(o);bo.observe(e)}
   function zeigeKunde(id,still){var k=kunde(id);if(!k)return false;REG=[];
     var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small>'+(n>1?'<span class="sw" aria-hidden="true">Wischen →</span>':'')+'</h4><div class="rg-works'+(n>1?' multi':'')+'">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
     var f=[['Branche',k.branche],['Ort',k.ort],['Zeitraum',k.zeitraum],['Bereiche',k.bereiche.map(function(b){return b.name}).join(', ')]].filter(function(x){return x[1]});
-    det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3>'+(badge(k)?'<p class="rg-badges">'+badge(k)+'</p>':'')+'<p class="lead">'+(cd(k)?'<strong>Corporate Design aus einer Hand: '+esc(k.bereiche.map(function(b){return b.name}).join(', '))+'.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
+    det.innerHTML='<button type="button" class="rg-back oben" data-back="1">← Alle Referenzen</button><button type="button" class="rg-back schwebe" data-back="1" aria-hidden="true" tabindex="-1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3>'+(badge(k)?'<p class="rg-badges">'+badge(k)+'</p>':'')+'<p class="lead">'+(cd(k)?'<strong>Corporate Design aus einer Hand: '+esc(k.bereiche.map(function(b){return b.name}).join(', '))+'.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div><button type="button" class="rg-back ende" data-back="1">← Alle Referenzen</button>';backBeob();
     main.hidden=true;det.hidden=false;if(location.hash!=='#'+id)history.replaceState(null,'',location.pathname+'#'+id);if(!still)sec.scrollIntoView({behavior:'smooth',block:'start'});return true}
   function zurueck(){det.hidden=true;main.hidden=false;history.replaceState(null,'',location.pathname);render();sec.scrollIntoView({behavior:'smooth',block:'start'})}
   function lbBau(){lb=document.createElement('div');lb.className='rg-lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Arbeit groß ansehen');
