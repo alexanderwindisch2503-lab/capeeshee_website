@@ -288,6 +288,9 @@ def quellen(fs):
         if not kd or not sichtbar(k):
             continue
         for b, bd, *_ in fs.liste(k):
+            if bd and b == '_kachel':
+                datei_ordner(f'{k}/{b}')   # eigene Kachelbilder
+                continue
             if not bd or not sichtbar(b):
                 continue
             for e, ed, *_ in datei_ordner(f'{k}/{b}'):

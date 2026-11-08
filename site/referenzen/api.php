@@ -173,6 +173,15 @@ foreach (eintraege($BASE) as $kOrdner) {
   }
   if (!$bereiche) continue;
   $bereiche = array_values($bereiche);
+  // Eigene Kachelbilder für die Projektkachel: Ordner _kachel im Kundenordner (1 oder 4 Bilder)
+  $kachel = [];
+  if (is_dir("$kAbs/_kachel")) {
+    foreach (eintraege("$kAbs/_kachel") as $d) {
+      if (!is_file("$kAbs/_kachel/$d")) continue;
+      $el = elemente("$kAbs/_kachel", "$kOrdner/_kachel", $d);
+      if ($el) foreach ($el['items'] as $it) $kachel[] = $it['t'];
+    }
+  }
   // Gesamtleistungen aus info.txt ("Leistung: Corporate Design, Website-Relaunch"),
   // Corporate Design automatisch bei Logo plus mindestens drei weiteren Bereichen
   $leistungen = [];
@@ -190,6 +199,7 @@ foreach (eintraege($BASE) as $kOrdner) {
     'leistungen' => $leistungen,
     'logoreihe' => in_array(schluessel($inf['logoreihe'] ?? ''), ['ja', 'yes', '1', 'x'], true),
     'reihenfolge' => is_numeric($inf['reihenfolge'] ?? null) ? (int)$inf['reihenfolge'] : null,
+    'kachel' => array_slice($kachel, 0, 6),
     'bereiche' => $bereiche,
   ];
 }

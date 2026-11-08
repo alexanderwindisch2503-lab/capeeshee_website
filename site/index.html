@@ -1148,7 +1148,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function lst(k){return k.leistungen||[]}
   function cd(k){return lst(k).some(function(l){return key(l)==='corporatedesign'})}
   function badge(k){return lst(k).map(function(x){return '<span class="rg-badge">'+esc(x)+'</span>'}).join('')}
-  function bilder(k){var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});return t}
+  function bilder(k){if(k.kachel&&k.kachel.length)return k.kachel;var t=[];k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){t.push(w.items[0].t)})});return t}
   function alle(){var a=[];D.kunden.forEach(function(k){k.bereiche.forEach(function(b){b.arbeiten.forEach(function(w){a.push({k:k,b:b,w:w})})})});return a}
   function kunde(id){return D.kunden.filter(function(k){return k.id===id})[0]}
   function reg(w){REG.push(w);return REG.length-1}
