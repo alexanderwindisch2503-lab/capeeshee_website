@@ -658,6 +658,14 @@ body{line-height:1.55}
 .rg-areas{margin-top:clamp(36px,5vw,60px);display:grid;gap:clamp(32px,4vw,52px)}
 .rg-area h4{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin:0 0 16px}
 .rg-area h4 small{font:400 14px inherit;color:var(--muted)}
+/* Handy: Rubriken mit mehreren Arbeiten seitlich wischen statt untereinander */
+.rg-area h4 .sw{display:none;margin-left:auto;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+@media (max-width:560px){
+ .rg-area .rg-works.multi{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-left:calc(-1*max(20px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(20px,env(safe-area-inset-right,0px)));padding:0 max(20px,env(safe-area-inset-right,0px)) 4px max(20px,env(safe-area-inset-left,0px));scroll-padding-left:max(20px,env(safe-area-inset-left,0px));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .rg-area .rg-works.multi::-webkit-scrollbar{display:none}
+ .rg-area .rg-works.multi .rg-work{flex:0 0 80%;min-width:0;scroll-snap-align:start}
+ .rg-area h4 .sw{display:inline}
+}
 .rg-lb{position:fixed;inset:0;background:rgba(20,22,24,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:56px max(16px,env(safe-area-inset-right,0px)) 72px max(16px,env(safe-area-inset-left,0px))}
 .rg-lb[hidden]{display:none}
 .rg-lb .st{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
@@ -1195,7 +1203,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
       out.innerHTML='<div class="rg-works">'+vw.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>'+mehr(ws.length-vw.length,'w');}
   }
   function zeigeKunde(id,still){var k=kunde(id);if(!k)return false;REG=[];
-    var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small></h4><div class="rg-works">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
+    var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small>'+(n>1?'<span class="sw" aria-hidden="true">Wischen →</span>':'')+'</h4><div class="rg-works'+(n>1?' multi':'')+'">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
     var f=[['Branche',k.branche],['Ort',k.ort],['Zeitraum',k.zeitraum],['Bereiche',k.bereiche.map(function(b){return b.name}).join(', ')]].filter(function(x){return x[1]});
     det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3>'+(badge(k)?'<p class="rg-badges">'+badge(k)+'</p>':'')+'<p class="lead">'+(cd(k)?'<strong>Corporate Design aus einer Hand: '+esc(k.bereiche.map(function(b){return b.name}).join(', '))+'.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
     main.hidden=true;det.hidden=false;if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);if(!still)sec.scrollIntoView({behavior:'smooth',block:'start'});return true}
