@@ -690,7 +690,16 @@ body{line-height:1.55}
 .rg-proj .tx{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .rg-proj h3{font-size:19px!important}
 .rg-feat{margin-top:18px;margin-bottom:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.rg-feat .rg-mosaic.six{grid-template-columns:repeat(3,1fr)!important;aspect-ratio:3/2}
+.rg-mosaic.f4,.rg-mosaic.f8,.rg-mosaic.f1{aspect-ratio:auto!important;grid-auto-rows:auto}
+.rg-mosaic.f4 span,.rg-mosaic.f8 span,.rg-mosaic.f1 i{aspect-ratio:4/3!important}
+.rg-mosaic.f8{grid-template-columns:repeat(4,1fr)!important;column-gap:12px}
+.rg-mosaic.f1{grid-template-columns:repeat(2,1fr)!important}
+.rg-mosaic.f1 i{display:block;grid-column:1;grid-row:1;visibility:hidden}
+.rg-mosaic.f1 i:nth-child(2){grid-row:2}
+.rg-mosaic.f1 span{grid-column:1/-1;grid-row:1/3}
+.rg-mosaic.f1 span img{inset:6%;width:88%;height:88%}
+.rg-proj.w2{grid-column:span 2}
+@media (max-width:560px){.rg-proj.w2{grid-column:auto}.rg-mosaic.f8{column-gap:8px}}
 .rg-feat .rg-proj h3{font-size:22px!important}
 @media (max-width:860px){.rg-feat{grid-template-columns:1fr}}
 .rg-fill{grid-column:span var(--k,1);background:var(--t5,#e9ded4);display:flex;flex-direction:column;justify-content:center;gap:12px;padding:28px;text-decoration:none;color:var(--ink);min-height:220px}
@@ -946,11 +955,13 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
   function gesamt(){var m={},o=[];D.kunden.forEach(function(k){lst(k).forEach(function(l){if(!m[l]){m[l]=0;o.push(l)}m[l]++})});o.sort(function(a,b){return (key(a)==='corporatedesign'?0:1)-(key(b)==='corporatedesign'?0:1)||m[b]-m[a]});return o.map(function(l){return {k:'L:'+l,n:l,c:m[l]}})}
   function thumb(w,ref){var n=w.items.length,lbl=w.typ==='video'?'':(n>1?(n+(w.typ==='serie'?' Varianten':(w.typ==='praesentation'?' Folien':' Seiten'))):'');
     return '<button type="button" class="rg-thumb" data-open="'+ref+'" aria-label="'+esc(w.titel)+' groß ansehen"><img src="'+esc(U(w.items[0].t))+'" alt="" loading="lazy" decoding="async">'+(w.typ==='video'?'<span class="play" aria-hidden="true"></span>':'')+(lbl?'<span class="n">'+lbl+'</span>':'')+'</button>'}
-  function projekt(k,feat){var t=bilder(k),L=t.length,n=feat?(L>=6?6:(L>=4?4:1)):(L>=4?4:1),c='';
+  function felder(k){var L=bilder(k).length;return L>=8?8:(L>=4?4:1)}
+  function breite(k){return felder(k)===8?2:1}
+  function projekt(k){var t=bilder(k),n=felder(k),c=n===1?'<i></i><i></i>':'';
     for(var i=0;i<n;i++)c+='<span><img src="'+esc(U(t[i]))+'" alt="" loading="lazy" decoding="async"></span>';
-    var inner='<span class="rg-mosaic'+(n===1?' one':'')+(feat&&n===6?' six':'')+'" aria-hidden="true">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p class="tx">'+esc(k.text)+'</p>':'')+'</span>';
-    return TEASER?'<a class="rg-proj" href="/referenzen/#'+esc(k.id)+'">'+inner+'</a>':'<button type="button" class="rg-proj" data-kunde="'+esc(k.id)+'">'+inner+'</button>'}
-  function fuell(g,ende){var f=g.querySelector('.rg-fill');if(f)f.remove();if(!ende)return;var cols=getComputedStyle(g).gridTemplateColumns.split(' ').length,n=g.children.length,k=(cols-n%cols)%cols;if(!k)return;
+    var inner='<span class="rg-mosaic f'+n+'" aria-hidden="true">'+c+'</span><span class="b">'+(badge(k)?'<span class="rg-badges">'+badge(k)+'</span>':'')+'<h3>'+esc(k.name)+'</h3><p class="m">'+esc([k.branche,nb(k)+(nb(k)===1?' Bereich':' Bereiche')].filter(Boolean).join(' · '))+'</p>'+(k.text?'<p class="tx">'+esc(k.text)+'</p>':'')+'</span>';
+    return TEASER?'<a class="rg-proj'+(n===8?' w2':'')+'" href="/referenzen/#'+esc(k.id)+'">'+inner+'</a>':'<button type="button" class="rg-proj'+(n===8?' w2':'')+'" data-kunde="'+esc(k.id)+'">'+inner+'</button>'}
+  function fuell(g,ende){var f=g.querySelector('.rg-fill');if(f)f.remove();if(!ende)return;var cols=getComputedStyle(g).gridTemplateColumns.split(' ').length;if(cols<2)return;var kids=[].slice.call(g.children),last=0;kids.forEach(function(c){last=Math.max(last,c.offsetTop)});var used=0;kids.forEach(function(c){if(c.offsetTop===last)used+=c.classList.contains('w2')?2:1});var k=cols-used;if(k<=0)return;
     var a=document.createElement('a');a.className='rg-fill';a.href='/#kontakt';a.style.setProperty('--k',k);a.innerHTML='<b>Ihr Projekt fehlt hier noch?</b><span>Lassen Sie uns sprechen →</span>';g.appendChild(a)}
   function mehr(rest,was){return rest>0?'<div class="rg-more"><button type="button" class="btn ghost" data-more="'+was+'">Weitere '+rest+(was==='k'?(rest===1?' Kunde':' Kunden'):(rest===1?' Arbeit':' Arbeiten'))+' anzeigen</button></div>':''}
   function chipsRender(){
@@ -961,11 +972,11 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
-  function raster(list,featTop){var f=featTop?list.filter(cd).slice(0,4):[],rest=list.filter(function(k){return f.indexOf(k)<0}),vis=rest.slice(0,shown);
-    out.innerHTML=(f.length?'<div class="rg-feat">'+f.map(function(k){return projekt(k,true)}).join('')+'</div>':'')+'<div class="rg-projects">'+vis.map(function(k){return projekt(k,false)}).join('')+'</div>'+mehr(rest.length-vis.length,'k');
+  function raster(list){var rest=list,vis=rest.slice(0,shown);
+    out.innerHTML='<div class="rg-projects">'+vis.map(function(k){return projekt(k)}).join('')+'</div>'+mehr(rest.length-vis.length,'k');
     fuell(out.querySelector('.rg-projects'),vis.length===rest.length);}
   function render(){REG=[];
-    if(TEASER){var l=D.kunden.slice(0,TEASER);out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k,false)}).join('')+'</div>';return}
+    if(TEASER){var l=[],sp=0;D.kunden.forEach(function(k){if(sp+breite(k)<=TEASER){l.push(k);sp+=breite(k)}else sp=TEASER});out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k)}).join('')+'</div>';return}
     chipsRender();
     if(mode==='projekte'){count.textContent=D.kunden.length+(D.kunden.length===1?' Kunde':' Kunden');raster(D.kunden,true);}
     else if(mode==='branche'){var b=D.kunden.filter(function(k){return k.branche===sel});count.textContent=b.length+(b.length===1?' Kunde':' Kunden');raster(b,false);}

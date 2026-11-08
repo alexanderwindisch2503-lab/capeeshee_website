@@ -199,7 +199,7 @@ foreach (eintraege($BASE) as $kOrdner) {
     'leistungen' => $leistungen,
     'logoreihe' => in_array(schluessel($inf['logoreihe'] ?? ''), ['ja', 'yes', '1', 'x'], true),
     'reihenfolge' => is_numeric($inf['reihenfolge'] ?? null) ? (int)$inf['reihenfolge'] : null,
-    'kachel' => array_slice($kachel, 0, 6),
+    'kachel' => array_slice($kachel, 0, 8),
     'bereiche' => $bereiche,
   ];
 }
