@@ -657,7 +657,7 @@ body{line-height:1.55}
 .rg-facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:15px;margin:0}
 .rg-facts dt{text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:12px;padding-top:3px}
 .rg-facts dd{margin:0;color:var(--ink)}
-.rg-areas{margin-top:clamp(36px,5vw,60px);display:grid;gap:clamp(32px,4vw,52px)}
+.rg-areas{margin-top:clamp(36px,5vw,60px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(32px,4vw,52px)}.rg-area{min-width:0}
 .rg-area h4{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin:0 0 16px}
 .rg-area h4 small{font:400 14px inherit;color:var(--muted)}
 /* Handy: Rubriken mit mehreren Arbeiten seitlich wischen statt untereinander */
@@ -997,7 +997,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     var areas=k.bereiche.map(function(b){var n=b.arbeiten.length;return '<div class="rg-area"><h4>'+esc(b.name)+'<small>'+n+(n===1?' Arbeit':' Arbeiten')+'</small>'+(n>1?'<span class="sw" aria-hidden="true">Wischen →</span>':'')+'</h4><div class="rg-works'+(n>1?' multi':'')+'">'+b.arbeiten.map(function(w){return '<div class="rg-work">'+thumb(w,reg(w))+'<span class="rg-cap">'+esc(w.titel)+'</span></div>'}).join('')+'</div></div>'}).join('');
     var f=[['Branche',k.branche],['Ort',k.ort],['Zeitraum',k.zeitraum],['Bereiche',k.bereiche.map(function(b){return b.name}).join(', ')]].filter(function(x){return x[1]});
     det.innerHTML='<button type="button" class="rg-back" data-back="1">← Alle Referenzen</button><div class="rg-dhead"><div>'+(k.branche?'<p class="eyebrow">'+esc(k.branche)+'</p>':'')+'<h3>'+esc(k.name)+'</h3>'+(badge(k)?'<p class="rg-badges">'+badge(k)+'</p>':'')+'<p class="lead">'+(cd(k)?'<strong>Corporate Design aus einer Hand: '+esc(k.bereiche.map(function(b){return b.name}).join(', '))+'.</strong> ':'')+esc(k.text)+'</p></div><dl class="rg-facts">'+f.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join('')+'</dl></div><div class="rg-areas">'+areas+'</div>';
-    main.hidden=true;det.hidden=false;if(location.hash!=='#'+id)history.replaceState(null,'','#'+id);if(!still)sec.scrollIntoView({behavior:'smooth',block:'start'});return true}
+    main.hidden=true;det.hidden=false;if(location.hash!=='#'+id)history.replaceState(null,'',location.pathname+'#'+id);if(!still)sec.scrollIntoView({behavior:'smooth',block:'start'});return true}
   function zurueck(){det.hidden=true;main.hidden=false;history.replaceState(null,'',location.pathname);render();sec.scrollIntoView({behavior:'smooth',block:'start'})}
   function lbBau(){lb=document.createElement('div');lb.className='rg-lb';lb.hidden=true;lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');lb.setAttribute('aria-label','Arbeit groß ansehen');
     lb.innerHTML='<button type="button" class="x">Schließen</button><div class="st"></div><button type="button" class="nav prev" aria-label="Vorherige Seite">‹</button><span class="cap"></span><button type="button" class="nav next" aria-label="Nächste Seite">›</button>';
