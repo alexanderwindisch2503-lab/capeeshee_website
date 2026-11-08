@@ -663,12 +663,12 @@ body{line-height:1.55}
 .rg-area h4{font-family:var(--display);font-weight:700;font-size:20px;color:var(--ink);display:flex;align-items:baseline;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line);margin:0 0 16px}
 .rg-area h4 small{font:400 14px inherit;color:var(--muted)}
 /* Handy: Rubriken mit mehreren Arbeiten seitlich wischen statt untereinander */
-.rg-area h4 .sw{display:none;margin-left:auto;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+.rg-swh{display:none;margin:6px 0 0;text-align:right;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}.rg-area h4 .sw{display:none;margin-left:auto;font:600 12px var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
 @media (max-width:560px){
- .rg-area .rg-works.multi{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-left:calc(-1*max(20px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(20px,env(safe-area-inset-right,0px)));padding:0 max(20px,env(safe-area-inset-right,0px)) 4px max(20px,env(safe-area-inset-left,0px));scroll-padding-left:max(20px,env(safe-area-inset-left,0px));scrollbar-width:none;-webkit-overflow-scrolling:touch}
- .rg-area .rg-works.multi::-webkit-scrollbar{display:none}
- .rg-area .rg-works.multi .rg-work{flex:0 0 80%;min-width:0;scroll-snap-align:start}
- .rg-area h4 .sw{display:inline}
+ .rg-works.multi{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-left:calc(-1*max(20px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(20px,env(safe-area-inset-right,0px)));padding:0 max(20px,env(safe-area-inset-right,0px)) 4px max(20px,env(safe-area-inset-left,0px));scroll-padding-left:max(20px,env(safe-area-inset-left,0px));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .rg-works.multi::-webkit-scrollbar{display:none}
+ .rg-works.multi .rg-work{flex:0 0 80%;min-width:0;scroll-snap-align:start}
+ .rg-area h4 .sw{display:inline}.rg-swh{display:block}
 }
 .rg-lb{position:fixed;inset:0;background:rgba(20,22,24,.97);display:flex;align-items:center;justify-content:center;z-index:1000;padding:calc(60px + env(safe-area-inset-top,0px)) max(80px,env(safe-area-inset-right,0px)) calc(150px + env(safe-area-inset-bottom,0px)) max(80px,env(safe-area-inset-left,0px))}
 .rg-lb[hidden]{display:none}
@@ -1213,9 +1213,9 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
     if(mode==='projekte'){count.textContent=D.kunden.length+(D.kunden.length===1?' Kunde':' Kunden');raster(D.kunden,true);}
     else if(mode==='branche'){var b=D.kunden.filter(function(k){return k.branche===sel});count.textContent=b.length+(b.length===1?' Kunde':' Kunden');raster(b,false);}
     else if(sel&&sel.indexOf('L:')===0){var ln=sel.slice(2),lk=D.kunden.filter(function(k){return lst(k).indexOf(ln)>-1});count.textContent=lk.length+(lk.length===1?' Kunde':' Kunden')+' mit '+ln;raster(lk,false);}
-    else{var ws=alle().filter(function(x){return x.b.key===sel}),name=(D.kategorien.filter(function(c){return c.key===sel})[0]||{}).name||'',vw=ws.slice(0,wshown);
+    else{var ws=alle().filter(function(x){return x.b.key===sel}),name=(D.kategorien.filter(function(c){return c.key===sel})[0]||{}).name||'',mob=window.matchMedia&&matchMedia('(max-width:560px)').matches,vw=mob?ws:ws.slice(0,wshown);
       count.textContent=ws.length+(ws.length===1?' Arbeit':' Arbeiten')+' im Bereich '+name;
-      out.innerHTML='<div class="rg-works">'+vw.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>'+mehr(ws.length-vw.length,'w');}
+      out.innerHTML=(ws.length>1?'<p class="rg-swh" aria-hidden="true">Wischen →</p>':'')+'<div class="rg-works'+(ws.length>1?' multi':'')+'">'+vw.map(function(x){var r=reg(x.w);return '<div class="rg-work">'+thumb(x.w,r)+'<span class="rg-cap">'+esc(x.w.titel)+'</span><button type="button" class="rg-cust" data-kunde="'+esc(x.k.id)+'">'+esc(x.k.name)+' · alles ansehen</button></div>'}).join('')+'</div>'+mehr(ws.length-vw.length,'w');}
   }
   var bo=null;function backBeob(){if(bo)bo.disconnect();if(!('IntersectionObserver' in window))return;var o=det.querySelector('.rg-back.oben'),e=det.querySelector('.rg-back.ende'),f=det.querySelector('.rg-back.schwebe'),sicht={};
     bo=new IntersectionObserver(function(es){es.forEach(function(x){sicht[x.target===o?'o':'e']=x.isIntersecting});var an=!sicht.o&&!sicht.e&&!det.hidden;f.classList.toggle('an',an);f.setAttribute('aria-hidden',an?'false':'true');f.tabIndex=an?0:-1});bo.observe(o);bo.observe(e)}
