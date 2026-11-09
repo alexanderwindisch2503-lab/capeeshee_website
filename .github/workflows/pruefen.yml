@@ -19,3 +19,11 @@ jobs:
             echo "== $u"
             curl -s -o /dev/null -D - --max-time 20 "$u" | grep -i -E '^(HTTP|location|x-capeeshee|x-robots|content-type)' || echo "keine Antwort"
           done
+      - name: Inhalte der Startseite prüfen
+        run: |
+          curl -s --max-time 20 https://capeeshee.com/ -o start.html
+          echo "Größe: $(wc -c < start.html)"
+          echo "Pillars-Wrapper:"; grep -o '<div class="pillars"[^>]*>' start.html || echo "nicht gefunden"
+          echo "Hidden-Regel:"; grep -o '\[hidden\],\.pillars\[hidden\]{[^}]*}' start.html || echo "nicht gefunden"
+          echo "Kette:"; grep -o '<section id="kette"[^>]*>' start.html || echo "nicht gefunden"
+          curl -s -D - -o /dev/null https://capeeshee.com/ | grep -i -E 'last-modified|cache-control|etag|age:'
