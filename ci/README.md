@@ -27,7 +27,7 @@ Stand: 9. November 2026
 | Name | HEX | Einsatz |
 |---|---|---|
 | Braun (Hausfarbe) | #9e4015 | Akzente, Linien, Hervorhebungen |
-| Neongelb | #f0f400 | Siegel, Eyecatcher. Im Vierfarbdruck blasser, für Leuchtkraft Sonderfarbe nötig |
+| Neongelb | #f0f400 | Siegel, Eyecatcher. Druck als Sonderfarbe PANTONE 809 C (Ersatzwert CMYK 10/0/100/0) |
 | Anthrazit | #303133 | Text, Überschriften |
 | Logo-Grau | #4c565c | Schriftzug im Logo |
 | Textgrau | #5f6164 | Fließtext sekundär |
@@ -58,7 +58,7 @@ Stand: 9. November 2026
 - Falzmarken 105 mm und 210 mm, Lochmarke 148,5 mm
 - Fuß: braune Linie, darauf links „KI-powered Werbeagentur für Web & Print“, rechts „Werbung, die trifft.“, darunter vier Spalten mit Adresse, Kontakt, Bank, Inhaber und Steuernummer
 - Folgeseite: nur Logo und Fuß
-- Dateien in `briefbogen/`: Word-Vorlage (.dotx, .docx), leeres PDF (Seite 1 und Folgeseite), Druck-PDF mit 3 mm Beschnitt (RGB, Umwandlung in CMYK durch die Druckerei)
+- Dateien in `briefbogen/`: Word-Vorlage (.dotx, .docx), leeres PDF (Seite 1 und Folgeseite), Druck-PDF mit 3 mm Beschnitt in CMYK mit Sonderfarbe Neongelb
 
 ## Firmendaten
 
@@ -68,7 +68,17 @@ Stand: 9. November 2026
 - Inhaber Alexander Windisch, Steuernr. 103/288/70717
 - Fax wird nicht mehr aufgeführt.
 
-## Visitenkarten
+## Druckfarben
 
-- 85 × 55 mm, Vorschläge in `visitenkarten/`: A Neon, B Grundlinie, C Siegel, D Bildmarke
-- Auswahl steht noch aus.
+- Druckdateien sind in CMYK angelegt, das Neongelb als Sonderfarbe PANTONE 809 C (Neon/Fluoreszierend).
+- Braun #9e4015 entspricht etwa CMYK 0/59/87/38. Für exakte Farbtreue einen Proof bei der Druckerei anfordern.
+- Leuchtfarben lassen sich am Bildschirm nicht echt darstellen. Die PDFs zeigen das Gelb nur als Ersatzfarbe.
+
+## Visitenkarte (gewählt: Variante A Neon)
+
+- 85 × 55 mm, Druckdateien mit 3 mm Beschnitt (91 × 61 mm)
+- Vorderseite: weiß, Logo rechts oben, gelbe Kante rechts (angeschnitten), Name, Funktion, Fon, Mobil, Mail, Web, Adresse
+- Rückseite: vollflächig Neongelb, „Werbung, die trifft.“ groß, unten „KI-powered Werbeagentur für Web & Print“
+- Daten: Alexander Windisch, Inhaber, Fon +49 (0)821 31 94 99 0, Mobil +49 (0)171 68 30 95 8, a.windisch@capeeshee.com, www.capeeshee.com, Stettenstraße 8 · 86150 Augsburg
+- Empfehlung: 400 g Karton matt, Gelb als Sonderfarbe
+- Weitere Vorschläge (B Grundlinie, C Siegel, D Bildmarke) in `visitenkarten/Visitenkarten-Vorschlaege.png`
