@@ -972,7 +972,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
 <footer>
   <div class="wrap">
     <span>© 2026 Agentur Capeeshee · Werbeagentur für Web &amp; Print</span>
-    <nav aria-label="Rechtliches"><a href="#">Impressum</a><a href="#">Datenschutz</a></nav>
+    <nav aria-label="Rechtliches"><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a></nav>
   </div>
 </footer>
 <script>
@@ -1201,7 +1201,7 @@ document.getElementById('kf').addEventListener('submit',function(e){e.preventDef
 (function(){var h=document.querySelector('.thero');if(!h)return;var r=document.documentElement;r.classList.add('over-hero');
   function f(){r.classList.toggle('scrolled',window.scrollY>20)}f();window.addEventListener('scroll',f,{passive:true});})();
 </script>
-<script>(function(){
+<script>(function(){if(!document.getElementById('wfBahn'))return;
 var b=document.getElementById('wfBahn'),li=[...b.querySelectorAll('li')],z=document.getElementById('wfZ'),zur=document.getElementById('wfZur'),vor=document.getElementById('wfVor');
 var w=()=>li[0].offsetWidth;
 function upd(){var i=Math.min(li.length-1,Math.round(b.scrollLeft/w()));z.textContent=String(i+1).padStart(2,'0')+' / '+li.length;zur.disabled=b.scrollLeft<5;vor.disabled=b.scrollLeft>b.scrollWidth-b.clientWidth-5}
