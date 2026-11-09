@@ -211,7 +211,7 @@ form{display:flex;flex-direction:column;gap:14px}
 label{display:block;margin-bottom:6px;font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#f2f2f0}
 input,textarea{width:100%;font:inherit;font-weight:400;color:#f2f2f0;background:#1d2023;border:1px solid #33363b;border-radius:2px;padding:12px 14px}
 textarea{min-height:130px;resize:vertical}
-.note{font-size:14px;color:#8d9095}
+.note{font-size:14px;color:#8d9095}.note a{color:inherit;text-decoration:underline}.note.ok{color:#2f7a3d;font-weight:500}.note.err{color:#b3261e;font-weight:500}.kf-falle{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 @media (max-width:860px){.contact{grid-template-columns:1fr}}
 
 footer{padding-block:28px;font-size:14px;color:var(--muted)}
@@ -1223,12 +1223,14 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
           <dt>E-Mail</dt><dd>info@capeeshee.com</dd>
         </dl>
       </div>
-      <form id="kf" novalidate>
-        <div><label for="kname">Name</label><input id="kname" name="name" autocomplete="name"></div>
-        <div><label for="kmail">E-Mail</label><input id="kmail" name="email" type="email" autocomplete="email"></div>
-        <div><label for="kmsg">Worum geht es?</label><textarea id="kmsg" name="message"></textarea></div>
-        <button class="btn" type="submit">Nachricht senden</button>
-        <p class="note" id="knote">Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns per E-Mail oder Telefon.</p>
+      <form id="kf" action="/kontakt.php" method="post" novalidate>
+        <div><label for="kname">Name</label><input id="kname" name="name" autocomplete="name" required maxlength="120"></div>
+        <div><label for="kmail">E-Mail</label><input id="kmail" name="email" type="email" autocomplete="email" required maxlength="160"></div>
+        <div><label for="kmsg">Worum geht es?</label><textarea id="kmsg" name="message" required maxlength="5000"></textarea></div>
+        <div class="kf-falle" aria-hidden="true"><label for="kweb">Website</label><input id="kweb" name="website" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="t" id="kt" value="">
+        <button class="btn" type="submit" id="kbtn">Nachricht senden</button>
+        <p class="note" id="knote" role="status" aria-live="polite">Ihre Angaben verwenden wir nur zur Beantwortung Ihrer Anfrage. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
       </form>
     </div>
   </section>
@@ -1307,7 +1309,17 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
   var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){io.unobserve(x.target);if(x.target.dataset.wait){run(x.target);}}});},{threshold:.6});
   els.forEach(function(el){io.observe(el);});
 })();
-document.getElementById('kf').addEventListener('submit',function(e){e.preventDefault();document.getElementById('knote').textContent='Danke! Das Formular wird in Kürze freigeschaltet. Bitte schreiben Sie uns bis dahin an info@capeeshee.com.';});
+(function(){var f=document.getElementById('kf');if(!f)return;var n=document.getElementById('knote'),b=document.getElementById('kbtn'),t=document.getElementById('kt');t.value=Date.now();
+  f.addEventListener('submit',function(e){e.preventDefault();
+    var nm=f.name.value.trim(),em=f.email.value.trim(),tx=f.message.value.trim();
+    if(!nm||!em||!tx){n.textContent='Bitte füllen Sie Name, E-Mail und Nachricht aus.';n.className='note err';return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){n.textContent='Bitte prüfen Sie Ihre E-Mail-Adresse.';n.className='note err';f.email.focus();return}
+    b.disabled=true;b.textContent='Wird gesendet …';n.className='note';n.textContent='';
+    fetch(f.action,{method:'POST',body:new FormData(f)}).then(function(r){return r.json().catch(function(){return {ok:false}})}).then(function(d){
+      if(d&&d.ok){f.reset();t.value=Date.now();n.className='note ok';n.textContent=d.text||'Danke! Ihre Nachricht ist bei uns angekommen.';b.textContent='Gesendet'}
+      else{n.className='note err';n.textContent=(d&&d.text)||'Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'}
+    }).catch(function(){n.className='note err';n.textContent='Keine Verbindung. Bitte versuchen Sie es erneut oder schreiben Sie an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'});
+  });})();
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
   var v=document.getElementById('chk'),tv=document.getElementById('chktail');if(!v||!tv)return;var box=v.parentNode,armed=false,started=false,HANDOVER=7.9;

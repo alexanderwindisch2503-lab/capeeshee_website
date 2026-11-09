@@ -85,7 +85,8 @@ DATENSCHUTZ = '''
 
       <h2>6. Kontaktaufnahme</h2>
       <p>Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Angaben wie Name, Kontaktdaten und Ihre Nachricht, um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit einem Vertrag oder vorvertraglichen Maßnahmen zusammenhängt, im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der Beantwortung Ihrer Anfrage. Wir löschen die Daten, sobald sie nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten, etwa nach Handels- oder Steuerrecht, entgegenstehen.</p>
-      <p>Das Kontaktformular auf dieser Website ist derzeit noch nicht aktiv. Eingaben in das Formular werden nicht übertragen oder gespeichert.</p>
+      <h3>Kontaktformular</h3>
+      <p>Wenn Sie uns über das Kontaktformular schreiben, werden Ihr Name, Ihre E-Mail-Adresse und Ihre Nachricht über eine verschlüsselte Verbindung an unseren Server übertragen und von dort per E-Mail an info@capeeshee.com weitergeleitet. Die Angaben werden auf der Website nicht gespeichert. Zum Schutz vor Missbrauch wird Ihre IP-Adresse in gehashter, also unkenntlich gemachter Form für höchstens zwei Stunden vorübergehend verarbeitet, um mehrfache Massensendungen zu verhindern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO bei Anfragen zu einem Auftrag, im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Ihre E-Mail wird in unserem E-Mail-Postfach bei STRATO gespeichert und gelöscht, sobald sie nicht mehr erforderlich ist und keine Aufbewahrungspflichten bestehen.</p>
 
       <h2>7. Ihre Rechte</h2>
       <p>Sie haben jederzeit das Recht auf:</p>
@@ -98,7 +99,7 @@ DATENSCHUTZ = '''
       <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Für uns zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach, www.lda.bayern.de.</p>
 
       <h2>9. Aktualität dieser Datenschutzerklärung</h2>
-      <p>Wir passen diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen Vorgaben ändern, zum Beispiel wenn das Kontaktformular freigeschaltet wird.</p>
+      <p>Wir passen diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen Vorgaben ändern.</p>
       <p class="stand">Stand: November 2026</p>
     </div>
   </section>
