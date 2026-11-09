@@ -1,0 +1,21 @@
+name: Erreichbarkeit prüfen
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Adressen abrufen
+        run: |
+          for u in \
+            http://capeeshee.com/ https://capeeshee.com/ http://www.capeeshee.com/ https://www.capeeshee.com/ \
+            https://capeeshee.com/referenzen/ https://capeeshee.com/impressum/ https://capeeshee.com/datenschutz/ \
+            https://capeeshee.com/robots.txt https://capeeshee.com/sitemap.xml https://capeeshee.com/favicon.ico \
+            https://www.capeeshee.com/19/ https://www.capeeshee.com/19/datenschutz/ https://www.capeeshee.com/19/portfolio/sportkind/ \
+            https://www.capeeshee.com/19/portfolio_cat/branding/ https://www.capeeshee.com/wordpress-agentur https://www.capeeshee.com/marketing \
+            https://www.capeeshee.com/19/wp-login.php ; do
+            echo "== $u"
+            curl -s -o /dev/null -D - --max-time 20 "$u" | grep -i -E '^(HTTP|location|x-capeeshee|x-robots|content-type)' || echo "keine Antwort"
+          done
