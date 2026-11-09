@@ -27,3 +27,25 @@ jobs:
           echo "Hidden-Regel:"; grep -o '\[hidden\],\.pillars\[hidden\]{[^}]*}' start.html || echo "nicht gefunden"
           echo "Kette:"; grep -o '<section id="kette"[^>]*>' start.html || echo "nicht gefunden"
           curl -s -D - -o /dev/null https://capeeshee.com/ | grep -i -E 'last-modified|cache-control|etag|age:'
+      - name: SEO-Angaben der Seiten prüfen
+        run: |
+          for u in https://capeeshee.com/ https://capeeshee.com/referenzen/ https://capeeshee.com/impressum/ https://capeeshee.com/datenschutz/; do
+            echo "== $u"
+            curl -s --max-time 20 -D h.txt "$u" -o p.html
+            grep -i '^x-robots' h.txt || echo "kein X-Robots-Tag"
+            python3 - <<'PY'
+          import re,json
+          s=open('p.html',encoding='utf-8').read();h=s[:s.find('</head>')]
+          g=lambda p:(re.findall(p,h) or ['FEHLT'])[0]
+          print('title:',g(r'<title>(.*?)</title>'))
+          print('desc :',len(g(r'<meta name="description" content="([^"]*)"')),'Zeichen')
+          print('robots:',g(r'<meta name="robots" content="([^"]*)"'))
+          print('canonical:',g(r'<link rel="canonical" href="([^"]*)"'))
+          print('og:image:',g(r'<meta property="og:image" content="([^"]*)"'))
+          print('h1:',len(re.findall(r'<h1[\s>]',s)))
+          for j in re.findall(r'<script type="application/ld\+json">(.*?)</script>',s,re.S):
+              d=json.loads(j);print('json-ld ok:',[x['@type'] for x in d.get('@graph',[d])])
+          PY
+          done
+          echo "== robots.txt"; curl -s https://capeeshee.com/robots.txt
+          echo "== sitemap.xml"; curl -s https://capeeshee.com/sitemap.xml
