@@ -31,7 +31,7 @@ REFERENZEN = '''
         <div class="rg-detail" id="rgDetail" hidden></div>
       </div>
       <p class="rg-leer" id="rgLeer">Die Referenzen werden gerade geladen.</p>
-      <div class="ref-soon"><span class="soon">Unsere Referenzdatenbank wächst</span><p>Wir bauen sie gerade auf, laufend kommen neue Arbeiten hinzu.</p></div>
+      <div class="ref-soon"><span class="soon">Über 500 Projekte</span><p>Hier sehen Sie eine erste Auswahl. Mit Hochdruck stellen wir gerade weitere Referenzen online.</p></div>
     </div>
   </section>
 '''

@@ -19,7 +19,7 @@ Entfernt, aber in der Git-Historie abrufbar:
 
 Als „Coming soon“ markiert (sichtbar):
 - Capeeshee-Check „Wie gut ist Ihr Marketing in Form?“
-- „Unsere Referenzdatenbank wächst“ unter den Referenzen
+- „Über 500 Projekte“ unter den Referenzen
 
 ## Seitenaufbau seit 9. November 2026
 
