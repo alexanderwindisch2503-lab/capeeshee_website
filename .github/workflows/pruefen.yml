@@ -15,7 +15,7 @@ jobs:
             https://capeeshee.com/robots.txt https://capeeshee.com/sitemap.xml https://capeeshee.com/favicon.ico \
             https://www.capeeshee.com/19/ https://www.capeeshee.com/19/datenschutz/ https://www.capeeshee.com/19/portfolio/sportkind/ \
             https://www.capeeshee.com/19/portfolio_cat/branding/ https://www.capeeshee.com/wordpress-agentur https://www.capeeshee.com/marketing \
-            https://capeeshee.com/img/og-capeeshee.jpg https://capeeshee.com/apple-touch-icon.png https://capeeshee.com/gibtesnicht ; do
+            https://capeeshee.com/img/og-capeeshee.jpg https://capeeshee.com/apple-touch-icon.png https://capeeshee.com/gibtesnicht https://capeeshee.com/19/kontakt/ https://capeeshee.com/marketing ; do
             echo "== $u"
             curl -s -o /dev/null -D - --max-time 20 "$u" | grep -i -E '^(HTTP|location|x-capeeshee|x-robots|content-type)' || echo "keine Antwort"
           done

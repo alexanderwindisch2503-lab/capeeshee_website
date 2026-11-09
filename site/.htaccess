@@ -2,20 +2,21 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Alte WordPress-Seite unter /19/ und frühere Adressen
+  RewriteRule ^19/datenschutz/?$ https://capeeshee.com/datenschutz/ [R=301,L,NC]
+  RewriteRule ^19/impressum/?$ https://capeeshee.com/impressum/ [R=301,L,NC]
+  RewriteRule ^19/(referenzen|portfolio|portfolio_cat)(/.*)?$ https://capeeshee.com/referenzen/ [R=301,L,NC]
+  RewriteRule ^19/kontakt/?$ https://capeeshee.com/#kontakt [R=301,L,NC,NE]
+  RewriteRule ^(19/)?new-marketing/?$ https://capeeshee.com/#new-marketing [R=301,L,NC,NE]
+  RewriteRule ^marketing/?$ https://capeeshee.com/#new-marketing [R=301,L,NC,NE]
+  RewriteRule ^(19/)?wordpress-agentur/?$ https://capeeshee.com/#leistungen [R=301,L,NC,NE]
+  RewriteRule ^(impressum|datenschutz|referenzen)$ https://capeeshee.com/$1/ [R=301,L,NC]
+  RewriteRule ^19(/.*)?$ https://capeeshee.com/ [R=301,L,NC]
+
   # www.capeeshee.com -> capeeshee.com (http -> https erledigt bereits STRATO)
   RewriteCond %{HTTP_HOST} ^www\.capeeshee\.com$ [NC]
   RewriteRule ^(.*)$ https://capeeshee.com/$1 [R=301,L]
 
-  # Alte WordPress-Seite unter /19/ und frühere Adressen
-  RewriteRule ^19/datenschutz/?$ /datenschutz/ [R=301,L,NC]
-  RewriteRule ^19/impressum/?$ /impressum/ [R=301,L,NC]
-  RewriteRule ^19/(referenzen|portfolio|portfolio_cat)(/.*)?$ /referenzen/ [R=301,L,NC]
-  RewriteRule ^19/kontakt/?$ /#kontakt [R=301,L,NC,NE]
-  RewriteRule ^(19/)?new-marketing/?$ /#new-marketing [R=301,L,NC,NE]
-  RewriteRule ^marketing/?$ /#new-marketing [R=301,L,NC,NE]
-  RewriteRule ^(19/)?wordpress-agentur/?$ /#leistungen [R=301,L,NC,NE]
-  RewriteRule ^(impressum|datenschutz|referenzen)$ /$1/ [R=301,L,NC]
-  RewriteRule ^19(/.*)?$ / [R=301,L,NC]
 </IfModule>
 
 ErrorDocument 404 /404.html
