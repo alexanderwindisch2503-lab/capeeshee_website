@@ -588,6 +588,7 @@ body{line-height:1.55}
   .thero-sub{white-space:normal}
   .thero .thero-cap{bottom:18px;left:max(16px,env(safe-area-inset-left,0px));right:auto;white-space:nowrap}
 }
+.portrait{margin:0;min-width:0;max-width:100%}.portrait img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1)}.portrait figcaption{margin-top:12px;font-family:var(--head);font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .philo-sec{padding-block:clamp(56px,8vw,104px) 0}
 .lst-intro{margin-top:clamp(72px,9vw,128px);margin-bottom:clamp(32px,4vw,48px)}
 .philo{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,5vw,80px);align-items:start}
@@ -1192,7 +1193,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
 
   <section id="ueber" class="alt">
     <div class="wrap about">
-      <div class="ph" role="img" aria-label="Platzhalter für das Porträt"><span><b>Foto folgt</b>Alexander Windisch, Schwarz-Weiß</span></div>
+      <figure class="portrait"><picture><source srcset="img/alexander-windisch.webp?v=202611091020" type="image/webp"><img src="img/alexander-windisch.jpg?v=202611091020" width="960" height="1200" alt="Alexander Windisch, Inhaber der Agentur Capeeshee" loading="lazy" decoding="async"></picture><figcaption>Alexander Windisch, Inhaber</figcaption></figure>
       <div>
         <p class="eyebrow">Über uns</p>
         <h2>25 Jahre Agentur. Neu aufgestellt.</h2>
