@@ -1,9 +1,34 @@
+# Weiterleitungen: www auf capeeshee.com ohne www, alte WordPress-Adressen auf die neuen Seiten
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # www.capeeshee.com -> capeeshee.com (http -> https erledigt bereits STRATO)
+  RewriteCond %{HTTP_HOST} ^www\.capeeshee\.com$ [NC]
+  RewriteRule ^(.*)$ https://capeeshee.com/$1 [R=301,L]
+
+  # Alte WordPress-Seite unter /19/ und frühere Adressen
+  RewriteRule ^19/datenschutz/?$ /datenschutz/ [R=301,L,NC]
+  RewriteRule ^19/impressum/?$ /impressum/ [R=301,L,NC]
+  RewriteRule ^19/(referenzen|portfolio|portfolio_cat)(/.*)?$ /referenzen/ [R=301,L,NC]
+  RewriteRule ^19/kontakt/?$ /#kontakt [R=301,L,NC,NE]
+  RewriteRule ^(19/)?new-marketing/?$ /#new-marketing [R=301,L,NC,NE]
+  RewriteRule ^marketing/?$ /#new-marketing [R=301,L,NC,NE]
+  RewriteRule ^(19/)?wordpress-agentur/?$ /#leistungen [R=301,L,NC,NE]
+  RewriteRule ^(impressum|datenschutz|referenzen)$ /$1/ [R=301,L,NC]
+  RewriteRule ^19(/.*)?$ / [R=301,L,NC]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
 # HTML immer frisch laden, Bilder/Schriften dürfen gecacht werden (werden per ?v= versioniert)
 <IfModule mod_headers.c>
   <FilesMatch "\.(html?)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\.(jpg|jpeg|png|svg|webp|woff2|css|js)$">
+  <FilesMatch "\.(jpg|jpeg|png|svg|webp|woff2|css|js|ico)$">
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
+  <Files "kontakt.php">
+    Header set X-Robots-Tag "noindex"
+  </Files>
 </IfModule>

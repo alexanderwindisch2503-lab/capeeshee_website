@@ -1,2 +1,6 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /kontakt.php
+Disallow: /referenzen/abgleich.php
+
+Sitemap: https://capeeshee.com/sitemap.xml

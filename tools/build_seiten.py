@@ -115,6 +115,13 @@ def seite(start, titel, beschreibung, inhalt, aktiv):
     s = s.replace('<head>', '<head>\n<base href="/">', 1)
     s = re.sub(r'<title>.*?</title>', f'<title>{titel}</title>', s, count=1, flags=re.S)
     s = re.sub(r'(<meta name="description" content=")[^"]*', lambda m: m.group(1) + beschreibung, s, count=1)
+    url = 'https://capeeshee.com' + aktiv
+    s = s.replace('<link rel="canonical" href="https://capeeshee.com/">', f'<link rel="canonical" href="{url}">', 1)
+    s = re.sub(r'(<meta property="og:url" content=")[^"]*', lambda m: m.group(1) + url, s, count=1)
+    s = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m.group(1) + titel.replace('&', '&amp;'), s, count=1)
+    s = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + beschreibung, s, count=1)
+    # strukturierte Daten nur auf der Startseite
+    s = re.sub(r'<script type="application/ld\+json">.*?</script>\n?', '', s, count=1, flags=re.S)
     # Hauptinhalt ersetzen: alles in <main> bis auf den Kontaktbereich
     a = s.index('<main id="top">') + len('<main id="top">')
     k = s.index('<section id="kontakt"')
@@ -139,6 +146,32 @@ def main():
         with open(os.path.join(SITE, ordner, 'index.html'), 'w', encoding='utf-8') as f:
             f.write('<!-- Automatisch erzeugt aus index.html durch tools/build_seiten.py. Bitte nicht direkt bearbeiten. -->\n' + h)
         print('erzeugt:', ordner + '/index.html')
+    # Fehlerseite 404
+    f404 = '''
+  <section class="legal">
+    <div class="wrap">
+      <p class="eyebrow">Fehler 404</p>
+      <h1>Knapp daneben.</h1>
+      <p class="lead">Diese Seite gibt es nicht oder nicht mehr. Vielleicht hilft Ihnen einer dieser Wege weiter:</p>
+      <p><a class="btn" href="/">Zur Startseite</a>&nbsp; <a class="btn ghost" href="/referenzen/">Referenzen ansehen</a></p>
+    </div>
+  </section>
+'''
+    h = seite(start, 'Seite nicht gefunden | Agentur Capeeshee', 'Diese Seite wurde nicht gefunden.', f404, '/404.html').replace('</head>', LEGAL_CSS + '</head>', 1)
+    h = h.replace('content="index, follow, max-image-preview:large"', 'content="noindex"', 1)
+    h = re.sub(r'<link rel="canonical"[^>]*>\n?', '', h, count=1)
+    with open(os.path.join(SITE, '404.html'), 'w', encoding='utf-8') as f:
+        f.write(h)
+    print('erzeugt: 404.html')
+    # Sitemap
+    import datetime
+    heute = datetime.date.today().isoformat()
+    urls = [('/', '1.0'), ('/referenzen/', '0.8'), ('/impressum/', '0.3'), ('/datenschutz/', '0.3')]
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
+        f'  <url><loc>https://capeeshee.com{u}</loc><lastmod>{heute}</lastmod><priority>{p}</priority></url>\n' for u, p in urls) + '</urlset>\n'
+    with open(os.path.join(SITE, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+        f.write(xml)
+    print('erzeugt: sitemap.xml')
     html = '<!-- Automatisch erzeugt aus index.html durch tools/build_seiten.py. Bitte nicht direkt bearbeiten. -->\n' + html
     with open(ziel, 'w', encoding='utf-8') as f:
         f.write(html)
