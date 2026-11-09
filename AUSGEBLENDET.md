@@ -9,6 +9,7 @@ Jeder Block ist im Code mit einem Kommentar `<!-- Block „…“ vorübergehend
 | Hero mit Enten-Video | `<section class="hero" hidden …>` (Sicherung zusätzlich im Branch `hero-enten`) | ersetzt durch Tennis-Hero |
 | Unsere Botschaft | `<section id="botschaft" … hidden>` | vorübergehend ausgeblendet |
 | Leistungs-Säulen (Was möchten Sie kommunizieren?, Der erste Eindruck zählt, Web Development) | `<div class="pillars" hidden>` in `#leistungen` | stand vor den Leistungskacheln im Niemandsland |
+| Marketing im Wandel (Kopfstand, One Way, …) | `<section id="new-marketing" hidden>`, Menüpunkt entfernt | doppelte Botschaft zu „Über Capeeshee“, Bildsprache |
 | Wir kennen die ganze Kette (Sportkind, Setima) | `<section id="kette" hidden>` | Bilder fehlen noch |
 
 Entfernt, aber in der Git-Historie abrufbar:
