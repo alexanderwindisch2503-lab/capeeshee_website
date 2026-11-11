@@ -362,6 +362,7 @@ def main():
     g.add_argument('--lokal')
     g.add_argument('--sftp', action='store_true')
     ap.add_argument('--pruefen', action='store_true', help='nur anzeigen, nichts ändern')
+    ap.add_argument('--baum', default='', help='Ordnerbaum der Kunden zeigen, deren Name das Muster enthält')
     a = ap.parse_args()
     if a.lokal:
         fs = Lokal(a.lokal)
@@ -369,7 +370,27 @@ def main():
         e = os.environ
         root = e['SFTP_PATH'].rstrip('/') + '/referenzen'
         fs = Sftp(e['SFTP_HOST'], e['SFTP_USER'], e['SFTP_PASSWORD'], root)
+    if a.baum:
+        baum(fs, a.baum)
     verarbeiten(fs, a.pruefen)
+
+
+def baum(fs, muster):
+    """Nur lesen: zeigt Ordner und Dateien der passenden Kundenordner, damit man sieht, was ankommt."""
+    muster = muster.lower()
+    oben = fs.liste('')
+    print('Kundenordner:', ', '.join(zeig(n) for n, d, *_ in oben if d))
+    def zeigen(rel, tiefe):
+        for n, d, g, *_ in fs.liste(rel):
+            if n == '_vorschau':
+                continue
+            print('  ' * tiefe + (zeig(n) + '/' if d else f'{zeig(n)}  ({g} Bytes)'))
+            if d and tiefe < 4:
+                zeigen(f'{rel}/{n}', tiefe + 1)
+    for n, d, *_ in oben:
+        if d and muster in zeig(n).lower():
+            print(f'== {zeig(n)}/')
+            zeigen(n, 1)
 
 
 if __name__ == '__main__':
