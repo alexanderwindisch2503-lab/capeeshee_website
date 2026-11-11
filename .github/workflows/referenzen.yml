@@ -42,4 +42,6 @@ jobs:
           python3 tools/referenzen_vorschau.py --sftp --baum "$BAUM"
 
       - name: Referenzliste auf der Website auffrischen
-        run: curl -fsS -o /dev/null "https://capeeshee.com/referenzen/api.php?neu=1" || echo "::warning::Auffrischen nicht möglich"
+        run: |
+          curl -fsS -o api.json "https://capeeshee.com/referenzen/api.php?neu=1" || { echo "::warning::Auffrischen nicht möglich"; exit 0; }
+          python3 -c "import json;d=json.load(open('api.json'));[print(k['name'],'| Bereiche:',[b['name']+'('+str(len(b['arbeiten']))+')' for b in k['bereiche']],'| Kachelbilder:',len(k['kachel'])) for k in d['kunden']]"
