@@ -21,7 +21,7 @@ from PIL import Image, ImageOps
 
 Image.MAX_IMAGE_PIXELS = 400_000_000
 VERSION = 1
-VERSION_BILD = 2   # 2: CMYK-Bilder mit Farbprofil umgerechnet
+VERSION_BILD = 3   # 2: CMYK-Bilder mit Farbprofil umgerechnet
 FULL = 2000      # lange Seite Großansicht
 THUMB = 720      # lange Seite Kachel
 STANDARD_SEITEN = 4
@@ -195,7 +195,7 @@ def nach_srgb(img):
     try:
         eingebettet = img.info.get('icc_profile')
         quelle = ImageCms.ImageCmsProfile(io.BytesIO(eingebettet)) if eingebettet else ImageCms.ImageCmsProfile(CMYK_PROFIL)
-        if eingebettet and ImageCms.getProfileColorSpace(quelle).strip() != 'CMYK':
+        if eingebettet and quelle.profile.xcolor_space.strip() != 'CMYK':
             quelle = ImageCms.ImageCmsProfile(CMYK_PROFIL)
         return ImageCms.profileToProfile(img, quelle, ImageCms.createProfile('sRGB'),
                                          renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC, outputMode='RGB')
