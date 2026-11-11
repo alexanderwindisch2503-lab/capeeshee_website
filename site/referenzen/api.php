@@ -171,17 +171,31 @@ foreach (eintraege($BASE) as $kOrdner) {
     if (isset($bereiche[$k])) $bereiche[$k]['arbeiten'] = array_merge($bereiche[$k]['arbeiten'], $arbeiten);  // "Broschüren" und "Broschueren" zusammenführen
     else $bereiche[$k] = ['key' => $k, 'name' => $BEREICHE[$k] ?? titel($bOrdner, false), 'arbeiten' => $arbeiten];
   }
-  if (!$bereiche) continue;
-  $bereiche = array_values($bereiche);
   // Eigene Kachelbilder für die Projektkachel: Ordner _kachel im Kundenordner (1 oder 4 Bilder)
-  $kachel = [];
+  $kachel = []; $kachelArbeiten = [];
   if (is_dir("$kAbs/_kachel")) {
     foreach (eintraege("$kAbs/_kachel") as $d) {
       if (!is_file("$kAbs/_kachel/$d")) continue;
       $el = elemente("$kAbs/_kachel", "$kOrdner/_kachel", $d);
-      if ($el) foreach ($el['items'] as $it) $kachel[] = $it['t'];
+      if ($el) { foreach ($el['items'] as $it) $kachel[] = $it['t']; $kachelArbeiten[] = [$d, $el]; }
     }
   }
+  // Nur Kachelbilder und noch keine Bereichsordner: Kachelbilder als Arbeiten zeigen, Bereich aus dem Dateinamen
+  if (!$bereiche && $kachelArbeiten) {
+    $woerter = ['logo' => 'logo', 'katalog' => 'broschueren', 'broschuere' => 'broschueren', 'faltblatt' => 'flyer', 'flyer' => 'flyer',
+      'onlineshop' => 'onlineshop', 'shop' => 'onlineshop', 'website' => 'website', 'verpackung' => 'verpackung', 'etikett' => 'verpackung',
+      'geschaeftspapier' => 'geschaeftsausstattung', 'geschaeftsausstattung' => 'geschaeftsausstattung', 'briefpapier' => 'briefpapier',
+      'visitenkarte' => 'visitenkarten', 'plakat' => 'plakate', 'anzeige' => 'anzeigen', 'messe' => 'messestand', 'video' => 'video', 'spot' => 'fernsehspot'];
+    foreach ($kachelArbeiten as [$d, $el]) {
+      $s = schluessel(titel($d)); $b = 'fotografie';
+      foreach ($woerter as $w => $z) if (strpos($s, $w) !== false) { $b = $z; break; }
+      $t = titel($d); if (preg_match('/^img\s?\d/i', $t)) $t = 'Fotografie';
+      if (!isset($bereiche[$b])) $bereiche[$b] = ['key' => $b, 'name' => $BEREICHE[$b], 'arbeiten' => []];
+      $bereiche[$b]['arbeiten'][] = array_merge(['titel' => $t], $el);
+    }
+  }
+  if (!$bereiche) continue;
+  $bereiche = array_values($bereiche);
   // Gesamtleistungen aus info.txt ("Leistung: Corporate Design, Website-Relaunch"),
   // Corporate Design automatisch bei Logo plus mindestens drei weiteren Bereichen
   $leistungen = [];
