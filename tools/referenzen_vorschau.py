@@ -398,6 +398,29 @@ def main():
     verarbeiten(fs, a.pruefen)
 
 
+def farbinfo(fs, quelle, vorschau, tiefe):
+    """Nur lesen: Farbmodus, Profil und häufigste kräftige Farbe von Quelle und Vorschau."""
+    import io
+    from collections import Counter
+    for art, rel in (('Quelle', quelle), ('Vorschau', vorschau)):
+        daten = fs.lesen(rel)
+        if not daten:
+            print('  ' * (tiefe + 1) + f'{art}: nicht vorhanden'); continue
+        im = Image.open(io.BytesIO(daten))
+        icc = im.info.get('icc_profile')
+        beschr = ''
+        if icc:
+            try:
+                from PIL import ImageCms
+                beschr = ImageCms.ImageCmsProfile(io.BytesIO(icc)).profile.profile_description
+            except Exception as e:
+                beschr = f'unlesbar ({e})'
+        klein = im.copy(); klein.thumbnail((200, 200))
+        px = list(klein.getdata())
+        haeufig = Counter(p for p in px if (max(p[:3]) - min(p[:3]) > 60 if im.mode != 'CMYK' else max(p[:4]) > 100)).most_common(1)
+        print('  ' * (tiefe + 1) + f'{art}: Modus {im.mode}, Profil {beschr or "keins"}, Adobe {im.info.get("adobe")}, Farbe {haeufig}')
+
+
 def baum(fs, muster):
     """Nur lesen: zeigt Ordner und Dateien der passenden Kundenordner, damit man sieht, was ankommt."""
     muster = muster.lower()
@@ -408,6 +431,8 @@ def baum(fs, muster):
             if n == '_vorschau':
                 continue
             print('  ' * tiefe + (zeig(n) + '/' if d else f'{zeig(n)}  ({g} Bytes)'))
+            if not d and 'logo' in n.lower() and os.path.splitext(n)[1].lower() in BILD:
+                farbinfo(fs, f'{rel}/{n}', f'{rel}/_vorschau/{n}/001_t.jpg', tiefe)
             if d and tiefe < 4:
                 zeigen(f'{rel}/{n}', tiefe + 1)
     for n, d, *_ in oben:
