@@ -122,8 +122,9 @@ function elemente($absDir, $relDir, $datei) {
     if (!is_array($m)) $m = json_decode(preg_replace('/\\\\ud[89a-f][0-9a-f]{2}/i', '', $roh), true);  // alte Einträge mit kaputten Zeichen
     if (is_array($m) && !empty($m['items'])) {
       $out = ['typ' => $m['type'] ?? 'bild', 'items' => []];
+      $v = '?v=' . filemtime($metaDatei);   // neue Vorschau = neue Adresse, damit Browser nicht das alte Bild zeigen
       foreach ($m['items'] as $it) {
-        $out['items'][] = ['t' => url("$vrel/" . $it['thumb']), 'f' => url("$vrel/" . $it['full']), 'w' => $it['w'] ?? null, 'h' => $it['h'] ?? null];
+        $out['items'][] = ['t' => url("$vrel/" . $it['thumb']) . $v, 'f' => url("$vrel/" . $it['full']) . $v, 'w' => $it['w'] ?? null, 'h' => $it['h'] ?? null];
       }
       if (!empty($m['video'])) $out['video'] = url("$vrel/" . $m['video']);
       return $out;
