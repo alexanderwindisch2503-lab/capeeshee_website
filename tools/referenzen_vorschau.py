@@ -21,6 +21,7 @@ from PIL import Image, ImageOps
 
 Image.MAX_IMAGE_PIXELS = 400_000_000
 VERSION = 1
+VERSION_BILD = 2   # 2: CMYK-Bilder mit Farbprofil umgerechnet
 FULL = 2000      # lange Seite Großansicht
 THUMB = 720      # lange Seite Kachel
 STANDARD_SEITEN = 4
@@ -183,8 +184,30 @@ def seiten_aus_spec(spec, anzahl):
 
 
 # ---------- Umwandlung ----------
+CMYK_PROFIL = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icc', 'FOGRA39L_coated.icc')
+
+
+def nach_srgb(img):
+    """CMYK-Bilder farbrichtig nach sRGB umrechnen (eingebettetes Profil, sonst FOGRA39).
+    Ohne Profil würde 100 % Cyan als grelles #00FFFF erscheinen."""
+    from PIL import ImageCms
+    import io
+    try:
+        eingebettet = img.info.get('icc_profile')
+        quelle = ImageCms.ImageCmsProfile(io.BytesIO(eingebettet)) if eingebettet else ImageCms.ImageCmsProfile(CMYK_PROFIL)
+        if eingebettet and ImageCms.getProfileColorSpace(quelle).strip() != 'CMYK':
+            quelle = ImageCms.ImageCmsProfile(CMYK_PROFIL)
+        return ImageCms.profileToProfile(img, quelle, ImageCms.createProfile('sRGB'),
+                                         renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC, outputMode='RGB')
+    except Exception as e:
+        print(f'::warning::Farbumrechnung CMYK nicht möglich ({e}), einfache Umrechnung', flush=True)
+        return img.convert('RGB')
+
+
 def sichern(img, ordner, nr):
     img = ImageOps.exif_transpose(img)
+    if img.mode == 'CMYK':
+        img = nach_srgb(img)
     if img.mode in ('RGBA', 'LA', 'P'):
         img = img.convert('RGBA')
         bg = Image.new('RGB', img.size, (255, 255, 255))
@@ -309,7 +332,7 @@ def verarbeiten(fs, nur_pruefen=False):
         if alt:
             try:
                 a = json.loads(alt)
-                if a.get('v') == VERSION and a.get('size') == groesse and a.get('mtime') == mtime and a.get('spec', spec) == spec:
+                if a.get('v') == (VERSION_BILD if os.path.splitext(name)[1].lower() in BILD else VERSION) and a.get('size') == groesse and a.get('mtime') == mtime and a.get('spec', spec) == spec:
                     continue
             except ValueError:
                 pass
@@ -337,7 +360,7 @@ def verarbeiten(fs, nur_pruefen=False):
                 fs.ordner_loeschen(vrel)
                 for f in sorted(os.listdir(ziel)):
                     fs.ablegen(os.path.join(ziel, f), f'{vrel}/{f}')
-                meta = dict(r, v=VERSION, src=zeig(name), size=groesse, mtime=mtime, spec=spec)
+                meta = dict(r, v=VERSION_BILD if ext in BILD else VERSION, src=zeig(name), size=groesse, mtime=mtime, spec=spec)
                 fs.schreiben(f'{vrel}/meta.json', json.dumps(meta).encode())
                 neu += 1
             except Exception as e:  # eine kaputte Datei soll den Rest nicht aufhalten
