@@ -1170,6 +1170,11 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
   function fuell(g,ende){var f=g.querySelector('.rg-fill');if(f)f.remove();if(!ende)return;var cols=getComputedStyle(g).gridTemplateColumns.split(' ').length;if(cols<2)return;var kids=[].slice.call(g.children),last=0;kids.forEach(function(c){last=Math.max(last,c.offsetTop)});var used=0;kids.forEach(function(c){if(c.offsetTop===last)used+=c.classList.contains('w2')?2:1});var k=cols-used;if(k<=0)return;
     var a=document.createElement('a');a.className='rg-fill';a.href='/#kontakt';a.style.setProperty('--k',k);a.innerHTML='<b>Ihr Projekt fehlt hier noch?</b><span>Lassen Sie uns sprechen →</span>';g.appendChild(a)}
   function mehr(rest,was){return rest>0?'<div class="rg-more"><button type="button" class="btn ghost" data-more="'+was+'">Weitere '+rest+(was==='k'?(rest===1?' Kunde':' Kunden'):(rest===1?' Arbeit':' Arbeiten'))+' anzeigen</button></div>':''}
+  // Link aus dem Branchenbereich der Startseite: passende Branche aus den info.txt-Angaben wählen
+  var BR_MUSTER={industrie:/industr|produkt|technik|maschin|fertig|bau/i,hotellerie:/hotel|freizeit|gastro|touris|resort|reise/i,gesundheit:/praxis|praxen|gesund|medizin|arzt|pflege|klinik|therap/i,kanzleien:/kanzlei|recht|steuer|dienstleist|berat|versicher|finanz/i,handel:/handel|marke|mode|accessoire|shop|einzelhandel|lebensmittel|konsum/i};
+  function zeigeBranche(slug){var mb=root.querySelector('.rg-mode[data-mode=branche]');if(!mb)return;mode='branche';shown=STEP;wshown=WSTEP;
+    root.querySelectorAll('.rg-mode').forEach(function(b){b.setAttribute('aria-pressed',b===mb)});
+    var re=BR_MUSTER[slug],treffer=re&&D.kunden.filter(function(k){return k.branche&&re.test(k.branche)})[0];sel=treffer?treffer.branche:null;render()}
   function chipsRender(){
     if(mode==='projekte'){chips.innerHTML='';chips.hidden=true;return}
     chips.hidden=false;var list;
@@ -1246,7 +1251,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     box.querySelector('ul').outerHTML='<ul class="rg-logos">'+L.map(function(l){var i='<img src="'+esc(U(l.u))+'" alt="'+esc(l.n)+'" title="'+esc(l.n)+'" loading="lazy">';return '<li>'+(l.h?'<a href="'+esc(l.h)+'" aria-label="Referenzen '+esc(l.n)+'">'+i+'</a>':i)+'</li>'}).join('')+'</ul>'}
   fetch('/referenzen/api.php',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(!d||!d.kunden||!d.kunden.length)return;D=d;root.hidden=false;var st=sec.querySelector('.refs');if(st)st.hidden=true;logos();render();
-    if(!TEASER&&location.hash==='#nach-branche'){var mb=document.querySelector('.rg-mode[data-mode=branche]');if(mb)mb.click()}else if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
+    if(!TEASER&&/^#branche-/.test(location.hash)){zeigeBranche(location.hash.slice(9))}else if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
 })();
 
 // Kopfzeile über dem Hero transparent, ab dem ersten Scrollen weiß
