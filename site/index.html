@@ -1444,15 +1444,16 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     var a=document.createElement('a');a.className='rg-fill';a.href='/#kontakt';a.style.setProperty('--k',k);a.innerHTML='<b>Ihr Projekt fehlt hier noch?</b><span>Lassen Sie uns sprechen →</span>';g.appendChild(a)}
   function mehr(rest,was){return rest>0?'<div class="rg-more"><button type="button" class="btn ghost" data-more="'+was+'">Weitere '+rest+(was==='k'?(rest===1?' Kunde':' Kunden'):(rest===1?' Arbeit':' Arbeiten'))+' anzeigen</button></div>':''}
   // Link aus dem Branchenbereich der Startseite: passende Branche aus den info.txt-Angaben wählen
+  var BR_NAME={industrie:'Industrie & Produktion',hotellerie:'Hotellerie & Freizeit',gesundheit:'Praxen & Gesundheit',kanzleien:'Kanzleien & Dienstleister',handel:'Handel & Marken'},leer=null;
   var BR_MUSTER={industrie:/industr|produkt|technik|maschin|fertig|bau/i,hotellerie:/hotel|freizeit|gastro|touris|resort|reise/i,gesundheit:/praxis|praxen|gesund|medizin|arzt|pflege|klinik|therap/i,kanzleien:/kanzlei|recht|steuer|dienstleist|berat|versicher|finanz/i,handel:/handel|marke|mode|accessoire|shop|einzelhandel|lebensmittel|konsum/i};
   function zeigeBranche(slug){var mb=root.querySelector('.rg-mode[data-mode=branche]');if(!mb)return;mode='branche';shown=STEP;wshown=WSTEP;
     root.querySelectorAll('.rg-mode').forEach(function(b){b.setAttribute('aria-pressed',b===mb)});
-    var re=BR_MUSTER[slug],treffer=re&&D.kunden.filter(function(k){return k.branche&&re.test(k.branche)})[0];sel=treffer?treffer.branche:null;render()}
+    var re=BR_MUSTER[slug],treffer=re&&D.kunden.filter(function(k){return k.branche&&re.test(k.branche)})[0];leer=treffer?null:(BR_NAME[slug]||null);sel=treffer?treffer.branche:leer;render()}
   function chipsRender(){
     if(mode==='projekte'){chips.innerHTML='';chips.hidden=true;return}
     chips.hidden=false;var list;
     if(mode==='leistung')list=gesamt().concat(D.kategorien.map(function(c){return {k:c.key,n:c.name,c:c.anzahl}}));
-    else{var m={};D.kunden.forEach(function(k){if(k.branche)m[k.branche]=(m[k.branche]||0)+1});list=Object.keys(m).sort(function(a,b){return m[b]-m[a]||a.localeCompare(b,'de')}).map(function(k){return {k:k,n:k,c:m[k]}})}
+    else{var m={};D.kunden.forEach(function(k){if(k.branche)m[k.branche]=(m[k.branche]||0)+1});list=Object.keys(m).sort(function(a,b){return m[b]-m[a]||a.localeCompare(b,'de')}).map(function(k){return {k:k,n:k,c:m[k]}});if(leer&&!m[leer])list.push({k:leer,n:leer,c:0})}
     if(!list.some(function(x){return x.k===sel}))sel=list.length?list[0].k:null;
     chips.innerHTML=list.map(function(x){return '<button type="button" class="rg-chip" data-chip="'+esc(x.k)+'" aria-pressed="'+(x.k===sel)+'">'+esc(x.n)+'<small>'+x.c+'</small></button>'}).join('');
   }
@@ -1466,7 +1467,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
       out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k)}).join('')+feld+'</div>';return}
     chipsRender();
     if(mode==='projekte'){count.textContent=D.kunden.length+(D.kunden.length===1?' Kunde':' Kunden');raster(D.kunden,true);}
-    else if(mode==='branche'){var b=D.kunden.filter(function(k){return k.branche===sel});count.textContent=b.length+(b.length===1?' Kunde':' Kunden');raster(b,false);}
+    else if(mode==='branche'){var b=D.kunden.filter(function(k){return k.branche===sel});count.textContent=b.length?b.length+(b.length===1?' Kunde':' Kunden'):'';if(b.length)raster(b,false);else out.innerHTML='<div class="rg-projects"><a class="rg-fill" href="/#kontakt" style="grid-column:1/-1"><b>Referenzen aus dieser Branche sind in Kürze online.</b><span>Bis dahin gerne persönlich: Lassen Sie uns sprechen →</span></a></div>';}
     else if(sel&&sel.indexOf('L:')===0){var ln=sel.slice(2),lk=D.kunden.filter(function(k){return lst(k).indexOf(ln)>-1});count.textContent=lk.length+(lk.length===1?' Kunde':' Kunden')+' mit '+ln;raster(lk,false);}
     else{var ws=alle().filter(function(x){return x.b.key===sel}),name=(D.kategorien.filter(function(c){return c.key===sel})[0]||{}).name||'',mob=window.matchMedia&&matchMedia('(max-width:560px)').matches,vw=mob?ws:ws.slice(0,wshown);
       count.textContent=ws.length+(ws.length===1?' Arbeit':' Arbeiten')+' im Bereich '+name;
