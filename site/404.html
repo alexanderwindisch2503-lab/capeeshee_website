@@ -725,6 +725,7 @@ body{line-height:1.55}
 @media (max-width:1180px){.rg-projects{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media (max-width:860px){.rg-projects{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media (max-width:560px){.rg-projects{grid-template-columns:1fr!important}}
+@media (max-width:1180px){.rg-projects .rg-fill{grid-column:1/-1!important;min-height:160px}}
 .rg-teaser{margin-top:clamp(28px,4vw,44px)}
 .rg-proj{text-decoration:none}
 .rg-mosaic{grid-template-columns:repeat(2,1fr)!important;aspect-ratio:4/3;grid-auto-rows:1fr}
@@ -1156,10 +1157,9 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     out.innerHTML='<div class="rg-projects">'+vis.map(function(k){return projekt(k)}).join('')+'</div>'+mehr(rest.length-vis.length,'k');
     fuell(out.querySelector('.rg-projects'),vis.length===rest.length);}
   function render(){REG=[];
-    if(TEASER){// Startseite: oben bis zu 2 große Projekte, darunter bis zu 3 kleine, zuletzt die braune Fläche zu allen Referenzen
-      var gross=[],klein=[];D.kunden.forEach(function(k){if(breite(k)===2){if(gross.length<2)gross.push(k);else if(klein.length<3)klein.push(k)}else if(klein.length<3)klein.push(k)});
-      var l=gross.concat(klein.filter(function(k){return breite(k)===1})),sp=0;l.forEach(function(k){sp+=breite(k)});
-      var rest=8-sp,feld=rest>0&&sp>0?'<a class="rg-fill rg-fill-mehr" href="/referenzen/" style="--k:'+rest+'"><b>Über 500 Projekte.</b><span>Alle Referenzen ansehen →</span></a>':'';
+    if(TEASER){// Startseite: zwei Zeilen à 4 Felder in der Reihenfolge der Projekte; Breite je Projekt aus der Anzahl der Kachelbilder; das letzte Feld der zweiten Zeile ist immer die braune Fläche zu allen Referenzen
+      var cap=[4,3],u=[0,0],r=0,l=[];for(var i=0;i<D.kunden.length&&r<2;i++){var k=D.kunden[i],w=breite(k);while(r<2&&u[r]+w>cap[r])r++;if(r<2){l.push(k);u[r]+=w}}
+      var rest=u[1]?4-u[1]:(u[0]<4?4-u[0]:4),feld=l.length?'<a class="rg-fill rg-fill-mehr" href="/referenzen/" style="--k:'+rest+'"><b>Über 500 Projekte.</b><span>Alle Referenzen ansehen →</span></a>':'';
       out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k)}).join('')+feld+'</div>';return}
     chipsRender();
     if(mode==='projekte'){count.textContent=D.kunden.length+(D.kunden.length===1?' Kunde':' Kunden');raster(D.kunden,true);}
