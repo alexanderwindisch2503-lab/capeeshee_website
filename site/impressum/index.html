@@ -176,6 +176,15 @@ nav a:hover,nav a:focus-visible{color:var(--red)}
 .branches{margin-top:44px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
 .br{border-top:3px solid var(--ink);padding-top:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .br p{font-size:15px;line-height:1.55}
+.br-karten{margin-top:40px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.br-k{background:#fff;border:1px solid var(--t5,#e9ded4);padding:26px 22px 24px;display:flex;flex-direction:column;gap:12px;position:relative;min-height:260px;min-width:0;text-decoration:none;color:var(--ink);transition:background .25s,border-color .25s}
+.br-k .br-nr{font:800 54px/1 var(--display);color:#f1e9e2;position:absolute;top:14px;right:16px;letter-spacing:-.04em;transition:color .25s}
+.br-k svg{color:var(--red);transition:color .25s}.br-k h3{margin:auto 0 0;font-size:20px;line-height:1.2;transition:color .25s}.br-k p{margin:0;font-size:15px;line-height:1.5;color:#5f6164;transition:color .25s}
+.br-k .br-mehr{font:600 12px var(--head);letter-spacing:.08em;text-transform:uppercase;color:var(--red);transition:color .25s}
+.br-k:hover,.br-k:focus-visible{background:var(--red);border-color:var(--red)}.br-k:hover *,.br-k:focus-visible *{color:#fff}.br-k:hover .br-nr,.br-k:focus-visible .br-nr{color:rgba(255,255,255,.18)}
+@media (max-width:1100px){.br-karten{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){.br-karten{grid-template-columns:1fr 1fr!important}.br-k{min-height:210px;padding:20px 16px}.br-k:last-child{grid-column:1/-1;min-height:170px}.br-k h3{font-size:18px}.br-k p{font-size:14px}.br-k .br-nr{font-size:40px}.br-k .br-mehr{font-size:11px;letter-spacing:.04em;white-space:nowrap}}
+
 @media (max-width:1000px){.branches{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.branches{grid-template-columns:1fr}}
 
@@ -1234,7 +1243,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     box.querySelector('ul').outerHTML='<ul class="rg-logos">'+L.map(function(l){var i='<img src="'+esc(U(l.u))+'" alt="'+esc(l.n)+'" title="'+esc(l.n)+'" loading="lazy">';return '<li>'+(l.h?'<a href="'+esc(l.h)+'" aria-label="Referenzen '+esc(l.n)+'">'+i+'</a>':i)+'</li>'}).join('')+'</ul>'}
   fetch('/referenzen/api.php',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(!d||!d.kunden||!d.kunden.length)return;D=d;root.hidden=false;var st=sec.querySelector('.refs');if(st)st.hidden=true;logos();render();
-    if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
+    if(!TEASER&&location.hash==='#nach-branche'){var mb=document.querySelector('.rg-mode[data-mode=branche]');if(mb)mb.click()}else if(!TEASER&&location.hash.length>1)zeigeKunde(decodeURIComponent(location.hash.slice(1)),true);}).catch(function(){});
 })();
 
 // Kopfzeile über dem Hero transparent, ab dem ersten Scrollen weiß
