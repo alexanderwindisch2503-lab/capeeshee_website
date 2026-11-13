@@ -752,7 +752,7 @@ body{line-height:1.55}
 @media (max-width:560px){.rg-proj.w2{grid-column:auto}.rg-mosaic.f8{column-gap:8px}}
 .rg-feat .rg-proj h3{font-size:22px!important}
 @media (max-width:860px){.rg-feat{grid-template-columns:1fr}}
-.rg-fill{grid-column:span var(--k,1);background:var(--t5,#e9ded4);display:flex;flex-direction:column;justify-content:center;gap:12px;padding:28px;text-decoration:none;color:var(--ink);min-height:220px}
+.rg-fill{grid-column:span var(--k,1);background:var(--t5,#e9ded4);display:flex;flex-direction:column;justify-content:flex-end;gap:12px;padding:28px;text-decoration:none;color:var(--ink);min-height:220px}
 .rg-fill b{font-family:var(--display);font-weight:800;font-size:clamp(22px,2vw,28px);letter-spacing:-.03em;line-height:1.1}
 .rg-fill span{color:var(--red);font:600 13px var(--head);letter-spacing:.08em;text-transform:uppercase}
 .rg-more{margin-top:28px;display:flex;justify-content:center}
@@ -1169,7 +1169,11 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     out.innerHTML='<div class="rg-projects">'+vis.map(function(k){return projekt(k)}).join('')+'</div>'+mehr(rest.length-vis.length,'k');
     fuell(out.querySelector('.rg-projects'),vis.length===rest.length);}
   function render(){REG=[];
-    if(TEASER){var l=[],sp=0;D.kunden.forEach(function(k){if(sp+breite(k)<=TEASER){l.push(k);sp+=breite(k)}else sp=TEASER});out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k)}).join('')+'</div>';return}
+    if(TEASER){// Startseite: oben bis zu 2 große Projekte, darunter bis zu 3 kleine, zuletzt die braune Fläche zu allen Referenzen
+      var gross=[],klein=[];D.kunden.forEach(function(k){if(breite(k)===2){if(gross.length<2)gross.push(k);else if(klein.length<3)klein.push(k)}else if(klein.length<3)klein.push(k)});
+      var l=gross.concat(klein.filter(function(k){return breite(k)===1})),sp=0;l.forEach(function(k){sp+=breite(k)});
+      var rest=8-sp,feld=rest>0&&sp>0?'<a class="rg-fill rg-fill-mehr" href="/referenzen/" style="--k:'+rest+'"><b>Über 500 Projekte.</b><span>Alle Referenzen ansehen →</span></a>':'';
+      out.innerHTML='<div class="rg-projects rg-teaser">'+l.map(function(k){return projekt(k)}).join('')+feld+'</div>';return}
     chipsRender();
     if(mode==='projekte'){count.textContent=D.kunden.length+(D.kunden.length===1?' Kunde':' Kunden');raster(D.kunden,true);}
     else if(mode==='branche'){var b=D.kunden.filter(function(k){return k.branche===sel});count.textContent=b.length+(b.length===1?' Kunde':' Kunden');raster(b,false);}
