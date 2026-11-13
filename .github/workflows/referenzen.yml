@@ -24,14 +24,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Werkzeuge installieren
+      - name: Python-Bausteine installieren
+        run: pip install --quiet paramiko pillow || pip install --quiet paramiko pillow
+
+      - name: Prüfen, ob PDFs, Videos oder Präsentationen neu sind
+        id: bedarf
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PATH: ${{ secrets.SFTP_PATH }}
+        run: |
+          if [ "$SFTP_PATH" = "/" ] || [ -z "$SFTP_PATH" ]; then echo "::error::SFTP_PATH ungültig"; exit 1; fi
+          python3 tools/referenzen_vorschau.py --sftp --pruefen | tee plan.txt
+          if grep -iE "^Erzeuge Vorschau: .*\.(pdf|ppt|pptx|odp|mp4|mov|m4v|avi|mkv|wmv|mpg|mpeg)$" plan.txt >/dev/null; then echo "werkzeuge=ja" >> "$GITHUB_OUTPUT"; else echo "werkzeuge=nein" >> "$GITHUB_OUTPUT"; echo "Nur Bilder oder nichts Neues: Programme werden nicht installiert"; fi
+
+      - name: Programme für PDF, Video und Präsentation installieren
+        if: steps.bedarf.outputs.werkzeuge == 'ja'
         timeout-minutes: 8
         continue-on-error: true   # hängt der Ubuntu-Paketserver, werden Bilder trotzdem abgeglichen und die Liste aufgefrischt
         run: |
-          pip install --quiet paramiko pillow
           sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 update -qq
           sudo apt-get -o Acquire::Retries=3 install -y -qq poppler-utils ffmpeg libreoffice-impress --no-install-recommends
-          pip install --quiet paramiko pillow
 
       - name: Vorschauen erzeugen
         env:
