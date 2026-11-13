@@ -322,6 +322,25 @@ def quellen(fs):
     return funde, ordner
 
 
+_werkzeuge = None
+
+
+def werkzeuge():
+    """Programme für PDF, Video und Präsentation erst installieren, wenn sie gebraucht werden (nur auf GitHub)."""
+    global _werkzeuge
+    if _werkzeuge is None:
+        _werkzeuge = True
+        if os.environ.get('GITHUB_ACTIONS') == 'true' and not shutil.which('pdftoppm'):
+            print('Installiere Programme für PDF, Video und Präsentation …', flush=True)
+            befehl = ('sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 update -qq && '
+                      'sudo apt-get -o Acquire::Retries=3 install -y -qq poppler-utils ffmpeg libreoffice-impress --no-install-recommends')
+            try:
+                subprocess.run(befehl, shell=True, check=True, timeout=480)
+            except Exception as e:
+                print(f'::warning::Programme nicht installiert ({e}), PDFs, Videos und Präsentationen folgen beim nächsten Abgleich', flush=True)
+    return _werkzeuge
+
+
 def verarbeiten(fs, nur_pruefen=False):
     funde, ordner = quellen(fs)
     neu = fehler = 0
@@ -346,6 +365,8 @@ def verarbeiten(fs, nur_pruefen=False):
             quelle = os.path.join(tmp, 'quelle' + ext)
             ziel = os.path.join(tmp, 'out'); os.makedirs(ziel)
             try:
+                if ext in PDF or ext in OFFICE or ext in VIDEO:
+                    werkzeuge()
                 fs.holen(f'{rel}/{name}', quelle)
                 if ext in PDF:
                     r = pdf_umwandeln(quelle, spec, ziel)
