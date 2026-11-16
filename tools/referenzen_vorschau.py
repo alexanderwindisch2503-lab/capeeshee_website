@@ -106,28 +106,123 @@ class Lokal:
 
 
 class Sftp:
+    """SFTP mit Wachhalten und automatischem Neuverbinden.
+    Strato trennt untätige oder sehr lange Verbindungen ("Socket is closed"). Ohne Neuverbinden
+    scheiterten danach alle weiteren Dateien des Laufs."""
+    VERSUCHE = 5
+
     def __init__(self, host, user, pw, root):
-        import paramiko
         _paramiko_namen_tolerant()
-        self.t = paramiko.Transport((host, 22))
+        self.zugang = (host, user, pw)
+        self.root = root.rstrip('/')
+        self.t = self.s = None
+        self._verbinden()
+
+    def _verbinden(self):
+        import paramiko
+        self._trennen()
+        host, user, pw = self.zugang
+        self.t = paramiko.Transport((host, 22), default_window_size=paramiko.common.MAX_WINDOW_SIZE)
+        self.t.set_keepalive(20)
         self.t.connect(username=user, password=pw)
         self.s = paramiko.SFTPClient.from_transport(self.t)
-        self.root = root.rstrip('/')
+        self.s.get_channel().settimeout(120)
+
+    def _trennen(self):
+        for x in (self.s, self.t):
+            try:
+                x and x.close()
+            except Exception:
+                pass
+
+    def _lebt(self):
+        return self.t is not None and self.t.is_active()
+
+    def _wiederholt(self, aufgabe, was):
+        """Führt aufgabe() aus; bei Verbindungsabbruch neu verbinden und erneut versuchen.
+        Normale Dateifehler (nicht vorhanden usw.) werden sofort weitergereicht."""
+        import time, paramiko
+        for n in range(1, self.VERSUCHE + 1):
+            try:
+                if not self._lebt():
+                    self._verbinden()
+                return aufgabe()
+            except (EOFError, ConnectionError, TimeoutError, OSError, paramiko.SSHException) as e:
+                # Echte Dateifehler bei stehender Verbindung nicht wiederholen
+                if isinstance(e, (FileNotFoundError, PermissionError)):
+                    raise
+                if self._lebt() and not isinstance(e, (EOFError, TimeoutError, paramiko.SSHException)) and 'closed' not in str(e).lower():
+                    raise
+                if n == self.VERSUCHE:
+                    raise
+                print(f'Verbindung unterbrochen bei {was} ({e}), neuer Versuch {n + 1} von {self.VERSUCHE} …', flush=True)
+                time.sleep(min(30, 5 * n))
+                try:
+                    self._verbinden()
+                except Exception as e2:
+                    print(f'Neuverbinden fehlgeschlagen ({e2})', flush=True)
+
     def p(self, rel):
         return f'{self.root}/{rel}' if rel else self.root
+
     def liste(self, rel):
-        try:
-            return [(a.filename, stat.S_ISDIR(a.st_mode), a.st_size, int(a.st_mtime)) for a in self.s.listdir_attr(self.p(rel))]
-        except IOError:
-            return []
+        def f():
+            try:
+                return [(a.filename, stat.S_ISDIR(a.st_mode), a.st_size, int(a.st_mtime)) for a in self.s.listdir_attr(self.p(rel))]
+            except FileNotFoundError:
+                return []
+            except IOError:
+                if not self._lebt():
+                    raise
+                return []
+        return self._wiederholt(f, f'Liste {zeig(rel)}')
+
     def lesen(self, rel):
-        try:
-            with self.s.open(self.p(rel), 'rb') as f:
-                return f.read()
-        except IOError:
-            return None
+        def f():
+            try:
+                with self.s.open(self.p(rel), 'rb') as fh:
+                    return fh.read()
+            except FileNotFoundError:
+                return None
+            except IOError:
+                if not self._lebt():
+                    raise
+                return None
+        return self._wiederholt(f, f'Lesen {zeig(rel)}')
+
     def holen(self, rel, ziel):
-        self.s.get(self.p(rel), ziel)
+        """Lädt in Blöcken mit Vorabruf und setzt nach einem Abbruch an der erreichten Stelle fort."""
+        import time
+        groesse = self._wiederholt(lambda: self.s.stat(self.p(rel)).st_size, f'Größe {zeig(rel)}')
+        open(ziel, 'wb').close()
+        start = time.time()
+        gemeldet = 0
+        def weiter():
+            nonlocal gemeldet
+            pos = os.path.getsize(ziel)
+            if pos >= groesse:
+                return
+            with self.s.open(self.p(rel), 'rb') as fh, open(ziel, 'ab') as out:
+                fh.seek(pos)
+                try:
+                    fh.prefetch(groesse, max_concurrent_requests=64)
+                except TypeError:   # ältere paramiko-Version
+                    fh.prefetch(groesse)
+                while pos < groesse:
+                    block = fh.read(min(4 << 20, groesse - pos))
+                    if not block:
+                        raise EOFError('Datei endete vorzeitig')
+                    out.write(block)
+                    pos += len(block)
+                    if groesse > 50 << 20 and pos - gemeldet >= 50 << 20:
+                        gemeldet = pos
+                        print(f'  geladen {pos >> 20} von {groesse >> 20} MB ({(pos >> 20) / max(1, time.time() - start):.1f} MB/s)', flush=True)
+        self._wiederholt(weiter, f'Laden {zeig(rel)}')
+        if os.path.getsize(ziel) != groesse:
+            raise RuntimeError(f'Download unvollständig ({os.path.getsize(ziel)} von {groesse} Bytes)')
+        if groesse > 50 << 20:
+            print(f'  {groesse >> 20} MB geladen in {time.time() - start:.0f} s', flush=True)
+
     def _mkdirs(self, rel):
         teile, cur = rel.split('/'), self.root
         for t in teile:
@@ -137,12 +232,16 @@ class Sftp:
             except IOError:
                 self.s.mkdir(cur)
     def ablegen(self, quelle, rel):
-        self._mkdirs(os.path.dirname(rel))
-        self.s.put(quelle, self.p(rel))
+        def f():
+            self._mkdirs(os.path.dirname(rel))
+            self.s.put(quelle, self.p(rel))
+        self._wiederholt(f, f'Hochladen {zeig(rel)}')
     def schreiben(self, rel, daten):
-        self._mkdirs(os.path.dirname(rel))
-        with self.s.open(self.p(rel), 'wb') as f:
-            f.write(daten)
+        def f():
+            self._mkdirs(os.path.dirname(rel))
+            with self.s.open(self.p(rel), 'wb') as fh:
+                fh.write(daten)
+        self._wiederholt(f, f'Schreiben {zeig(rel)}')
     def ordner_loeschen(self, rel):
         def rm(path):
             for a in self.s.listdir_attr(path):
@@ -152,10 +251,15 @@ class Sftp:
                 else:
                     self.s.remove(q)
             self.s.rmdir(path)
-        try:
-            rm(self.p(rel))
-        except IOError:
-            pass
+        def f():
+            try:
+                rm(self.p(rel))
+            except FileNotFoundError:
+                pass
+            except IOError:
+                if not self._lebt():
+                    raise
+        self._wiederholt(f, f'Löschen {zeig(rel)}')
 
 
 # ---------- Seitenauswahl ----------
@@ -247,7 +351,10 @@ def pdf_seiten(pdf):
 def pdf_umwandeln(pdf, spec, ordner):
     n = pdf_seiten(pdf)
     items = []
-    for i, s in enumerate(seiten_aus_spec(spec, n), 1):
+    auswahl = seiten_aus_spec(spec, n)
+    for i, s in enumerate(auswahl, 1):
+        if len(auswahl) > 12 and (i == 1 or i % 10 == 0):
+            print(f'  Seite {i} von {len(auswahl)}', flush=True)
         b = boxen(pdf, s)
         media = b.get('MediaBox')
         trim = b.get('TrimBox') or b.get('CropBox') or media
