@@ -136,7 +136,7 @@ def main():
     ziel = os.path.join(SITE, 'referenzen', 'index.html')
     html = seite(start,
                  'Referenzen | Agentur Capeeshee, Werbeagentur in Augsburg',
-                 'Arbeiten aus 25 Jahren Agentur Capeeshee: Corporate Design, Logos, Broschüren, Websites, Leitsysteme und Kampagnen für den Mittelstand.',
+                 'Referenzen der Werbeagentur Capeeshee aus Augsburg: Corporate Design, Logos, Broschüren, Websites, Online-Shops, Leitsysteme und Kampagnen aus 25 Jahren.',
                  REFERENZEN, '/referenzen/')
     for ordner, titel, beschr, inhalt in [
         ('impressum', 'Impressum | Agentur Capeeshee', 'Impressum der Agentur Capeeshee, KI-powered Werbeagentur für Web & Print in Augsburg.', IMPRESSUM),
