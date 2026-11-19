@@ -7,10 +7,10 @@
   RewriteRule ^19/impressum/?$ https://capeeshee.com/impressum/ [R=301,L,NC]
   RewriteRule ^19/(referenzen|portfolio|portfolio_cat)(/.*)?$ https://capeeshee.com/referenzen/ [R=301,L,NC]
   RewriteRule ^19/kontakt/?$ https://capeeshee.com/#kontakt [R=301,L,NC,NE]
-  RewriteRule ^(19/)?new-marketing/?$ https://capeeshee.com/#leistungen [R=301,L,NC,NE]
-  RewriteRule ^marketing/?$ https://capeeshee.com/#leistungen [R=301,L,NC,NE]
-  RewriteRule ^(19/)?wordpress-agentur/?$ https://capeeshee.com/#leistungen [R=301,L,NC,NE]
-  RewriteRule ^(impressum|datenschutz|referenzen)$ https://capeeshee.com/$1/ [R=301,L,NC]
+  RewriteRule ^(19/)?new-marketing/?$ https://capeeshee.com/marketing/ [R=301,L,NC]
+  RewriteRule ^19/marketing/?$ https://capeeshee.com/marketing/ [R=301,L,NC]
+  RewriteRule ^(19/)?wordpress-agentur/?$ https://capeeshee.com/webdesign/ [R=301,L,NC]
+  RewriteRule ^(impressum|datenschutz|referenzen|webdesign|corporate-design|werbung-print|seo|social-media|marketing)$ https://capeeshee.com/$1/ [R=301,L,NC]
   RewriteRule ^19(/.*)?$ https://capeeshee.com/ [R=301,L,NC]
 
   # www.capeeshee.com -> capeeshee.com (http -> https erledigt bereits STRATO)

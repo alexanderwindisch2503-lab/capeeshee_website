@@ -9,7 +9,7 @@ Jeder Block ist im Code mit einem Kommentar `<!-- Block „…“ vorübergehend
 | Hero mit Enten-Video | `<section class="hero" hidden …>` (Sicherung zusätzlich im Branch `hero-enten`) | ersetzt durch Tennis-Hero |
 | Unsere Botschaft | `<section id="botschaft" … hidden>` | vorübergehend ausgeblendet |
 | Leistungs-Säulen (Was möchten Sie kommunizieren?, Der erste Eindruck zählt, Web Development) | `<div class="pillars" hidden>` in `#leistungen` | stand vor den Leistungskacheln im Niemandsland |
-| Marketing im Wandel (Kopfstand, One Way, …) | `<section id="new-marketing" hidden>`, Menüpunkt entfernt | doppelte Botschaft zu „Über Capeeshee“, Bildsprache |
+| Marketing im Wandel (Kopfstand, One Way, …) | `<section id="new-marketing" hidden>`, Menüpunkt entfernt | doppelte Botschaft zu „Über Capeeshee“, Bildsprache. Inhalt lebt seit 19.11.2026 auf der eigenen Seite /marketing/ weiter |
 | Arbeitsweise (5 Schritte) | `<section id="arbeitsweise-alt" hidden>`, Menüpunkt entfernt | ersetzt durch die Zeitlinie „So arbeiten wir“ im Abschnitt KI als Werkzeug (Anker #arbeitsweise zeigt jetzt dorthin) |
 | Logoreihe „Eine Auswahl weiterer Kunden“ | `<div class="clients" id="rgLogos" hidden>` im Abschnitt Referenzen | vorerst nur der Referenzblock mit Kloster Holzen |
 | Wir kennen die ganze Kette (Sportkind, Setima) | `<section id="kette" hidden>` | Bilder fehlen noch |
@@ -24,3 +24,7 @@ Als „Coming soon“ markiert (sichtbar):
 ## Seitenaufbau seit 9. November 2026
 
 Hero · Zähler · Wer wir sind · Leistungen (mit Corporate Design und Einzelleistungen) · Print · KI als Werkzeug (KI-Box, Vorteile, Zeitlinie) · Philosophie · Branchen · Referenzen · Über uns · Check (coming soon) · Kontakt
+
+## Leistungsseiten seit 19. November 2026
+
+/webdesign/, /corporate-design/, /werbung-print/, /seo/, /social-media/, /marketing/. Texte, Fragen und Bilder stehen in `tools/leistungen.py`, die Seiten erzeugt `tools/build_seiten.py`. Bilder in `site/img/leistungen/`.

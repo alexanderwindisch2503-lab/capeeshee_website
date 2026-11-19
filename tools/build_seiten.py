@@ -6,7 +6,9 @@ Schriften und Stile überall identisch sind.
 
 Aufruf: python3 tools/build_seiten.py   (läuft auch automatisch beim Veröffentlichen)
 """
-import os, re
+import os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import leistungen
 
 HIER = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(HIER, '..', 'site')
@@ -146,6 +148,18 @@ def main():
         with open(os.path.join(SITE, ordner, 'index.html'), 'w', encoding='utf-8') as f:
             f.write('<!-- Automatisch erzeugt aus index.html durch tools/build_seiten.py. Bitte nicht direkt bearbeiten. -->\n' + h)
         print('erzeugt:', ordner + '/index.html')
+    # Leistungsseiten (Inhalte in tools/leistungen.py)
+    for ls in leistungen.SEITEN:
+        h = seite(start, ls['titel'], ls['beschreibung'], leistungen.inhalt(ls), '/' + ls['slug'] + '/')
+        h = h.replace('</head>', leistungen.CSS + leistungen.json_ld(ls) + '</head>', 1)
+        bild = 'https://capeeshee.com/img/leistungen/' + ls['bild'] + '.jpg'
+        h = re.sub(r'(<meta property="og:image" content=")[^"]*', lambda m: m.group(1) + bild, h, count=1)
+        h = h.replace('<meta property="og:image:width" content="1200">', '<meta property="og:image:width" content="1400">', 1).replace('<meta property="og:image:height" content="630">', '<meta property="og:image:height" content="1120">', 1)
+        h = re.sub(r'(<meta property="og:image:alt" content=")[^"]*', lambda m: m.group(1) + ls['alt'], h, count=1)
+        os.makedirs(os.path.join(SITE, ls['slug']), exist_ok=True)
+        with open(os.path.join(SITE, ls['slug'], 'index.html'), 'w', encoding='utf-8') as f:
+            f.write('<!-- Automatisch erzeugt aus index.html und tools/leistungen.py durch tools/build_seiten.py. Bitte nicht direkt bearbeiten. -->\n' + h)
+        print('erzeugt:', ls['slug'] + '/index.html')
     # Fehlerseite 404
     f404 = '''
   <section class="legal">
@@ -166,7 +180,7 @@ def main():
     # Sitemap
     import datetime
     heute = datetime.date.today().isoformat()
-    urls = [('/', '1.0'), ('/referenzen/', '0.8'), ('/impressum/', '0.3'), ('/datenschutz/', '0.3')]
+    urls = [('/', '1.0')] + [('/' + ls['slug'] + '/', '0.9') for ls in leistungen.SEITEN] + [('/referenzen/', '0.8'), ('/impressum/', '0.3'), ('/datenschutz/', '0.3')]
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
         f'  <url><loc>https://capeeshee.com{u}</loc><lastmod>{heute}</lastmod><priority>{p}</priority></url>\n' for u, p in urls) + '</urlset>\n'
     with open(os.path.join(SITE, 'sitemap.xml'), 'w', encoding='utf-8') as f:
