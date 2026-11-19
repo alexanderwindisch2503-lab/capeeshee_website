@@ -471,6 +471,45 @@ input,textarea{border:0}
   #mainnav .nl:hover,#mainnav .nl:focus-visible{color:var(--red)}
   html.menu-open{overflow:hidden}
 }
+/* Untermenü Leistungen */
+.nd{position:relative;display:flex;align-items:center;gap:4px}
+.nd-btn{width:22px;height:28px;border:0;background:transparent;cursor:pointer;padding:0;color:inherit;display:grid;place-items:center}
+.nd-btn::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+header nav .nd-btn{color:var(--ink)}
+html.over-hero:not(.scrolled):not(.menu-open) header nav .nd-btn{color:#fff}
+.nd-panel{position:absolute;top:100%;left:50%;transform:translateX(-50%);width:600px;margin-top:14px;background:#fff;border-top:3px solid var(--red);box-shadow:0 18px 50px rgba(20,22,24,.18);padding:22px 24px 16px;z-index:60;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s}
+.nd-panel::before{content:"";position:absolute;left:0;right:0;top:-20px;height:20px}
+@media (hover:hover) and (min-width:1281px){.nd:hover .nd-panel{opacity:1;visibility:visible}}
+.nd:focus-within .nd-panel,.nd.auf .nd-panel{opacity:1;visibility:visible}
+.nd.auf .nd-btn::before{transform:translateY(2px) rotate(-135deg)}
+.nd-panel .g{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+header nav .nd-panel a{display:block;padding:10px 12px;border-radius:4px;text-decoration:none;text-transform:none;letter-spacing:0;white-space:normal}
+header nav .nd-panel a b{display:block;font-family:var(--display);font-weight:600;font-size:16px;color:var(--ink)}
+header nav .nd-panel a span{display:block;font-family:var(--body);font-weight:400;font-size:13.5px;color:var(--muted);margin-top:2px}
+header nav .nd-panel .g a:hover,header nav .nd-panel .g a:focus-visible,header nav .nd-panel .g a[aria-current="page"]{background:var(--bg-alt)}
+header nav .nd-panel .g a:hover b,header nav .nd-panel .g a:focus-visible b,header nav .nd-panel .g a[aria-current="page"] b{color:var(--red)}
+.nd-panel .alle{margin-top:10px;border-top:1px solid var(--line);padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+header nav .nd-panel .alle a{display:inline;padding:0;font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--red)!important}
+header nav .nd-panel .alle a:hover{background:none;text-decoration:underline;text-underline-offset:3px}
+.nd-panel .alle small{font-size:13px;color:var(--muted)}
+@media (max-width:1280px){
+  #mainnav .nd{display:flex;flex-wrap:wrap;width:100%;gap:0}
+  #mainnav .nd>.nl{flex:1}
+  #mainnav .nd-btn{width:48px;height:48px;color:var(--ink)}
+  #mainnav .nd-btn::before{width:12px;height:12px;border-width:3px}
+  .nd-panel{position:static;transform:none;width:100%;margin-top:12px;box-shadow:none;border:0;border-left:3px solid var(--red);background:transparent;padding:4px 0 4px 18px;display:none;opacity:1;visibility:visible}
+  .nd-panel::before{display:none}
+  .nd.auf .nd-panel{display:block}
+  .nd:focus-within .nd-panel{display:none}.nd.auf:focus-within .nd-panel{display:block}
+  .nd-panel .g{grid-template-columns:1fr;gap:0}
+  header nav .nd-panel a{padding:7px 0}
+  header nav .nd-panel a b{font-size:19px}
+  header nav .nd-panel a span,.nd-panel .alle small{display:none}
+  header nav .nd-panel .g a:hover,header nav .nd-panel .g a[aria-current="page"]{background:none}
+  .nd-panel .alle{border:0;margin-top:4px;padding-top:6px}
+  #mainnav:has(.nd.auf){justify-content:flex-start;overflow-y:auto;padding-top:28px;padding-bottom:28px}
+}
+
 
 /* KI-Siegel im Slider */
 .slider{position:relative}
@@ -954,7 +993,8 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
     <a class="logo" href="#top" aria-label="Agentur Capeeshee, zur Startseite"><img class="logo-n" src="img/logo-capeeshee.svg?v=202611071038" alt="Capeeshee" width="709" height="135"></a>
     <button class="menu-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mainnav"><span></span><span></span><span></span></button>
     <nav id="mainnav" aria-label="Hauptnavigation">
-      <a class="nl" href="#leistungen">Leistungen</a>
+      <div class="nd"><a class="nl" href="#leistungen">Leistungen</a><button class="nd-btn" type="button" aria-expanded="false" aria-controls="nd-leis" aria-label="Untermenü Leistungen öffnen"></button>
+        <div class="nd-panel" id="nd-leis"><div class="g"><a href="/webdesign/"><b>Webdesign</b><span>Websites und Online-Shops</span></a><a href="/corporate-design/"><b>Corporate Design</b><span>Logo und Markenauftritt</span></a><a href="/werbung-print/"><b>Werbung &amp; Print</b><span>Broschüren, Kataloge, Kampagnen</span></a><a href="/seo/"><b>SEO &amp; Online-Werbung</b><span>Gefunden werden bei Google</span></a><a href="/social-media/"><b>Social Media</b><span>LinkedIn, Instagram, Recruiting</span></a><a href="/marketing/"><b>Marketing heute</b><span>New Marketing und Philosophie</span></a></div><div class="alle"><a href="/#leistungen">Alle 12 Leistungen im Überblick →</a><small>Strategie, Content, Apps und mehr</small></div></div></div>
       <a class="nl" href="#ki">KI als Werkzeug</a>
       <a class="nl" href="#branchen">Branchen</a><a class="nl" href="/referenzen/">Referenzen</a>
       <a class="nl" href="#ueber">Über uns</a>
@@ -1019,6 +1059,12 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
   </div>
 </footer>
 <script>
+(function(){var d=document.querySelector('.nd');if(!d)return;var b=d.querySelector('.nd-btn');
+  function set(o){d.classList.toggle('auf',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Untermenü Leistungen schließen':'Untermenü Leistungen öffnen');}
+  b.addEventListener('click',function(e){e.stopPropagation();set(!d.classList.contains('auf'));});
+  document.addEventListener('click',function(e){if(!d.contains(e.target))set(false);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+})();
 (function(){var b=document.querySelector('.menu-btn'),n=document.getElementById('mainnav');if(!b||!n)return;
   function set(o){n.classList.toggle('open',o);b.setAttribute('aria-expanded',o?'true':'false');b.setAttribute('aria-label',o?'Menü schließen':'Menü öffnen');document.documentElement.classList.toggle('menu-open',o);}
   b.addEventListener('click',function(){set(!n.classList.contains('open'));});

@@ -310,6 +310,9 @@ CSS = '''<style>
 .lp .more{display:flex;flex-wrap:wrap;gap:10px}
 .lp .more a{border:1px solid #cfcfca;border-radius:99px;padding:10px 16px;font-size:15px;color:var(--ink);text-decoration:none}
 .lp .more a:hover{border-color:var(--red);color:var(--red)}
+.lp .crumbrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px 20px;flex-wrap:wrap;padding-top:34px}.lp .crumbrow .crumb{padding-top:0}
+.lp .back{font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);text-decoration:none}.lp .back:hover{text-decoration:underline;text-underline-offset:3px}
+.lp .back-unten{display:inline-block;margin-top:34px;border:2px solid var(--red);border-radius:99px;padding:13px 22px}.lp .back-unten:hover{background:var(--red);color:#fff;text-decoration:none}
 .lp h2.klein{font-size:clamp(24px,2.4vw,30px)}
 @media (max-width:860px){.lp .lp-hero{grid-template-columns:1fr}.lp .g3,.lp .refs{grid-template-columns:1fr}.lp .steps{grid-template-columns:1fr 1fr!important}}
 @media (max-width:480px){.lp .steps{grid-template-columns:1fr!important}}
@@ -340,7 +343,7 @@ def inhalt(s):
     return f'''
   <div class="lp">
     <div class="w">
-      <p class="crumb"><a href="/">Startseite</a> › {crumb_mitte}<b>{_e(s["kurz"])}</b></p>
+      <div class="crumbrow"><p class="crumb"><a href="/">Startseite</a> › {crumb_mitte}<b>{_e(s["kurz"])}</b></p><a class="back" href="/#leistungen">← Alle Leistungen</a></div>
       <div class="lp-hero">
         <div>
           <p class="eyebrow">{_e(s["eyebrow"])}</p>
@@ -357,7 +360,7 @@ def inhalt(s):
     <section class="wh"><div class="w zit"><p class="eyebrow">Vom Centre Court in die Agentur</p><blockquote class="zq">{_e(s["zitat"])}</blockquote><p class="za"><b>{ZITAT_VON}</b>{ZITAT_ZEILE}</p></div></section>
     {refblock}
     <section class="wh"><div class="w"><h2>Häufige Fragen <span>{_e(s["faq_titel"])}</span></h2><div class="faq">{faq}</div></div></section>
-    <section><div class="w"><h2 class="klein">Das passt <span>dazu</span></h2><div class="more">{dazu}</div></div></section>
+    <section><div class="w"><h2 class="klein">Das passt <span>dazu</span></h2><div class="more">{dazu}</div><a class="back back-unten" href="/#leistungen">← Alle Leistungen im Überblick</a></div></section>
   </div>
 '''
 
