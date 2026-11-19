@@ -991,7 +991,8 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
 .lp .crumb{font-family:var(--body);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:34px 0 0;margin:0}
 .lp .crumb a{color:var(--muted);text-decoration:none}.lp .crumb a:hover{color:var(--red)}
 .lp .crumb b{color:var(--ink);font-weight:600}
-.lp .lp-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,56px);align-items:center;padding:34px 0 clamp(56px,7vw,80px)}
+.lp .lp-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,56px);align-items:start;padding:34px 0 clamp(56px,7vw,80px)}
+.lp .lp-hero .eyebrow{margin-top:0}
 .lp h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,5vw,60px);letter-spacing:-.045em;line-height:1.02;margin:0 0 24px;color:var(--ink)}
 .lp h1 span,.lp h2 span{color:var(--red)}
 .lp .lp-lead{font-size:clamp(17px,1.6vw,19px);line-height:1.6;color:var(--text);margin:0 0 18px}
@@ -1038,7 +1039,8 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
 .lp .more{display:flex;flex-wrap:wrap;gap:10px}
 .lp .more a{border:1px solid #cfcfca;border-radius:99px;padding:10px 16px;font-size:15px;color:var(--ink);text-decoration:none}
 .lp .more a:hover{border-color:var(--red);color:var(--red)}
-.lp .crumbrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px 20px;flex-wrap:wrap;padding-top:34px}.lp .crumbrow .crumb{padding-top:0}
+.lp .crumbrow{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:nowrap;padding-top:34px;min-height:20px;line-height:20px}.lp .crumbrow .crumb{line-height:20px;margin:0}
+@media (max-width:700px){.lp .crumbrow .back{display:none}}.lp .crumbrow .crumb{padding-top:0}
 .lp .back{font-family:var(--head);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--red);text-decoration:none}.lp .back:hover{text-decoration:underline;text-underline-offset:3px}
 .lp .back-unten{display:inline-block;margin-top:34px;border:2px solid var(--red);border-radius:99px;padding:13px 22px}.lp .back-unten:hover{background:var(--red);color:#fff;text-decoration:none}
 .lp h2.klein{font-size:clamp(24px,2.4vw,30px)}
