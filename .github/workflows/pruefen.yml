@@ -15,10 +15,14 @@ jobs:
             https://capeeshee.com/robots.txt https://capeeshee.com/sitemap.xml https://capeeshee.com/favicon.ico \
             https://www.capeeshee.com/19/ https://www.capeeshee.com/19/datenschutz/ https://www.capeeshee.com/19/portfolio/sportkind/ \
             https://www.capeeshee.com/19/portfolio_cat/branding/ https://www.capeeshee.com/wordpress-agentur https://www.capeeshee.com/marketing \
-            https://capeeshee.com/img/og-capeeshee.jpg https://capeeshee.com/apple-touch-icon.png https://capeeshee.com/gibtesnicht https://capeeshee.com/19/kontakt/ https://capeeshee.com/marketing ; do
+            https://capeeshee.com/img/og-capeeshee.jpg https://capeeshee.com/apple-touch-icon.png https://capeeshee.com/gibtesnicht https://capeeshee.com/19/kontakt/ https://capeeshee.com/marketing \
+            https://capeeshee.com/webdesign/ https://capeeshee.com/corporate-design/ https://capeeshee.com/werbung-print/ https://capeeshee.com/seo/ https://capeeshee.com/social-media/ https://capeeshee.com/marketing/ https://capeeshee.com/new-marketing https://capeeshee.com/img/leistungen/seo.jpg ; do
             echo "== $u"
             curl -s -o /dev/null -D - --max-time 20 "$u" | grep -i -E '^(HTTP|location|x-capeeshee|x-robots|content-type)' || echo "keine Antwort"
           done
+      - name: Referenzen-Schnittstelle prüfen
+        run: |
+          curl -s --max-time 30 https://capeeshee.com/referenzen/api.php | python3 -c "import json,sys;d=json.load(sys.stdin);print('Kunden:',len(d.get('kunden',[])),'Stand:',d.get('stand'))"
       - name: Inhalte der Startseite prüfen
         run: |
           curl -s --max-time 20 https://capeeshee.com/ -o start.html
