@@ -53,3 +53,7 @@ jobs:
         run: |
           pip install --quiet --disable-pip-version-check paramiko || pip install --quiet --disable-pip-version-check paramiko
           python3 tools/hochladen.py
+
+      - name: Referenzen-Zwischenspeicher erneuern
+        run: |
+          curl -s --max-time 60 "https://capeeshee.com/referenzen/api.php?neu=1" | python3 -c "import json,sys;d=json.load(sys.stdin);print('Referenzen-Kunden:',len(d.get('kunden',[])))" || echo "Hinweis: Schnittstelle nicht erreichbar"

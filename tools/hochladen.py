@@ -36,7 +36,9 @@ def main():
         sys.exit('SFTP_PATH darf nicht das Hauptverzeichnis sein')
     t, s = verbinden(e)
     bekannt, n = set(), 0
-    for wurzel, _, dateien in os.walk(QUELLE):
+    for wurzel, unter, dateien in os.walk(QUELLE):
+        # lokale Zwischenspeicher nie hochladen (überschreiben sonst die Daten auf dem Server)
+        unter[:] = [u for u in unter if u not in ('_cache', '__pycache__')]
         rel = os.path.relpath(wurzel, QUELLE)
         zordner = ziel if rel == '.' else f'{ziel}/{rel}'
         ordner(s, zordner, bekannt)
