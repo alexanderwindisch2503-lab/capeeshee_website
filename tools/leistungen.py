@@ -7,7 +7,7 @@ from html import escape
 
 STANDORT = 'Agentur aus Augsburg · Projekte in Deutschland, Österreich und der Schweiz'
 ZITAT_VON = 'Alexander Windisch'
-ZITAT_ZEILE = 'Inhaber · Deutscher Meister, mehrfacher Europameister, ehemals Nr. 1 der Senioren-Weltrangliste'
+ZITAT_ZEILE = 'Inhaber Capeeshee | Ehemaliger Tennisprofi (ATP) | Deutscher Meister | Dreifacher Europameister | Nr. 1 der ITF-Seniors-Weltrangliste'
 
 SEITEN = [
   {
