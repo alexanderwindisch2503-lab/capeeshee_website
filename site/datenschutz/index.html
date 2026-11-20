@@ -1033,7 +1033,7 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
       <h2>6. Kontaktaufnahme</h2>
       <p>Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Angaben wie Name, Kontaktdaten und Ihre Nachricht, um Ihre Anfrage zu bearbeiten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit einem Vertrag oder vorvertraglichen Maßnahmen zusammenhängt, im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der Beantwortung Ihrer Anfrage. Wir löschen die Daten, sobald sie nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten, etwa nach Handels- oder Steuerrecht, entgegenstehen.</p>
       <h3>Kontaktformular</h3>
-      <p>Wenn Sie uns über das Kontaktformular schreiben, werden Ihr Name, Ihre E-Mail-Adresse und Ihre Nachricht über eine verschlüsselte Verbindung an unseren Server übertragen und von dort per E-Mail an info@capeeshee.com weitergeleitet. Die Angaben werden auf der Website nicht gespeichert. Zum Schutz vor Missbrauch wird Ihre IP-Adresse in gehashter, also unkenntlich gemachter Form für höchstens zwei Stunden vorübergehend verarbeitet, um mehrfache Massensendungen zu verhindern. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO bei Anfragen zu einem Auftrag, im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Ihre E-Mail wird in unserem E-Mail-Postfach bei STRATO gespeichert und gelöscht, sobald sie nicht mehr erforderlich ist und keine Aufbewahrungspflichten bestehen.</p>
+      <p>Wenn Sie uns über das Kontaktformular schreiben, werden Ihr Name, Ihre E-Mail-Adresse und Ihre Nachricht über eine verschlüsselte Verbindung an unseren Server übertragen und von dort per E-Mail an info@capeeshee.com weitergeleitet. Die Angaben werden auf der Website nicht gespeichert. Zum Schutz vor Missbrauch wird Ihre IP-Adresse in gehashter, also unkenntlich gemachter Form für höchstens zwei Stunden vorübergehend verarbeitet, um mehrfache Massensendungen zu verhindern. Außerdem löst Ihr Browser beim Aufruf des Formulars im Hintergrund eine kleine Rechenaufgabe, die unser eigener Server stellt. Dabei werden keine Cookies gesetzt und keine Daten an Dritte übermittelt. Abgewiesene Spamversuche protokollieren wir nur mit Datum und Grund, ohne personenbezogene Angaben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO bei Anfragen zu einem Auftrag, im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Ihre E-Mail wird in unserem E-Mail-Postfach bei STRATO gespeichert und gelöscht, sobald sie nicht mehr erforderlich ist und keine Aufbewahrungspflichten bestehen.</p>
 
       <h2>7. Ihre Rechte</h2>
       <p>Sie haben jederzeit das Recht auf:</p>
@@ -1068,7 +1068,6 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
         <div><label for="kmail">E-Mail</label><input id="kmail" name="email" type="email" autocomplete="email" required maxlength="160"></div>
         <div><label for="kmsg">Worum geht es?</label><textarea id="kmsg" name="message" required maxlength="5000"></textarea></div>
         <div class="kf-falle" aria-hidden="true"><label for="kweb">Website</label><input id="kweb" name="website" tabindex="-1" autocomplete="off"></div>
-        <input type="hidden" name="t" id="kt" value="">
         <button class="btn" type="submit" id="kbtn">Nachricht senden</button>
         <p class="note" id="knote" role="status" aria-live="polite">Ihre Angaben verwenden wir nur zur Beantwortung Ihrer Anfrage. Mehr dazu in der <a href="/datenschutz/" aria-current="page">Datenschutzerklärung</a>.</p>
       </form>
@@ -1156,16 +1155,32 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
   var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){io.unobserve(x.target);if(x.target.dataset.wait){run(x.target);}}});},{threshold:.6});
   els.forEach(function(el){io.observe(el);});
 })();
-(function(){var f=document.getElementById('kf');if(!f)return;var n=document.getElementById('knote'),b=document.getElementById('kbtn'),t=document.getElementById('kt');t.value=Date.now();
+(function(){var f=document.getElementById('kf');if(!f)return;var n=document.getElementById('knote'),b=document.getElementById('kbtn');
+  // Spamschutz: unsichtbare Rechenaufgabe (ALTCHA-Prinzip), wird vom eigenen Server gestellt und im Hintergrund gelöst
+  var pow=null,cs=window.crypto&&window.crypto.subtle,enc=window.TextEncoder?new TextEncoder():null;
+  function hex(buf){var a=new Uint8Array(buf),h='';for(var i=0;i<a.length;i++)h+=('0'+a[i].toString(16)).slice(-2);return h;}
+  function loesen(){if(!cs||!enc)return Promise.reject();
+    return fetch(f.action+'?aufgabe=1',{cache:'no-store'}).then(function(r){return r.json();}).then(function(a){
+      return new Promise(function(ok,no){var i=0;
+        (function schritt(){var bis=Math.min(i+400,a.maxnumber+1),p=[];
+          for(var k=i;k<bis;k++)p.push(cs.digest('SHA-256',enc.encode(a.salt+k)));
+          Promise.all(p).then(function(h){for(var j=0;j<h.length;j++){if(hex(h[j])===a.challenge){ok(JSON.stringify({algorithm:a.algorithm,challenge:a.challenge,salt:a.salt,signature:a.signature,number:i+j}));return;}}
+            i=bis;if(i>a.maxnumber)no();else setTimeout(schritt,0);},no);})();});});}
+  function start(){if(!pow){pow=loesen();pow.catch(function(){pow=null;});}return pow;}
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();start();}},{rootMargin:'600px'});io.observe(f);}else start();
+  f.addEventListener('focusin',start);
+  function fehler(t){n.className='note err';n.textContent=t;b.disabled=false;b.textContent='Nachricht senden';}
+  function senden(nochmal){start().then(function(l){var d=new FormData(f);d.append('pow',l);pow=null;
+      return fetch(f.action,{method:'POST',body:d});}).then(function(r){return r.json().catch(function(){return {ok:false}})}).then(function(d){
+      if(d&&d.ok){f.reset();n.className='note ok';n.textContent=d.text||'Danke! Ihre Nachricht ist bei uns angekommen.';b.textContent='Gesendet';start();}
+      else if(d&&d.neu&&nochmal){senden(false);}
+      else{start();fehler((d&&d.text)||'Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@capeeshee.com.');}
+    }).catch(function(){pow=null;fehler(cs?'Keine Verbindung. Bitte versuchen Sie es erneut oder schreiben Sie an info@capeeshee.com.':'Ihr Browser unterstützt das Formular leider nicht. Bitte schreiben Sie uns an info@capeeshee.com.');});}
   f.addEventListener('submit',function(e){e.preventDefault();
     var nm=f.name.value.trim(),em=f.email.value.trim(),tx=f.message.value.trim();
     if(!nm||!em||!tx){n.textContent='Bitte füllen Sie Name, E-Mail und Nachricht aus.';n.className='note err';return}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){n.textContent='Bitte prüfen Sie Ihre E-Mail-Adresse.';n.className='note err';f.email.focus();return}
-    b.disabled=true;b.textContent='Wird gesendet …';n.className='note';n.textContent='';
-    fetch(f.action,{method:'POST',body:new FormData(f)}).then(function(r){return r.json().catch(function(){return {ok:false}})}).then(function(d){
-      if(d&&d.ok){f.reset();t.value=Date.now();n.className='note ok';n.textContent=d.text||'Danke! Ihre Nachricht ist bei uns angekommen.';b.textContent='Gesendet'}
-      else{n.className='note err';n.textContent=(d&&d.text)||'Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'}
-    }).catch(function(){n.className='note err';n.textContent='Keine Verbindung. Bitte versuchen Sie es erneut oder schreiben Sie an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'});
+    b.disabled=true;b.textContent='Wird gesendet …';n.className='note';n.textContent='';senden(true);
   });})();
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern

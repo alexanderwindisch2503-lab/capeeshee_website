@@ -1106,7 +1106,6 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
         <div><label for="kmail">E-Mail</label><input id="kmail" name="email" type="email" autocomplete="email" required maxlength="160"></div>
         <div><label for="kmsg">Worum geht es?</label><textarea id="kmsg" name="message" required maxlength="5000"></textarea></div>
         <div class="kf-falle" aria-hidden="true"><label for="kweb">Website</label><input id="kweb" name="website" tabindex="-1" autocomplete="off"></div>
-        <input type="hidden" name="t" id="kt" value="">
         <button class="btn" type="submit" id="kbtn">Nachricht senden</button>
         <p class="note" id="knote" role="status" aria-live="polite">Ihre Angaben verwenden wir nur zur Beantwortung Ihrer Anfrage. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
       </form>
@@ -1194,16 +1193,32 @@ html.over-hero .thero-in{justify-content:flex-end!important;padding-bottom:clamp
   var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){io.unobserve(x.target);if(x.target.dataset.wait){run(x.target);}}});},{threshold:.6});
   els.forEach(function(el){io.observe(el);});
 })();
-(function(){var f=document.getElementById('kf');if(!f)return;var n=document.getElementById('knote'),b=document.getElementById('kbtn'),t=document.getElementById('kt');t.value=Date.now();
+(function(){var f=document.getElementById('kf');if(!f)return;var n=document.getElementById('knote'),b=document.getElementById('kbtn');
+  // Spamschutz: unsichtbare Rechenaufgabe (ALTCHA-Prinzip), wird vom eigenen Server gestellt und im Hintergrund gelöst
+  var pow=null,cs=window.crypto&&window.crypto.subtle,enc=window.TextEncoder?new TextEncoder():null;
+  function hex(buf){var a=new Uint8Array(buf),h='';for(var i=0;i<a.length;i++)h+=('0'+a[i].toString(16)).slice(-2);return h;}
+  function loesen(){if(!cs||!enc)return Promise.reject();
+    return fetch(f.action+'?aufgabe=1',{cache:'no-store'}).then(function(r){return r.json();}).then(function(a){
+      return new Promise(function(ok,no){var i=0;
+        (function schritt(){var bis=Math.min(i+400,a.maxnumber+1),p=[];
+          for(var k=i;k<bis;k++)p.push(cs.digest('SHA-256',enc.encode(a.salt+k)));
+          Promise.all(p).then(function(h){for(var j=0;j<h.length;j++){if(hex(h[j])===a.challenge){ok(JSON.stringify({algorithm:a.algorithm,challenge:a.challenge,salt:a.salt,signature:a.signature,number:i+j}));return;}}
+            i=bis;if(i>a.maxnumber)no();else setTimeout(schritt,0);},no);})();});});}
+  function start(){if(!pow){pow=loesen();pow.catch(function(){pow=null;});}return pow;}
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();start();}},{rootMargin:'600px'});io.observe(f);}else start();
+  f.addEventListener('focusin',start);
+  function fehler(t){n.className='note err';n.textContent=t;b.disabled=false;b.textContent='Nachricht senden';}
+  function senden(nochmal){start().then(function(l){var d=new FormData(f);d.append('pow',l);pow=null;
+      return fetch(f.action,{method:'POST',body:d});}).then(function(r){return r.json().catch(function(){return {ok:false}})}).then(function(d){
+      if(d&&d.ok){f.reset();n.className='note ok';n.textContent=d.text||'Danke! Ihre Nachricht ist bei uns angekommen.';b.textContent='Gesendet';start();}
+      else if(d&&d.neu&&nochmal){senden(false);}
+      else{start();fehler((d&&d.text)||'Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@capeeshee.com.');}
+    }).catch(function(){pow=null;fehler(cs?'Keine Verbindung. Bitte versuchen Sie es erneut oder schreiben Sie an info@capeeshee.com.':'Ihr Browser unterstützt das Formular leider nicht. Bitte schreiben Sie uns an info@capeeshee.com.');});}
   f.addEventListener('submit',function(e){e.preventDefault();
     var nm=f.name.value.trim(),em=f.email.value.trim(),tx=f.message.value.trim();
     if(!nm||!em||!tx){n.textContent='Bitte füllen Sie Name, E-Mail und Nachricht aus.';n.className='note err';return}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){n.textContent='Bitte prüfen Sie Ihre E-Mail-Adresse.';n.className='note err';f.email.focus();return}
-    b.disabled=true;b.textContent='Wird gesendet …';n.className='note';n.textContent='';
-    fetch(f.action,{method:'POST',body:new FormData(f)}).then(function(r){return r.json().catch(function(){return {ok:false}})}).then(function(d){
-      if(d&&d.ok){f.reset();t.value=Date.now();n.className='note ok';n.textContent=d.text||'Danke! Ihre Nachricht ist bei uns angekommen.';b.textContent='Gesendet'}
-      else{n.className='note err';n.textContent=(d&&d.text)||'Die Nachricht konnte nicht gesendet werden. Bitte schreiben Sie uns an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'}
-    }).catch(function(){n.className='note err';n.textContent='Keine Verbindung. Bitte versuchen Sie es erneut oder schreiben Sie an info@capeeshee.com.';b.disabled=false;b.textContent='Nachricht senden'});
+    b.disabled=true;b.textContent='Wird gesendet …';n.className='note';n.textContent='';senden(true);
   });})();
 
 (function(){ // Check-Video: startet beim Hinscrollen, endet in sanfter Bewegung nach dem Zwinkern
