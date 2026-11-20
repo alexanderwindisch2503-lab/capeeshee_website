@@ -221,7 +221,7 @@ SEITEN = [
     'eyebrow': 'Leistung 09 · Apps & digitale Helfer',
     'h1': 'Digitale Helfer, die <span>gern genutzt werden.</span>',
     'lead': 'Wir entwickeln Apps, Konfiguratoren, Rechner und KI-Assistenten, die Ihren Kunden eine echte Aufgabe abnehmen. Direkt im Browser oder als App fürs Smartphone, eingebunden in Ihre Website und Ihre bestehenden Systeme. Weil KI fester Bestandteil unserer Programmierung ist, entstehen solche Lösungen heute deutlich schneller und günstiger als noch vor wenigen Jahren.',
-    'bild': 'apps', 'alt': 'Smartphone mit App-Symbolen auf einer Laptop-Tastatur',
+    'bild': 'apps-ball', 'alt': 'Smartphone auf dem Sandplatz, daneben schlägt ein Tennisball auf der Linie ein und wirbelt Ziegelmehl auf',
     'cta': 'Idee besprechen',
     'k_titel': 'Das bekommen <span>Sie von uns</span>',
     'k_sub': 'Von der kleinen Rechenhilfe auf Ihrer Website bis zur eigenen App mit Kundenkonto. Wir starten mit dem, was Ihren Kunden am meisten hilft, und bauen Schritt für Schritt aus.',
