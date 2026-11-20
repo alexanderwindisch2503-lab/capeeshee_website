@@ -233,7 +233,7 @@ SEITEN = [
       ('Plugins und Individualprogrammierung', 'Erweiterungen für WordPress und Online-Shops, wenn der Standard nicht reicht. Sauber programmiert und dokumentiert.'),
       ('Datenbanken und Schnittstellen', 'Verbindung zu Warenwirtschaft, CRM, Buchungs- oder Kassensystem, damit Daten nicht doppelt gepflegt werden.'),
     ],
-    'zitat': 'Im Tennis spielt man den Ball dorthin, wo der Gegner nicht steht. In der Werbung gilt das Gegenteil: Spielen Sie ihn dorthin, wo die Kunden Ihrer Kunden stehen, und nicht dorthin, wo Ihre Konkurrenz steht. Viele Apps scheitern, weil sie nachbauen, was andere längst haben. Ein digitaler Helfer wird nur genutzt, wenn er Ihren Kunden eine echte Aufgabe abnimmt. Deshalb fragen wir zuerst, was Ihren Kunden fehlt, und entwickeln erst dann.',
+    'zitat': 'Die besten Spieler stehen schon dort, wo der Ball hinkommt, bevor der Gegner ihn überhaupt geschlagen hat. Das ist kein Talent, sondern jahrelanges Lesen des Spiels. Digitale Helfer brauchen genau diesen Blick: Sie müssen wissen, was Ihr Kunde als Nächstes sucht, bevor er danach fragt. Eine App, die nur reagiert, wird gelöscht. Eine, die vorausdenkt, wird jeden Tag geöffnet. Wir entwickeln Werkzeuge, die das Spiel Ihrer Kunden lesen.',
     's_titel': 'Ihr Matchplan: <span>Von der Idee zum digitalen Helfer</span>',
     's_sub': 'Erst ausprobieren, dann ausbauen. So investieren Sie nur in das, was funktioniert.',
     'schritte': [
