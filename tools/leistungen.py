@@ -48,7 +48,7 @@ SEITEN = [
       ('Muss meine Website barrierefrei sein?', 'Seit dem 28. Juni 2025 gilt das Barrierefreiheitsstärkungsgesetz. Es verpflichtet viele Anbieter, die online Produkte oder Dienstleistungen an Verbraucher verkaufen, etwa Online-Shops oder Buchungsportale, zur Barrierefreiheit. Kleinstunternehmen, die Dienstleistungen anbieten, sind ausgenommen. Unabhängig von der Pflicht lohnt sich Barrierefreiheit: Mehr Menschen können Ihre Seite nutzen, und Suchmaschinen verstehen sie besser. Wir prüfen gern, was für Sie gilt.'),
       ('Übernehmen Sie auch Hosting und Betreuung?', 'Ja. Wir kümmern uns um Hosting bei einem deutschen Anbieter, Sicherheitsupdates, Datensicherung und kleine Änderungen, auf Wunsch als monatliche Pauschale. Sie haben einen festen Ansprechpartner, wenn etwas zu tun ist.'),
     ],
-    'dazu': ['corporate-design', 'werbung-print', 'seo', 'marketing'],
+    'dazu': ['corporate-design', 'apps', 'seo', 'marketing'],
   },
   {
     'slug': 'corporate-design', 'nr': '04', 'kurz': 'Corporate Design',
@@ -215,6 +215,54 @@ SEITEN = [
     'dazu': ['werbung-print', 'seo', 'corporate-design', 'marketing'],
   },
   {
+    'slug': 'apps', 'nr': '09', 'kurz': 'Apps & digitale Helfer',
+    'titel': 'App-Entwicklung Augsburg | Apps, Konfiguratoren & KI-Assistenten | Agentur Capeeshee',
+    'beschreibung': 'Apps und digitale Helfer aus Augsburg: Produktfinder, Konfiguratoren, Rechner, Kunden-Apps und KI-Assistenten mit Ihrem Wissen. Für Unternehmen in Deutschland, Österreich und der Schweiz.',
+    'eyebrow': 'Leistung 09 · Apps & digitale Helfer',
+    'h1': 'Digitale Helfer, die <span>gern genutzt werden.</span>',
+    'lead': 'Wir entwickeln Apps, Konfiguratoren, Rechner und KI-Assistenten, die Ihren Kunden eine echte Aufgabe abnehmen. Direkt im Browser oder als App fürs Smartphone, eingebunden in Ihre Website und Ihre bestehenden Systeme. Weil KI fester Bestandteil unserer Programmierung ist, entstehen solche Lösungen heute deutlich schneller und günstiger als noch vor wenigen Jahren.',
+    'bild': 'apps', 'alt': 'Smartphone mit App-Symbolen auf einer Laptop-Tastatur',
+    'cta': 'Idee besprechen',
+    'k_titel': 'Das bekommen <span>Sie von uns</span>',
+    'k_sub': 'Von der kleinen Rechenhilfe auf Ihrer Website bis zur eigenen App mit Kundenkonto. Wir starten mit dem, was Ihren Kunden am meisten hilft, und bauen Schritt für Schritt aus.',
+    'karten': [
+      ('Produktfinder und Konfiguratoren', 'Ihre Kunden finden in wenigen Klicks das passende Produkt oder stellen es selbst zusammen. Am Ende steht eine Anfrage oder Bestellung.'),
+      ('Rechner und Angebotshelfer', 'Preise, Mengen, Fördermittel oder Einsparungen sofort berechnen. So kommen Anfragen mit allen Angaben, die Sie für ein Angebot brauchen.'),
+      ('Kunden-, Gäste- und Patienten-Apps', 'Informationen, Termine, Bestellungen und Neuigkeiten auf dem Smartphone. Als Web-App ohne App Store oder als App für iPhone und Android.'),
+      ('KI-Assistenten mit Ihrem Wissen', 'Ein Assistent auf Ihrer Website oder im Intranet, der Fragen auf Basis Ihrer eigenen Unterlagen beantwortet. Datenschutzkonform und mit klaren Grenzen.'),
+      ('Plugins und Individualprogrammierung', 'Erweiterungen für WordPress und Online-Shops, wenn der Standard nicht reicht. Sauber programmiert und dokumentiert.'),
+      ('Datenbanken und Schnittstellen', 'Verbindung zu Warenwirtschaft, CRM, Buchungs- oder Kassensystem, damit Daten nicht doppelt gepflegt werden.'),
+    ],
+    'zitat': 'Im Tennis spielt man den Ball dorthin, wo der Gegner nicht steht. In der Werbung gilt das Gegenteil: Spielen Sie ihn dorthin, wo die Kunden Ihrer Kunden stehen, und nicht dorthin, wo Ihre Konkurrenz steht. Viele Apps scheitern, weil sie nachbauen, was andere längst haben. Ein digitaler Helfer wird nur genutzt, wenn er Ihren Kunden eine echte Aufgabe abnimmt. Deshalb fragen wir zuerst, was Ihren Kunden fehlt, und entwickeln erst dann.',
+    's_titel': 'Ihr Matchplan: <span>Von der Idee zum digitalen Helfer</span>',
+    's_sub': 'Erst ausprobieren, dann ausbauen. So investieren Sie nur in das, was funktioniert.',
+    'schritte': [
+      ('Idee und Nutzen', 'Welche Aufgabe übernimmt der Helfer, und für wen? Daraus entsteht ein klarer Umfang mit Festpreis.'),
+      ('Klickbarer Entwurf', 'Sie probieren die Bedienung auf Ihrem eigenen Smartphone aus, bevor programmiert wird.'),
+      ('Umsetzung', 'Programmierung, Anbindung an Ihre Systeme, Tests auf allen Geräten.'),
+      ('Start und Ausbau', 'Veröffentlichung, Auswertung der Nutzung, Weiterentwicklung nach Bedarf.'),
+    ],
+    'b_titel': 'Ideen aus <span>der Praxis</span>',
+    'b_sub': 'So können digitale Helfer in Ihrer Branche aussehen.',
+    'beispiele': [
+      ('Hotellerie', 'Gäste-App mit Zimmerinformationen, Speisekarte, Wellness- und Tischreservierung, ganz ohne Download.'),
+      ('Handwerk und Bau', 'Angebotsrechner, der Maße und Wünsche abfragt und Ihnen vorqualifizierte Anfragen liefert.'),
+      ('Industrie und B2B', 'Produktfinder und Ersatzteilsuche, die Ihren Vertrieb und Innendienst entlasten.'),
+      ('Gesundheit', 'Patienten-App mit Terminen, Vorbereitungshinweisen und Formularen zum Ausfüllen vorab.'),
+      ('Handel', 'Standortfinder, Verfügbarkeitsanzeige und Bestellung zum Abholen.'),
+      ('Personal', 'Bewerbungs-App, mit der Fachkräfte sich in zwei Minuten vom Smartphone aus bewerben.'),
+    ],
+    'faq_titel': 'zu Apps und digitalen Helfern',
+    'faq': [
+      ('Was kostet eine App?', 'Das hängt vom Umfang ab. Ein Rechner oder Produktfinder auf Ihrer Website ist oft schon mit überschaubarem Budget umsetzbar. Eine eigene App mit Kundenkonto und Schnittstellen ist aufwendiger. Nach einem kurzen Gespräch bekommen Sie ein Festpreisangebot.'),
+      ('Brauche ich eine App im App Store?', 'Oft nicht. Eine Web-App läuft direkt im Browser, lässt sich wie eine App auf dem Startbildschirm ablegen und braucht keine Freigabe durch Apple oder Google. Eine App im Store lohnt sich, wenn Ihre Kunden sie regelmäßig nutzen oder Funktionen wie Push-Nachrichten wichtig sind. Wir sagen Ihnen ehrlich, was in Ihrem Fall sinnvoll ist.'),
+      ('Wie sicher ist ein KI-Assistent?', 'Der Assistent antwortet nur auf Basis der Inhalte, die Sie freigeben, und wir legen fest, worüber er nicht spricht. Wir setzen auf Anbieter mit Auftragsverarbeitungsvertrag und einer Datenverarbeitung, die zur DSGVO passt.'),
+      ('Funktioniert das mit meinen bestehenden Systemen?', 'In den meisten Fällen ja. Wir binden Warenwirtschaft, CRM, Shop oder Buchungssystem über Schnittstellen an. Gibt es keine Schnittstelle, finden wir einen anderen Weg, etwa über regelmäßige Datenexporte.'),
+      ('Wer kümmert sich nach dem Start?', 'Wir. Updates, Sicherheit, Anpassungen und Weiterentwicklung übernehmen wir auf Wunsch als monatliche Pauschale. Sie haben einen festen Ansprechpartner.'),
+    ],
+    'dazu': ['webdesign', 'seo', 'corporate-design', 'marketing'],
+  },
+  {
     'slug': 'marketing', 'nr': '', 'kurz': 'Marketing heute',
     'titel': 'Werbung und Marketing heute | New Marketing | Agentur Capeeshee Augsburg',
     'beschreibung': 'Werbung und Marketing haben sich verändert: Kunden informieren sich selbst, im Netz, in sozialen Medien und bei der KI. Wie New Marketing heute wirkt, erklärt die Agentur Capeeshee aus Augsburg.',
@@ -337,6 +385,9 @@ def inhalt(s):
     elif s.get('erfolg'):
         e = ''.join(f'<div><span class="n">{i:02d}</span><h3>{_e(a)}</h3><p>{_e(b)}</p></div>' for i, (a, b) in enumerate(s['erfolg'], 1))
         refblock = f'<section><div class="w"><h2>Woran Sie den Erfolg <span>erkennen</span></h2><p class="lp-sub">Wir arbeiten mit Zahlen, die für Ihr Geschäft zählen, nicht mit Kennzahlen, die nur gut klingen.</p><div class="g3">{e}</div></div></section>'
+    elif s.get('beispiele'):
+        e = ''.join(f'<div><span class="n">{i:02d}</span><h3>{_e(a)}</h3><p>{_e(b)}</p></div>' for i, (a, b) in enumerate(s['beispiele'], 1))
+        refblock = f'<section><div class="w"><h2>{s["b_titel"]}</h2><p class="lp-sub">{_e(s["b_sub"])}</p><div class="g3">{e}</div></div></section>'
     else:
         refblock = ''
     faq = ''.join(f'<details{" open" if i == 0 else ""}><summary>{_e(q)}</summary><p>{_e(a)}</p></details>' for i, (q, a) in enumerate(s['faq']))

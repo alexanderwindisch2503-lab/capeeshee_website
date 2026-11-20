@@ -10,7 +10,7 @@
   RewriteRule ^(19/)?new-marketing/?$ https://capeeshee.com/marketing/ [R=301,L,NC]
   RewriteRule ^19/marketing/?$ https://capeeshee.com/marketing/ [R=301,L,NC]
   RewriteRule ^(19/)?wordpress-agentur/?$ https://capeeshee.com/webdesign/ [R=301,L,NC]
-  RewriteRule ^(impressum|datenschutz|referenzen|webdesign|corporate-design|werbung-print|seo|social-media|marketing)$ https://capeeshee.com/$1/ [R=301,L,NC]
+  RewriteRule ^(impressum|datenschutz|referenzen|webdesign|corporate-design|werbung-print|seo|social-media|apps|marketing)$ https://capeeshee.com/$1/ [R=301,L,NC]
   RewriteRule ^19(/.*)?$ https://capeeshee.com/ [R=301,L,NC]
 
   # www.capeeshee.com -> capeeshee.com (http -> https erledigt bereits STRATO)
